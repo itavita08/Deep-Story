@@ -2,7 +2,7 @@
 import {useState,useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Axios from 'axios';
+import axios from 'axios';
 
 function Article(props){
   return <article>
@@ -72,6 +72,7 @@ function Update(props){
   </article>
 }
 function App() {
+  const [message, setMessage] = useState('');
   const [mode, setMode] = useState('WELCOME');
   const [id, setId] = useState(null);
   const [nextId, setNextId] = useState(4);
@@ -83,7 +84,7 @@ function App() {
   ]);
 
   useEffect(()=> {
-    Axios.post("/api/users").then((response)=> {
+    axios.post("/api/users").then((response)=> {
       if(response.data){
         console.log(response.data);
         setUser(response.data);
@@ -153,8 +154,44 @@ function App() {
       setMode('READ');
     }}></Update>
   }
+  const responseHandler = ({data}) => {
+    setMessage(data);
+    return data;
+};
+const errorHandler = ({message}) => {
+  setMessage(message);
+  return message;
+};
+
+const onNonCorsHeaderHandler = () => {
+  axios.get('http://localhost:8080/not-cors')
+      .then(responseHandler)
+      .catch(errorHandler);
+};
+
+const onCorsHeaderHandler = () => {
+  axios.get('http://localhost:8080/cors').then(responseHandler);
+};
+
+const onNonProxyHandler = () => {
+  axios.get('/not-proxy')
+      .then(responseHandler)
+      .catch(errorHandler);
+};
+
+const onProxyHandler = () => {
+  axios.get('/proxy').then(responseHandler);
+};
+
+const handleClick = event => {
+    
+  console.log(event.target);
+  console.log('Image clicked');
+};
   return (
+    
     <div>
+      <img src="assets/img/logo.jpg" alt="logo" onClick={handleClick}/>
       <div className='App'>
       <header className='App-header'>
         <h1>{user.id}</h1>
@@ -176,11 +213,44 @@ function App() {
           setMode('CREATE');
         }}>Create</a></li>
         {contextControl}
+        <p>
+          {message}
+        </p>
+        <div>
+              <button onClick={onNonCorsHeaderHandler}>non cors header</button>
+              <button onClick={onCorsHeaderHandler}>cors header</button>
+              <button onClick={onNonProxyHandler}>nonProxy</button>
+              <button onClick={onProxyHandler}>proxy</button>
+        </div>
+        
       </ul>
     </div>
     
     </div>
   );
-}
+};
 
 export default App;
+
+
+// non cors header 버튼
+// localhost:8080 서버로 직접 요청합니다.
+// CORS 정책 위반에 대한 에러 메세지가 출력됩니다.
+// axios 모듈의 catch 부분에서 에러 메세지를 화면에 출력합니다.
+
+
+// cors header 버튼
+// localhost:8080 서버로 직접 요청합니다.
+// 서버로부터 전달받은 데이터를 정상적으로 화면에 출력합니다.
+
+
+// nonProxy 버튼
+// localhost:3000 리액트 어플리케이션으로 요청합니다.
+// /not-proxy 경로에 해당하는 프록시 설정이 존재하지 않습니다.
+// localhost:3000 호스트에는 /not-proxy 요청을 받아줄 경로가 없으므로 404 NOT FOUND 에러가 발생합니다.
+
+
+// proxy 버튼
+// localhost:3000 리액트 어플리케이션으로 요청합니다.
+// /proxy 경로에 해당하는 프록시 설정이 존재합니다.
+// http://localhost:8080 호스트 서버로부터 전달받은 데이터를 정상적으로 화면에 출력합니다.
