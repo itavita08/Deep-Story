@@ -1,30 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-
+ 
 
 function App() {
   // state
   const [data, setData] = useState([{}])
-  const [value, setValue] = useState("");
-  const [playerName, setPlayerName] = useState('');
-
-  const handleChange = (event) => {
-    this.setState({ value: event.target.value });
-  }
-
-  const handleSubmit = (event) => {
-    console.log("making request")
-    fetch('http://127.0.0.1:5000/add')
-      .then(response => {
-        return response.json()
-      })
-      .then(json => {
-      this.setState({playerName: json[0]})
-      })
-  }
-
+  
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/users").then(
+    // url fetch문제
+    fetch("/api/users").then(
       response => response.json()
     ).then(
       data => {
@@ -34,7 +18,7 @@ function App() {
     ).catch(
       (err) => console.log(err)
     )
-
+    
   }, [])
 
   return (
@@ -47,15 +31,31 @@ function App() {
           <p>loding...</p>
         ) : (
           data.users.map((u) => <p>{u.name}</p>)
+          
         )}
       </div>
-      <form onSubmit={handleSubmit} action="http://127.0.0.1:5000/add" method="POST">
-          <label>
-            Input Text:
-            <input type="text" name="input_text" id="input_text" />
-            <input type="submit" onChange={handleChange} value={value} />
-          </label>
-        </form>
+      <br></br>
+      <form action='/api/users' method="POST" target='picture'>
+        <label>
+          Input Text:
+          <input type="text" name="input_text" id="input_text"/>
+          <input type="submit" value="submit" /> 
+        </label>
+      </form>
+      <br></br>
+      <div>
+        제목
+        <input type='text' />
+      </div>
+
+      <div>
+        내용
+        <textarea></textarea>
+      </div>
+      <br></br>
+      {/* 이미지가 로딩될 iframe, 있어야 페이지 이동 안됨, name == form.target */}
+      <iframe name='picture' style={{height:"530px", width:"530px"}}> </iframe>
+
     </div >
   )
 }
