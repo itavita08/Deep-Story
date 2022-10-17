@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import LoadingSpinner from "./Components/Loader"
+import LoadingSpinner from "./Components/LoadingSpinner"
  
 
 function App() {
