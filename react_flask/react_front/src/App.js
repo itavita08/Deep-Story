@@ -68,7 +68,7 @@ function App() {
           </form>
 
           <h1>{value}</h1>
-
+          {/* 로딩 중이면 spinner, 아니면 content */}
           {isLoading ? <LoadingSpinner /> : content2 }
       
            
