@@ -1,63 +1,79 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import LoadingSpinner from "./Components/Loader"
  
 
 function App() {
   // state
   const [data, setData] = useState([{}])
-  
+  const [value, setValue] = useState(null);
+  const [content, setContent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+ const handleSubmit = (event) => {
+  event.preventDefault();
+  setIsLoading(true);
+   fetch("/api/add", {
+     method: 'POST',
+     mode:"cors",
+     headers:{
+      'content-type':'application/json'
+     },
+    body: JSON.stringify(event.target.inputText.value)
+   })
+   .then(response => response.json())
+     .then(value => {
+       setValue(value)
+       setContent(true) 
+       setIsLoading(false)
+     })
+   .catch(e => alert(1+ ' ' + e))
+  }
+
   useEffect(() => {
-    // url fetch문제
     fetch("/api/users").then(
       response => response.json()
     ).then(
       data => {
-        // 받아온 데이터를 data 변수에 update
         setData(data);
       }
     ).catch(
       (err) => console.log(err)
     )
-    
-  }, [])
+  }, []);
 
+  let content2 = null;
+
+  if(content === true){
+    content2 = <img src={"/static/image/"+value+".png"}/>
+  
+  }
+  
   return (
     <div className='App'>
       <h1>test 하는 중...</h1>
       <div>
-        {/* 삼항연산자 */}
         {(typeof data.users === 'undefined') ? (
-          // fetch가 완료되지 않았을 경우에 대한 처리
           <p>loding...</p>
         ) : (
           data.users.map((u) => <p>{u.name}</p>)
-          
         )}
-      </div>
-      <br></br>
-      <form action='/api/users' method="POST" target='picture'>
-        <label>
-          Input Text:
-          <input type="text" name="input_text" id="input_text"/>
-          <input type="submit" value="submit" /> 
-        </label>
-      </form>
-      <br></br>
-      <div>
-        제목
-        <input type='text' />
-      </div>
+      </div >
+          <form onSubmit={handleSubmit}>
+            <label>
+              Input Text:
+              <input type="text" name="inputText" id="inputText" />
+              <input type="submit" value="버튼" disabled={isLoading}/>
+            </label>
+          </form>
 
-      <div>
-        내용
-        <textarea></textarea>
-      </div>
-      <br></br>
-      {/* 이미지가 로딩될 iframe, 있어야 페이지 이동 안됨, name == form.target */}
-      <iframe name='picture' style={{height:"530px", width:"530px"}}> </iframe>
+          <h1>{value}</h1>
 
+          {isLoading ? <LoadingSpinner /> : content2 }
+      
+           
     </div >
   )
-}
+};
 
 export default App;
