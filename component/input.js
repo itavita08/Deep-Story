@@ -1,7 +1,7 @@
 import React, { useState, handleSubmit } from 'react';
 import LoadingSpinner from "../Components/Loader";
 
-function input() {
+function input(props) {
   const [value, setValue] = useState(null);
   const [content, setContent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +20,7 @@ function input() {
      .then(response => response.json())
        .then(value => {
          setValue(value)
+         props.onSave(value);
          setContent(true) 
          setIsLoading(false)
        })
@@ -28,7 +29,8 @@ function input() {
     
     let content2 = null;
     if(content === true){
-      content2 = <img src={"/static/image/"+value+".png"}/>
+      
+      content2 = <img name='outImage' id='outImage' src={"/static/image/"+value+".png"}/>
     }
   
   return (
@@ -37,7 +39,7 @@ function input() {
         <label>
               Text to machine:
               <input type="text" name="inputText" id="inputText" />
-              <button type="submit" value="버튼" disabled={isLoading} >보내기</button>
+              <button type="submit" value="버튼" disabled={isLoading} > Text 보내기 </button>
         </label>
         </form>
         <div id='output' name='output' style={{'width':'50%', 'height':'520px'}}>{isLoading ? <LoadingSpinner /> : content2 }</div>
