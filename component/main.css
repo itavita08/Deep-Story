@@ -1,0 +1,53 @@
+.Mains {
+  display: grid;
+  grid-template-columns: 19% 62% 19%;
+}
+
+.Write {
+  padding: 20px;
+  padding-left: 30px;
+}
+
+.Write div {
+  margin-top: 30px;
+  margin-left: 50px;
+}
+
+#title_txt {
+  width: 91%;
+  padding-bottom: 30px;
+  border: none;
+  font-size: 22px;
+  border-bottom: solid 1px #ababab;
+  font-weight: bold;
+}
+
+#content_txt {
+  width: 91%;
+  resize: none;
+  border: none;
+  height: 500px
+}
+
+#content_txt:focus { outline : none; }
+
+#title_txt:focus { outline : none; }
+#Mains-left { border-right: solid 1px #aabbaa; }
+#Mains-right { border-left: solid 1px #aabbaa; }
+
+#post_submit {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#post_submit button {
+  width: 120px;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px #ababab;
+  cursor: pointer;
+  background-color: white;
+}
+
+
+
