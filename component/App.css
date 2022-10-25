@@ -1,0 +1,85 @@
+.Mains {
+  display: grid;
+  grid-template-columns: 19% 62% 19%;
+}
+
+.Write {
+  padding: 20px;
+  padding-left: 30px;
+}
+
+.Write div {
+  margin-top: 30px;
+  margin-left: 50px;
+}
+
+#title_txt {
+  width: 91%;
+  padding-bottom: 30px;
+  border: none;
+  font-size: 22px;
+  border-bottom: solid 1px #ababab;
+  font-weight: bold;
+}
+
+#content_txt {
+  width: 91%;
+  resize: none;
+  border: none;
+  height: 500px
+}
+
+#content_txt:focus { outline : none; }
+
+#title_txt:focus { outline : none; }
+#Mains-left { border-right: solid 1px #aabbaa; }
+#Mains-right { border-left: solid 1px #aabbaa; }
+
+#post_submit {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#post_submit button {
+  width: 120px;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px #ababab;
+  cursor: pointer;
+  background-color: white;
+}
+
+.App{
+  justify-content:center;
+  align-items:center;
+}
+
+.image{
+  text-align: center;
+}
+
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: 605px; 
+  z-index: 1;
+	text-align: center;
+	top: 0px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #00d9ff; }
+
+
+
+
