@@ -1,52 +1,64 @@
-import React, { useState, handleSubmit } from 'react';
-import LoadingSpinner from "../Components/Loader";
+import React, { useState} from 'react';
+import { Input} from './index.js';
+import axios from 'axios';
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
 
-function input(props) {
+
+function write() {
+  const [blogContent, setBlogContent] = useState({
+    title: '',
+    content: ''
+  })
   const [value, setValue] = useState(null);
-  const [content, setContent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit =(event) => {
-    event.preventDefault();
-    setIsLoading(true);
-     fetch("/api/add", {
-       method: 'POST',
-       mode:"cors",
-       headers:{
-        'content-type':'application/json'
-       },
-      body: JSON.stringify(event.target.inputText.value)
-     })
-     .then(response => response.json())
-       .then(value => {
-         setValue(value)
-         props.onSave(value);
-         setContent(true) 
-         setIsLoading(false)
-       })
-     .catch(e => alert(1+ ' ' + e))
-    };
-    
-    let content2 = null;
-    if(content === true){
-      
-      content2 = <img name='outImage' id='outImage' src={"/static/image/"+value+".png"}/>
+  const getValue = e => {
+    const name = e.currentTarget.name;
+    const data = e.currentTarget.value;
+    setBlogContent({
+      ...blogContent,
+      [name] : data
+    })
+  };
+ 
+  const _submitBoard = async () => {
+    const title = blogContent.title;
+    const content = blogContent.content;
+
+    if(title === "") {
+      return alert('제목을 입력해주세요.');
+
+    } else if(content === "") {
+      return alert('내용을 입력해주세요.');
     }
+    await axios.post('/api/v2/test', {
+      title : title,
+      content : content,
+      image : value
+    }) 
+  };
+     return (
+      <div className='Write'>   
+        <div>
+          <Input onSave = {(data) => setValue(data)}/>
+        </div>    
+        <form id='board_form'>
+        <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} />
+        <div>
+        < ReactQuill 
+            onChange={(event) => {
+              setBlogContent({
+                ...blogContent,
+                content: event
+              });
+            }}
+        />
+        </div>
+        <button onClick={() => _submitBoard()}> 포스트 등록 </button>
+        </form>  
+      </div>
+    );
   
-  return (
-    <div>
-      <form id='input_form' onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
-        <label>
-              Text to machine:
-              <input type="text" name="inputText" id="inputText" />
-              <button type="submit" value="버튼" disabled={isLoading} > Text 보내기 </button>
-        </label>
-        </form>
-        <div id='output' name='output' style={{'width':'50%', 'height':'520px'}}>{isLoading ? <LoadingSpinner /> : content2 }</div>
-    </div>
-
-  );
-
 }
 
-export default input;
+export default write;
