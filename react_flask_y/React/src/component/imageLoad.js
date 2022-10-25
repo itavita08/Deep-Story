@@ -1,9 +1,18 @@
 import React from 'react';
+import styled from "styled-components";
+
+styled(Test)`
+width: "500px",
+height: "500px"
+`;
 
 function Test(props){
     return <form onSubmit={(event)=>{
       event.preventDefault();
-     fetch("http://127.0.0.1:5000/add", {
+      if(event.target.inputText.value ==="" ){
+        alert("다시 입력하세요")
+      }
+    else{ fetch("http://127.0.0.1:5000/add", {
        method: 'POST',
        mode:"cors",
        headers:{
@@ -12,7 +21,7 @@ function Test(props){
       body: JSON.stringify(event.target.inputText.value)
      })
      .then(response => response.json())
-     .then(v => props.onCreate(v))
+     .then(v => props.onCreate(v))}
     }}>
     <label>
       Input Text:
@@ -22,4 +31,4 @@ function Test(props){
   </form>
 }
 
-  export default Test;
+export default Test;
