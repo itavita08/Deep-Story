@@ -1,0 +1,101 @@
+.search_user_info_div { 
+    margin-top: 20px; 
+    display: grid;
+    grid-template-columns: 50% 50%;
+    border-top: solid 1px #ababab;
+}
+.search_user_info_div div { 
+    text-align: center; 
+    margin-top: 10px;
+}
+.search_user_info_div div b { 
+    cursor: pointer; 
+    margin-top: -5px; 
+    font-size: 14px; 
+}
+
+.back_and_close {
+    border-bottom: solid 1px #ababab;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 8px;
+  }
+  
+.back_and_close #back_icon { text-align: left; }
+.back_and_close #close_icon { text-align: right; }
+.back_and_close div img { width: 20px; cursor: pointer; }
+
+.Search_div div {
+    text-align: left;
+    margin-left: 120px;
+    font-size: 16px;
+    margin-top: 30px;
+  }
+
+  .Search_div div h5 {
+      height: 5px;
+      margin-left: -15px;
+  }
+
+  .Search_div div input {
+    padding: 3px;
+}
+
+  input[name=search_id_birthday] { width : 20%; text-align: center;}
+  input[name=search_id_name], input[name=search_id_email] { width : 50% }
+  input[name=search_id_sex] { width : 3.5%; text-align: center; margin-left : 5px }
+
+  #search_id_email_div {
+      position: absolute;
+      margin-left: 0px;
+      margin-top: 10px;
+  }
+  
+  input[name=search_id_write_email] { 
+      margin-left: 5px; 
+      padding: 5px;
+      width: 60%;
+  }
+
+  input[name=search_id_submit] {
+      border: solid 1px #ababab;
+      border-radius: 4px;
+      margin-left: 50px;
+      margin-top: 60px;
+      cursor: pointer;
+      padding: 5px;
+  }
+  .Search_id_result {
+    width: 80%;
+    margin-top: 8%;
+    margin-left: 10%;
+    height: 280px;
+    border: solid 1px #ababab;
+}
+
+.Search_id_result p { color: #ababab; }
+.Search_id_result_div { margin-top: 50px; }
+.Search_id_result_div div { margin-bottom : 50px;}
+.Search_id_result_div h5 { height: 5px; }
+input[name=search_id_back] { margin-top: 20px; cursor: pointer; }
+
+input[name=search_pw_id], input[name=search_pw_email] { 
+    width : 50% 
+}
+
+
+input[name=search_pw_write_email] { 
+    margin-left: 5px; 
+    padding: 5px;
+    width: 60%;
+}
+
+
+input[name=search_pw_submit] {
+    border: solid 1px #ababab;
+    border-radius: 4px;
+    margin-left: 50px;
+    margin-top: 60px;
+    cursor: pointer;
+    padding: 5px;
+}
