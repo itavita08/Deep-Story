@@ -1,7 +1,9 @@
 package io.playdata.lo.jwt;
 
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 
@@ -14,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.playdata.lo.common.RedisDao;
+import io.playdata.lo.exception.ForbiddenException;
 import io.playdata.lo.model.dto.AccountResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -24,50 +28,100 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtProvider {
 
+    private final RedisDao redisDao;
 	private final ObjectMapper objectMapper;
 
-	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
-	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
-
-	@Value("spring.jwt.key")
+	@Value("${spring.jwt.token.key}")
 	private String key;
 
-	@Value("spring.jwt.live.atk")
-	private String atkLive;
+	@Value("${spring.jwt.live.atk}")
+	private Long atkLive;
+	
+    @Value("${spring.jwt.live.rtk}")
+    private Long rtkLive;
+	
+	@Value("${spring.jwt.issuer}")
+	private String issuer;
+	
+	
 
 	@PostConstruct
 	protected void init() {
+		
+		// secretkey 를 미리 인코딩 해줌.
 		key = Base64.getEncoder().encodeToString(key.getBytes());
+		
+		System.out.println(key);
 	}
 
 	// 로그인으로 토큰 발급 메소드
 	public TokenResponse createTokensByLogin(AccountResponse accountResponse) throws JsonProcessingException {
 
 		// 발행 유저 정보
-		Subject atkSubject = Subject.atk(accountResponse.getAccountId(), accountResponse.getEmail(),
-				accountResponse.getNickname());
+		Subject atkSubject = Subject.atk(accountResponse.getAccountId(), accountResponse.getAccountEmail(),
+				accountResponse.getAccountName(), accountResponse.getAccountPassword(), accountResponse.getAccountGender(), accountResponse.getAccountDate(),accountResponse.getAccountType());
+		
+        Subject rtkSubject = Subject.rtk(accountResponse.getAccountId(), accountResponse.getAccountEmail(),
+				accountResponse.getAccountName(), accountResponse.getAccountPassword(), accountResponse.getAccountGender(), accountResponse.getAccountDate(),accountResponse.getAccountType());
+		
 
 		String atk = createToken(atkSubject, atkLive);
+        String rtk = createToken(rtkSubject, rtkLive);
 
-		// 토큰 발급 확인하기 위해 반환. 사실 클라이언트에게 보일 필요 없으니? 추후 수정.
-		return new TokenResponse(atk, null);
+        // 이메일, rtk 를 db 에 저장.
+        redisDao.setValues(accountResponse.getAccountEmail(), rtk, Duration.ofMillis(rtkLive));
+
+		return new TokenResponse(atk, rtk);
 	}
 
-	private String createToken(Subject subject, String tokenLive) throws JsonProcessingException {
+	// 토큰 생성 메소드
+	private String createToken(Subject subject, Long tokenLive) throws JsonProcessingException {
 
 		// 발행 유저 정보
-		String subjectStr = objectMapper.writeValueAsString(subject); //json형태로 변환
-		Claims claims = Jwts.claims().setSubject(subjectStr);
+		String subjectStr = objectMapper.writeValueAsString(subject); //subject -> json 문자열 형태로 변환
+		Claims claims = Jwts.claims().setSubject(subjectStr); // payload 부분에 들어갈 정보 조각들
 
 		// 발행 시간, 유효 시간
 		long now = (new Date()).getTime();
-		Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME); // 발급 시간 30분으로 설정
+		Date accessTokenExpiresIn = new Date(now + tokenLive); // atk, rtk
 
+		System.out.println("만료 시간 " + accessTokenExpiresIn); // 300000(1000 = 1s) 즉, 5분으로 설정
 		// 해싱 알고리즘과 키
 		return Jwts.builder()
+				.setIssuer(issuer) // 토큰 발급자 지정
 				.setClaims(claims)
-				.setIssuedAt(new Date(now))
-				.setExpiration(accessTokenExpiresIn)
+				.setIssuedAt(new Date(now)) //생성일 설정
+				.setExpiration(accessTokenExpiresIn) //만료일 설정
 				.signWith(SignatureAlgorithm.HS256, key).compact();
 	}
+	
+	// payload 에 있는 유저 정보를 Subject 로 꺼내기
+    public Subject getSubject(String atk) throws JsonProcessingException {
+        
+    	String subjectStr = Jwts.parser().setSigningKey(key).parseClaimsJws(atk).getBody().getSubject();
+        
+        return objectMapper.readValue(subjectStr, Subject.class); // JSON 파일을 Java 객체로
+    }
+    
+    // 필터 단계에서 검증된 RTK에서 꺼낸 유저 email이 Redis 인메모리에 존재하는지 확인 후, ATK 재발급을 진행
+    public TokenResponse reissueAtk(AccountResponse accountResponse) throws JsonProcessingException {
+        
+    	// 이메일로 rtk 꺼내기.
+    	String rtkInRedis = redisDao.getValues(accountResponse.getAccountEmail());
+        
+    	System.out.println("rtkInRedis 확인 ------------------");
+    	System.out.println(rtkInRedis);
+    	
+    	// 서버 측  redis DB 에 저장해둔 rtk 와 같은 지 비교 - rtk 가 만료 된다면?
+        if (Objects.isNull(rtkInRedis)) throw new ForbiddenException("인증 정보가 만료되었습니다.");
+        
+        Subject atkSubject = Subject.atk(accountResponse.getAccountId(), accountResponse.getAccountEmail(),
+				accountResponse.getAccountName(), accountResponse.getAccountPassword(), accountResponse.getAccountGender(), accountResponse.getAccountDate(),accountResponse.getAccountType());
+		
+        // atk 재발급 진행
+        String atk = createToken(atkSubject, atkLive);
+        
+        return new TokenResponse(atk, null);
+    }
+	
 }

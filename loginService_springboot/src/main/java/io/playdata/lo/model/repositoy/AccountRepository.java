@@ -10,7 +10,8 @@ import io.playdata.lo.domain.etity.Account;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
 
-    boolean existsByEmail(String email);
+	// 중복 가입 방지 위해서 확인
+    boolean existsByAccountEmail(String accountEmail);
 
-    Optional<Account> findByEmail(String email);
+    Optional<Account> findByAccountEmail(String accountEmail);
 }

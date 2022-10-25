@@ -1,9 +1,11 @@
 package io.playdata.lo.domain.etity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,20 +14,39 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="account_privacy")
 public class Account {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "account_id")
+    private int accountId;
 
-    private String email;
+    @Column(name = "account_email")
+    private String accountEmail;
 
-    private String password;
+    @Column(name = "account_name")
+    private String accountName;
 
-    private String nickname;
+    @Column(name = "account_password")
+    private String accountPassword;
 
-    public Account(String email, String password, String nickname) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
+    @Column(name = "account_gender")
+    private String accountGender;
+    
+    @Column(name = "account_date")
+    private String accountDate;
+    
+    @Column(name = "account_type")
+    private String accountType;
+
+    public Account(String accountEmail, String accountName, String accountPassword, String accountGender, String accountDate, String accountType) {
+
+    	this.accountEmail = accountEmail;
+    	this.accountName = accountName;
+    	this.accountPassword = accountPassword;
+    	this.accountGender = accountGender;
+    	this.accountDate = accountDate;
+    	this.accountType = accountType;
+    			
     }
 }

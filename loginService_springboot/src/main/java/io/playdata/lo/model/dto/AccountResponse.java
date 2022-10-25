@@ -3,27 +3,47 @@ package io.playdata.lo.model.dto;
 import io.playdata.lo.domain.etity.Account;
 import lombok.Getter;
 
-/* 회원가입 성공 시 아주 간단하게 유저의 정보를 응답하기 위해 범용적으로 사용 가능한 DTO */
+/* 유저의 정보를 Response를 보낼때  사용하는 DTO */
 
 @Getter
 public class AccountResponse {
 
     private final int accountId;
 
-    private final String email;
+    private final String accountEmail;
 
-    private final String nickname;
+    private final String accountName;
 
-    private AccountResponse(int accountId, String email, String nickname) {
-        this.accountId = accountId;
-        this.email = email;
-        this.nickname = nickname;
+    private final String accountPassword;
+    
+    private final String accountDate;
+    
+    private final String accountGender;
+    
+    private final String accountType;
+
+    
+    private AccountResponse(int accountId, String accountEmail, String accountName, String accountPassword, String accountDate, String accountGender,  String accountType) {
+        
+    	this.accountId = accountId;
+    	this.accountEmail = accountEmail;
+    	this.accountName = accountEmail;
+    	this.accountPassword = accountPassword;
+    	this.accountDate = accountDate;
+    	this.accountGender = accountGender;    	
+    	this.accountType= accountType;
+    			
     }
 
+    // Response를 보낼때 아래 정보 
     public static AccountResponse of(Account account) {
         return new AccountResponse(
-                account.getId(),
-                account.getEmail(),
-                account.getNickname());
+                account.getAccountId(),
+                account.getAccountEmail(),
+                account.getAccountName(),
+                account.getAccountPassword(),
+                account.getAccountGender(),
+                account.getAccountDate(),
+                account.getAccountType());
     }
 }

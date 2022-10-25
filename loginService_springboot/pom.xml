@@ -101,6 +101,12 @@
 			<version>0.9.1</version>
 		</dependency>
 
+		<!-- Reids 스프링 기본 redis 포트 6379 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
 
 	</dependencies>
 

@@ -25,19 +25,24 @@ public class AccountService {
 	public AccountResponse signUp(SignUpRequest signUpRequest) {
 		
 		// 이메일 중복 확인
-		boolean isExist = accountRepository.existsByEmail(signUpRequest.getEmail());
+		boolean isExist = accountRepository.existsByAccountEmail(signUpRequest.getAccountEmail());
 
 		if (isExist)
+			
 			throw new BadRequestException("이미 존재하는 이메일입니다.");
 
 		// 비밀번호 암호화 !!
-		String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
+		String encodedPassword = passwordEncoder.encode(signUpRequest.getAccountPassword());
 
-		Account account = new Account(signUpRequest.getEmail(), encodedPassword, signUpRequest.getNickname());
+		System.out.println(encodedPassword);
+		
+		Account account = new Account(signUpRequest.getAccountEmail(), signUpRequest.getAccountName(), encodedPassword, signUpRequest.getAccountGender(), signUpRequest.getAccountDate(), "user");
 
 		// 회원 가입 정보 DB insert
 		account = accountRepository.save(account);
 
+		System.out.println("회원 가입 성공");
+		// 비밀 번호 제외한 account 객체 반환
 		return AccountResponse.of(account);
 	}
 	
@@ -47,16 +52,20 @@ public class AccountService {
     	
     	// 이메일 확인
         Account account = accountRepository
-                .findByEmail(loginRequest.getEmail())
+                .findByAccountEmail(loginRequest.getAccountEmail())
                 .orElseThrow(() -> new BadRequestException("아이디 혹은 비밀번호를 확인하세요."));
+        
+        System.out.println(loginRequest.getAccountPassword());
+        System.out.println(account.getAccountPassword());
 
         // 비밀번호 확인
         boolean matches = passwordEncoder.matches(
-                loginRequest.getPassword(),
-                account.getPassword());
+                loginRequest.getAccountPassword(),
+                account.getAccountPassword());
         
         if (!matches) throw new BadRequestException("아이디 혹은 비밀번호를 확인하세요.");
 
+     // 비밀 번호 제외하고 반환
         return AccountResponse.of(account);
     }
 }
