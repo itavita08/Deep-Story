@@ -28,26 +28,8 @@ function Write(props) {
       headers: new Headers()
     })
   }
-
-
-  // const handleSubmit =(event) => {
-  //   event.preventDefault();
-  //    fetch("/api/test", {
-  //      method: 'POST',
-  //      mode:"cors",
-  //      headers:{
-  //       'content-type':'multipart/form-data'
-  //      },
-  //     body: JSON.stringify(event.target.board.value)
-  //    })
-  //    .then(response => response.json())
-  //      .then(value => {
-  //        setValue(value)
-  //      })
-  //    .catch(e => alert(1+ ' ' + e))
-  //   };
     
-    
+  
     return (
       <div className='Write'>      
         <form name='board' id='board_form' onSubmit={handleSubmit}>

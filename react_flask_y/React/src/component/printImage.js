@@ -4,13 +4,13 @@ import DeleteImage from './deleteImage'
 import Carousel from 'react-material-ui-carousel'
 import HorizontalRule from '@mui/icons-material/HorizontalRule';
 
-const ImageList = ({data,onDelete}) =>{
+const ImageList = ({data,onDelete,e}) =>{
     return(
-      <Carousel className='carousel' IndicatorIcon={<HorizontalRule/>} autoPlay='false'>{
+      // <Carousel className='carousel' IndicatorIcon={<HorizontalRule/>} autoPlay='false'>{
         data.map((it, idx) => {
           return <DeleteImage key={idx} {...it} onDelete={onDelete}/>;
-        })}
-        </Carousel>
+        })
+        // </Carousel>
     )
   }
 
