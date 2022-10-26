@@ -12,7 +12,7 @@ function Test(props){
       if(event.target.inputText.value ==="" ){
         alert("다시 입력하세요")
       }
-    else{ fetch("http://127.0.0.1:5000/add", {
+    else{ fetch("/api/v1/add", {
        method: 'POST',
        mode:"cors",
        headers:{

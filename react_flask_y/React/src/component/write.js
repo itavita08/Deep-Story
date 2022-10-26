@@ -1,45 +1,82 @@
-import React, { useState, handleSubmit } from 'react';
-// import LoadingSpinner from "../Components/Loader";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState} from 'react';
 // import { Input } from './index.js';
+import Test from './imageLoad';
 import axios from 'axios';
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
+import ImageList from './printImage'
 
 
+function write() {
+  const [blogContent, setBlogContent] = useState({
+    title: '',
+    content: ''
+  })
+  const [value, setValue] = useState([]);
+  const [content1, setContent1] = useState(false);
 
-function Write(props) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [data, setData] = useState([]);
+  const getValue = e => {
+    const name = e.currentTarget.name;
+    const data = e.currentTarget.value;
+    setBlogContent({
+      ...blogContent,
+      [name] : data
+    })
+  };
 
-  const _submitBoard = async ()=> {
-    const title = document.getElementsByName('title')[0].value.trim();
-    const contents = document.getElementsByName('contents')[0].value.trim();
+  const onDelete = (targetId) => {
+    const newReportList = value.filter((it) => it.name !== targetId);	//filter 메소드 사용!!
+    setValue(newReportList);
+  };
 
+  const _submitBoard = async () => {
+    const title = blogContent.title;
+    const content = blogContent.content;
     if(title === "") {
       return alert('제목을 입력해주세요.');
-
-    } else if(contents === "") {
+    } else if(content === "") {
       return alert('내용을 입력해주세요.');
     }
-
-    // const data = { title : title, contents : contents };
-    setData(props.onAccess(title,contents))
-    const res = await axios('/add/test', {
-      method : 'POST',
-      data : data,
-      headers: new Headers()
+    await axios.post('/api/v2/test/test1', {
+        title:title,
+        content:content,
+        value:value
     })
-  }
-    
-  
-    return (
-      <div className='Write'>      
-        <form name='board' id='board_form' onSubmit={handleSubmit}>
-            <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목'/>
-            <textarea id='content_txt' name='contents' placeholder='내용을 입력하세요.'></textarea>
-            <button onClick={() => _submitBoard()}> 포스트 등록 </button>
-        </form>
-      </div>
-    );
-  
 }
 
-export default Write;
+     return (
+      <div className='Write'>
+        <div className='image'>
+        <Test onCreate={(v)=>{
+            if(value.length >= 1){
+              alert("이미지는 한장만 가능합니다");
+            }else {
+            const testList = {name:v}
+              const testList2 = [...value]
+              testList2.push(testList);
+              setValue(testList2);
+              setContent1(true);}
+          }}></Test>
+          <ImageList data={value} onDelete={onDelete}/>
+          </div>      
+        <form id='board_form'>
+        <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} />
+        <div>
+        < ReactQuill 
+            onChange={(event) => {
+              setBlogContent({
+                ...blogContent,
+                content: event
+              });
+            }}
+        />
+        </div>
+        <button onClick={() => _submitBoard()}> 포스트 등록 </button>
+        </form>  
+      </div>
+         );
+  
+        }
+        
+export default write;
