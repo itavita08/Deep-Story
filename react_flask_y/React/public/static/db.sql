@@ -35,7 +35,7 @@ CREATE TABLE post (
 	post_contents	        text	        NULL,
 	account_id	            int	            NOT NULL	                        COMMENT 'Auto Increament',
     
-	CONSTRAINT fk_post_account  FOREIGN KEY(post_id) REFERENCES account_privacy(account_id) ON DELETE CASCADE
+	CONSTRAINT fk_post_account  FOREIGN KEY(account_id) REFERENCES account_privacy(account_id) ON DELETE CASCADE
 
 );
 
