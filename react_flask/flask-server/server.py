@@ -1,7 +1,11 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time
+import json
+from flask import make_response
+
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 app.config['DEBUG'] = True
 CORS(app)
 
@@ -15,10 +19,16 @@ def users():
 @app.route("/add", methods=["POST"])
 def create_img():
     text = request.get_json()
-    time.sleep(5)
+    # time.sleep(2)
     #test2.saveImage(text)
 
     return jsonify(text)
+
+@app.route("/test", methods=["POST"])
+def test():
+    test = request.get_data()
+    print(test)
+    return test
 
 if __name__ == "__main__":
     app.run(debug = True)
