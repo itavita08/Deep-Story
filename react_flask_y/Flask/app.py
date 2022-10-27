@@ -6,7 +6,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-CORS(app)       
+CORS(app)         
 
 # @app.route("/add", methods=["POST"], strict_slashes=False)
 @app.route("/add", methods=["POST"])

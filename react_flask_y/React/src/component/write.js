@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState} from 'react';
-// import { Input } from './index.js';
 import Test from './imageLoad';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
@@ -41,7 +40,7 @@ function write() {
     await axios.post('/api/v2/test/test1', {
         title:title,
         content:content,
-        value:value
+        value:JSON.stringify(value)
     })
 }
 
