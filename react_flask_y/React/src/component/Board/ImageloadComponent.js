@@ -1,10 +1,7 @@
-/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
-import DeleteImage from './deleteImage'
-import Carousel from 'react-material-ui-carousel'
-import HorizontalRule from '@mui/icons-material/HorizontalRule';
+import DeleteImage from './DeletelmageComponent';
 
-const ImageList = ({data,onDelete}) =>{
+const ImageLoad = ({data, onDelete}) =>{
     return(
       // <Carousel className='carousel' IndicatorIcon={<HorizontalRule/>} autoPlay='false'>{
         data.map((it, idx) => {
@@ -14,4 +11,4 @@ const ImageList = ({data,onDelete}) =>{
     )
   }
 
-  export default ImageList;
+  export default ImageLoad;

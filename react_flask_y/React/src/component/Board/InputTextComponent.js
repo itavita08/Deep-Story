@@ -1,22 +1,16 @@
 import React from 'react';
-import styled from "styled-components";
 
-styled(Test)`
-width: "500px",
-height: "500px"
-`;
-
-function Test(props){
+function InputTextComponent(props){
     return <form onSubmit={(event)=>{
       event.preventDefault();
       if(event.target.inputText.value ==="" ){
         alert("다시 입력하세요")
       }
-    else{ fetch("/api/v1/add", {
+    else{ fetch("http://localhost:5000/add", {
        method: 'POST',
        mode:"cors",
        headers:{
-        'content-type':'application/json'
+        'Content-Type':'application/json'
        },
       body: JSON.stringify(event.target.inputText.value)
      })
@@ -31,4 +25,4 @@ function Test(props){
   </form>
 }
 
-export default Test;
+export default InputTextComponent;
