@@ -1,6 +1,9 @@
 package io.deepstory.controller;
 
 import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.deepstory.jwt.AccountDetails;
 import io.deepstory.jwt.JwtProvider;
+import io.deepstory.jwt.Subject;
+import io.deepstory.jwt.TokenDecoding;
 import io.deepstory.jwt.TokenResponse;
 import io.deepstory.model.AccountService;
 import io.deepstory.model.PostService;
@@ -35,6 +40,8 @@ public class AccountController {
 	@Autowired
 	private PostService postService;
 	
+	private final TokenDecoding tokenDecoding;
+	
 	private ObjectMapper omapper = new ObjectMapper();
 
     /** 토큰이 필요없는 페이지: 로그인, 회원가입  => /auth/** 로 url 지정.!!  **/
@@ -54,6 +61,7 @@ public class AccountController {
 		
 		// 로그인 검증 성공으로 토큰 발급 // atk, rtk 발급
 		return jwtProvider.createTokensByLogin(accountResponse);
+		
 	}
 	
     
@@ -69,33 +77,95 @@ public class AccountController {
         return jwtProvider.reissueAtk(accountResponse);
     }
     
-    /** Board **/
+    /** Board 
+     * @throws JsonProcessingException **/
     
     // 게시물 저장
     @PostMapping(value="/postInsert")
-	public Map<String, String> test01(@RequestBody Map<String, String> inputData) {
+	public Map<String, String> test01(@RequestBody Map<String, String> inputData, HttpServletRequest request)  {
     	
     	System.out.println("게시물 저장");
     	System.out.println(inputData);
-    			
+    	
+    	Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+		
+    	
+    	System.out.println(subject.getAccountId());
+		
 		if(inputData.get("title") != null) {
 			
-			PostDTO newPost = PostDTO.builder().postName(inputData.get("title")).postContents(inputData.get("content")).accountId(1).build();
+			
+			PostDTO newPost = PostDTO.builder().postName(inputData.get("title")).postContents(inputData.get("content")).accountId(subject.getAccountId()).build();
 
 			boolean result = postService.addPost(newPost);
 			
 			System.out.println(result);
 
-			
 			if(result) {
 				return inputData;
 			}
+			
 		}else {
 			inputData.clear();
 			inputData.put("result", "fail");
 		}
 		return null;
 	}
+    
+    // 게시물 저장
+//    @PostMapping(value="/postInsert")
+//	public void test01(@RequestBody Map<String, String> inputData, HttpServletRequest request)  {
+//    	
+//    	System.out.println("게시물 저장");
+//    	System.out.println(inputData);
+//    	
+//    	System.out.println(request.getHeader("Authorization"));
+//    	
+//    	
+//		String authorization = request.getHeader("Authorization");
+//		
+//		if (!Objects.isNull(authorization)) {
+//			
+//			String atk = authorization.substring(7);
+//						
+//			try {
+//				Subject subject = jwtProvider.getSubject(atk);
+//				System.out.println(subject.getAccountId());
+//				
+//				if(inputData.get("title") != null) {
+//					
+//
+//					PostDTO newPost = PostDTO.builder().postName(inputData.get("title")).postContents(inputData.get("content")).accountId(subject.getAccountId()).build();
+//
+//					boolean result = postService.addPost(newPost);
+//					
+//					System.out.println(result);
+//					
+//					if(!result) {
+//						//return null;
+//					}
+//					
+//				}else {
+//					inputData.clear();
+//					inputData.put("result", "fail");
+//				}
+//				
+//				
+//				
+//				
+//			} catch (JsonProcessingException e) {
+//				
+//				e.printStackTrace();
+//			}
+//			
+//			//return inputData;
+//			
+//			
+//		}
+//
+//    			
+//
+//	}
 	
     // 게시물 조회 후 특정 게시물 정보 반환
 	@PostMapping("/postDetail")
