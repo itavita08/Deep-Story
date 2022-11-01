@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,4 +16,5 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
+
 }

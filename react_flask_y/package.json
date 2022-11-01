@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "axios": "^0.21.1",
-    "node-sass": "^7.0.3"
-  }
-}
