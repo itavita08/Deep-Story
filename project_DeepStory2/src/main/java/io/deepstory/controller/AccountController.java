@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +21,8 @@ import com.google.gson.JsonObject;
 
 import io.deepstory.jwt.AccountDetails;
 import io.deepstory.jwt.JwtProvider;
+import io.deepstory.jwt.Subject;
+import io.deepstory.jwt.TokenDecoding;
 import io.deepstory.jwt.TokenResponse;
 import io.deepstory.model.AccountService;
 import io.deepstory.model.PostService;
@@ -42,6 +47,8 @@ public class AccountController {
 	private PostService postService;
 	
 	private ObjectMapper omapper = new ObjectMapper();
+	
+	private final TokenDecoding tokenDecoding;
 
     /** 토큰이 필요없는 페이지: 로그인, 회원가입  => /auth/** 로 url 지정.!!  **/
     // 회원가입
@@ -84,17 +91,19 @@ public class AccountController {
     
     // 게시물 저장
     @PostMapping(value="/postInsert")
-	public String test01(@RequestBody PostImageDTO postImage){
+	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request){
         
         JsonObject obj =new JsonObject();
     	
     	System.out.println("----------1. 게시물 저장----------");
     	System.out.println("1-1. react에서 받아온 data 출력");
     	System.out.println(postImage);
+    	
+    	Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
     			
 		if(postImage.getTitle() != null) {
 			
-			PostDTO newPost = PostDTO.builder().postName(postImage.getTitle()).postContents(postImage.getContent()).accountId(1).build();
+			PostDTO newPost = PostDTO.builder().postName(postImage.getTitle()).postContents(postImage.getContent()).accountId(subject.getAccountId()).build();
 			System.out.println("----------2. 저장 전 postDTO.build 출력----------");
 			System.out.println(newPost);
 			
@@ -104,7 +113,7 @@ public class AccountController {
 			
 			if(postId != 0) {
 			    System.out.println("-------------7. 저장 전 imageDTO.build 출력------------");
-			    ImageDTO newImage = ImageDTO.builder().imageName(postImage.getImage().get(0).get("name")).accountId(1).postId(postId).build();
+			    ImageDTO newImage = ImageDTO.builder().imageName(postImage.getImage().get(0).get("name")).accountId(subject.getAccountId()).postId(postId).build();
 			    System.out.println(newImage);
 			    
 			    int finalPostId = postService.addImage(newImage);
