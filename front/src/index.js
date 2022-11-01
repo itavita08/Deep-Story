@@ -48,7 +48,7 @@ root.render(
           <Routes>
             <Route path="/" exact element={<App />} />
 
-            <Route path="/MainPageLogin" exact element={<MainPageLoginComponent />} />
+            <Route path="/MainPageLogin/*" exact element={<MainPageLoginComponent />} />
             <Route path="/sign" exact element={<SignComponets />} />
             <Route path="/login" exact element={<LoginComponent />} />
             

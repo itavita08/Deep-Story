@@ -17,8 +17,8 @@ export default function MainPageLoginComponent(props) {
   
           <div className='App'>
   
-          <LoginHeader />
-          
+          <LoginHeader>
+          </LoginHeader>
   
           <SidebarAdminLoginComponent>
           </SidebarAdminLoginComponent>
