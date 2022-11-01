@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.2.2",
     "html-react-parser": "^3.0.4",
+    "mdb-react-ui-kit": "^5.0.0",
     "node-html-parser": "^6.1.1",
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
