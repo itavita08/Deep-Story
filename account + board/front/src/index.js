@@ -1,36 +1,76 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+
 import App from './App';
+
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Router} from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 
-
-import axios from "axios";
-
-import store from './store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+import "bootstrap/dist/css/bootstrap.css";
+
+import SignComponets from './components/Account/SignComponents';
+import MainPageLoginComponent from './components/Sub/MainPageLoginComponent';
+import LogoutComponet from './components/Account/LogoutComponet';
+import LoginComponent from './components/Account/LoginComponent';
+import PostCreateComponent from './components/Board/PostCreateComponent';
+import DetailComponent from './components/Board/Detail'
+import MypageComponent from './components/Sub/MypageComponent';
+import updateProfilComponent from './components/Sub/UpdateProfilComponent';
+import store from './store';
 import { CookiesProvider } from 'react-cookie';
 
-//axios.defaults.withCredentials = true;
+
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// let persistor = persistStore(store);
+
 root.render(
+
   // <React.StrictMode>
   //  <App />
   // </React.StrictMode>
-
+  
+  <React.Fragment>
   <CookiesProvider>
     <Provider store={store}>
 
-        <BrowserRouter>
-          <App />
-      </BrowserRouter>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
 
+    <div>
+        <BrowserRouter>
+
+
+          <Routes>
+            <Route path="/" exact element={<App />} />
+
+            <Route path="/MainPageLogin" exact element={<MainPageLoginComponent />} />
+            <Route path="/sign" exact element={<SignComponets />} />
+            <Route path="/login" exact element={<LoginComponent />} />
+            <Route path="/logout" exact element={<LogoutComponet />} />
+            <Route path="/postCreate" exact element={<PostCreateComponent />} />
+            <Route path="/detail" exact element={<DetailComponent />} />  
+            <Route path="/mypage" exact element={<MypageComponent />} />  
+            <Route path="/updateProfil" exact element={<updateProfilComponent />} />  
+            
+          </Routes>
+        </BrowserRouter>
+
+    </div>
+
+      {/* </PersistGate> */}
     </Provider>
   </CookiesProvider>
+</React.Fragment>
+
 
 
 );

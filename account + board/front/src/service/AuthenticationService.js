@@ -21,7 +21,6 @@ class AuthenticationService {
     // email 을 authenticatedUser로 localStorage에 저장
     registerSuccessfulLoginForJwt(accountEmail, atk, rtk) {
 
-
         // 세션 스토리지에 이메일 저장
         sessionStorage.setItem('authenticatedUser', accountEmail);
 
@@ -42,6 +41,8 @@ class AuthenticationService {
             config => {
 
                 const AccessToken = getCookie('AccessToken');
+                
+                console.log(AccessToken);
 
                 // token이 있다면 header에 Bearer + token 담아서 보냄
                 if (AccessToken && config.url !=='http://localhost:8080/reissue') {

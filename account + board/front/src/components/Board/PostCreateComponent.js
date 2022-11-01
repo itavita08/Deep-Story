@@ -1,13 +1,23 @@
 import React, { useState} from 'react';
 import InputTextComponent from './InputTextComponent';
+import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
+import LoginHeader from '../Header/LoginHeader'
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import ImageLoad from './ImageloadComponent';
 import { useNavigate } from 'react-router-dom';
+import '../../main.css';
 
+import styled from 'styled-components';
+import { Layout, Menu } from 'antd';
+
+
+const { Header, Content, Footer, Sider } = Layout;
 
 function PostCreateComponent() {
+
+
   const [blogContent, setBlogContent] = useState({
     title: '',
     content: ''
@@ -15,6 +25,8 @@ function PostCreateComponent() {
   const [image, setImage] = useState([]);
 
   const navigate = useNavigate();
+
+
 
 
   const getValue = e => {
@@ -55,8 +67,21 @@ function PostCreateComponent() {
 };
 
      return (
-      <div className='Write'>
-        <div className='image'>
+
+      <div className='Mains'>
+        
+      <LoginHeader></LoginHeader>
+      
+      <div  id='Mains-left'>
+      <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+      </div>
+
+      <div id='Write'>
+        <nav>
+        <div id='image'>
+
+        
+  
         <InputTextComponent onCreate={(v)=>{
             if(image.length >= 1){
               alert("이미지는 한장만 가능합니다");
@@ -83,9 +108,16 @@ function PostCreateComponent() {
         </div>
         <button onClick={() => _submitBoard()}> 포스트 등록 </button>
         </form>  
+        </nav>
+
       </div>
+
+
+      </div>
+
+      
+
          );
-  
         }
         
 export default React.memo(PostCreateComponent);

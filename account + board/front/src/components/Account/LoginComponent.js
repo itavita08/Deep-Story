@@ -10,8 +10,6 @@ export default function LoginComponent(props) {
     const [state, setState] = useState({
         accountEmail: '',
         accountPassword: '',
-        hasLoginFailed: false,
-        showSuccessValue: false
     });
 
     const handleChange = (event) => {
@@ -21,25 +19,35 @@ export default function LoginComponent(props) {
         });
     };
 
+    const navigate = useNavigate();
+
     const loginClicked = ()  => {
 
         AuthenticationService
             .executeJwtAuthenticationService(state.accountEmail, state.accountPassword)
             .then((response) => {
-            console.log(response)
+            console.log(response.data)
             AuthenticationService.registerSuccessfulLoginForJwt(state.accountEmail, response.data.atk, response.data.rtk)
-            console.log("성공")
+            
+            if(!response.data.atk) {
+                console.log('==================',response.data.msg)
+                
+            } else if(response.data.accountEmail === null){
+                console.log('=======================','비밀번호 불일치')
+                // alert('비빌번호 불일치')
+            } 
+
+            //document.location.href = '/MainPageLogin'
+            navigate('/MainPageLogin');
 
             setState({hasLoginFailed:true})
 
-            //document.location.href = './Home'
-
-            //this.props.history.push(`/`) // 웰컴 페이지 추후 활용
-            //this.props.history.push(`/WelcomeComponets/${state.email}`) // 웰컴 페이지 추후 활용
 
         }).catch( () =>{
-            setState({showSuccessMessage:true})
-            setState({hasLoginFailed:false})
+            alert('회원 정보를 확인해주세요.')
+            navigate('/');
+
+            
         })
     }
 
@@ -48,10 +56,6 @@ export default function LoginComponent(props) {
         <div>
             <h1>Login</h1>
             <div className="container">
-
-                {state.showSuccessMessage && <div>Login successful</div>} 
-                
-                {state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
 
                 Email: <input type="text" name="accountEmail"  value={state.accountEmail} onChange={handleChange}></input>
                 Password: <input type="password" name="accountPassword" value={state.accountPassword} onChange={handleChange}></input>

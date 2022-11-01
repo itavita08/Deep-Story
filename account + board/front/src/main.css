@@ -1,3 +1,20 @@
+.Mains {
+  display: grid;
+  /* grid-template-columns: 19% 62% 19%; */
+
+}
+
+.Write {
+  padding: 20px;
+  padding-left: 30px;
+
+}
+
+.Write div {
+  margin-top: 30px;
+  margin-left: 100px;
+}
+
 .WriteBoard {
     text-align: center;
   }
