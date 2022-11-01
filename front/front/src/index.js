@@ -5,6 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Detail from './components/Board/Detail';
+import LoginComponent from './components/Account/LoginComponent';
+import SignComponets from './components/Account/SignComponents';
+import LogoutComponent from './components/Account/LogoutComponet';
+import PostCreateComponent from './components/Board/PostCreateComponent';
+import Update from './components/Board/Update';
 
 
 import axios from "axios";
@@ -27,11 +32,16 @@ root.render(
     <Provider store={store}>
 
       <BrowserRouter>
-        <App />
-          {/* <Routes>
+
+          <Routes>
             <Route path="/"  element={<App />} />
+            <Route path="/login" exact element={<LoginComponent />} />
+            <Route path="/sign" exact element={<SignComponets />} />
+            <Route path="/PostCreate" exact element={<PostCreateComponent />} />
+            <Route path="/Logout" element={<LogoutComponent />} /> 
             <Route path="/detail" element={<Detail />} />
-          </Routes> */}
+            <Route path="/update" element={<Update />} />
+          </Routes>
 
       </BrowserRouter>
 

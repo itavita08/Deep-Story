@@ -2,6 +2,7 @@
 import React, { useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Detail(){
   const location = useLocation();
@@ -10,10 +11,11 @@ function Detail(){
   const [image, setImage] = useState("");
   const [postId, setPostId] = useState(location.state.postId);
 
+  const navigate = useNavigate();
+
  
 
   const getPost = async() => {
-    // e.preventDefault();
     await axios.post("http://localhost:80/postDetail", {
       postId:postId
       })
@@ -29,11 +31,33 @@ function Detail(){
     }; 
 
   useEffect(() => {
-    // setPostId(location.state.postId); 
     console.log(postId);
     getPost(); 
   },[] );
 
+
+  const updatePost = () => {
+    navigate("/update",{
+      state: {
+        postId : postId
+      }
+    },{
+      replace: false})
+    }; 
+    
+
+  const deletePost = async() => {
+    await axios.post("http://localhost:80/postDelete", {
+      postId:postId
+      })
+      .then(
+        response => {
+          console.log(response.data);
+          response.data.result === "true" ?  navigate("/",{
+          replace: false}) :  alert("다시 시도해 주세요")
+        }
+      )  
+    }; 
 
 
   return (
@@ -44,18 +68,12 @@ function Detail(){
       <img key={image} style={{
                 height: -100,
                 width: 500
-            }} src={"/static/image/"+image+".png"}/>
+            }} src={"/static/image/"+image+".png"}/><br/>
+      <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
     </div>
   )
-  // return(
-  //   <div>
-  //     <h1>게시물 상세 페이지</h1>
-  //   </div>
-  // )
-
 }
 
 
 
 export default Detail;
-// export default React.memo(Detail);

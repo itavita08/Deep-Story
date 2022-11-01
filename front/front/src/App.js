@@ -46,16 +46,6 @@ function App(props) {
         <Link to="/Logout">로그아웃</Link>
 
       </div>
-
-				<Routes>
-          <Route index element={<Home />} />
-          <Route path="/login" exact element={<LoginComponent />} />
-          <Route path="/sign" exact element={<SignComponets />} />
-          <Route path="/PostCreate" exact element={<PostCreateComponent />} />
-          <Route path="/SendText" element={<SendText />} /> 
-          <Route path="/Logout" element={<LogoutComponent />} /> 
-          <Route path='/Detail' element={<Detail />} />
-				</Routes>
 		</div>
 	);
 }

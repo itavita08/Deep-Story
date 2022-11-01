@@ -91,7 +91,7 @@ public class AccountController {
     
     // 게시물 저장
     @PostMapping(value="/postInsert")
-	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request){
+	public String postInsert(@RequestBody PostImageDTO postImage, HttpServletRequest request){
         
         JsonObject obj =new JsonObject();
     	
@@ -141,7 +141,7 @@ public class AccountController {
 	
     // 게시물 조회 후 특정 게시물 정보 반환
 	@PostMapping("/postDetail")
-	public String test02(@RequestBody Map<String,Integer> input) throws Exception {
+	public String postDetail(@RequestBody Map<String,Integer> input) throws Exception {
 		
 		System.out.println("---------12. 상세 게시물 시작------------");
 		System.out.println("12-1 상세 게시물 react 반환값 확인");
@@ -168,7 +168,55 @@ public class AccountController {
 		return null;
 	}
 	
+	// 게시물 삭제
+	@PostMapping("/postDelete")
+	public String postDelete(@RequestBody Map<String,Integer> input) throws Exception {
+	    
+	    System.out.println("---------13. 게시물삭제------------");
+	    System.out.println(input);
+	    
+	    if(input != null) {
+	        if(postService.deletePost(input.get("postId"))) {
+	            HashMap<String, String> map = new HashMap<String, String>();
+	            map.put("result", "true");
+	            
+	            System.out.println(map.toString());
+	            return omapper.writeValueAsString(map);
+	        }
+	        return null;
+	    }
+	    return null;
+	}
 	
+	
+	// 게시물 수정
+    @PostMapping(value="/postUpdate")
+    public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request){
+        
+        JsonObject obj =new JsonObject();
+        
+        System.out.println("----------게시물 수정----------");
+        System.out.println("1-1. react에서 받아온 data 출력");
+        System.out.println(postImage);
+        
+        Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+                
+        if(postImage.getTitle() != null) {
+            
+//            PostDTO newPost = PostDTO.builder().postName(postImage.getTitle()).postContents(postImage.getContent()).accountId(subject.getAccountId()).build();
+            System.out.println("----------2. 저장 전 postDTO.build 출력----------");
+//            System.out.println(newPost);
+            
+            int postId = postService.updatePost(postImage);
+            System.out.println("-------------6. save 후 postId 확인------------");
+            System.out.println(postId);
+            
+            obj.addProperty("postId",postId);
+            
+            return obj.toString();
+        }
+        return null;
+    }
     
 
     

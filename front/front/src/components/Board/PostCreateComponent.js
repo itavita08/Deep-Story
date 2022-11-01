@@ -33,7 +33,6 @@ function PostCreateComponent() {
   };
 
   const _submitBoard = async(e) => {
-    // e.preventDefault();
     const title = blogContent.title;
     const content = blogContent.content;
     if(title === "") {
@@ -46,13 +45,6 @@ function PostCreateComponent() {
         content,
         image
     })
-    // .then(
-    //   response => response.json()
-    // 
-    // .then(response => {
-    //   console.log(response)
-    // }
-    // )
     .then(
       response =>{
       console.log(response);
@@ -70,29 +62,21 @@ function PostCreateComponent() {
   })
 };
 
-// const _submitBoard = async (e) => {
-//   navigate("/detail",{
-//     state:{
-//       postId:10
-//     }
-//   })
-// }
-
      return (
       <div className='Write'>
         <div className='image'>
-        <InputTextComponent onCreate={(v)=>{
-            if(image.length >= 1){
-              alert("이미지는 한장만 가능합니다");
-            }else {
-            const imageList = {name:v}
-              const copyImageList = [...image]
-              copyImageList.push(imageList);
-              setImage(copyImageList);
-            }
-          }}></InputTextComponent>
+          <InputTextComponent onCreate={(v)=>{
+              if(image.length >= 1){
+                alert("이미지는 한장만 가능합니다");
+              }else {
+              const imageList = {name:v}
+                const copyImageList = [...image]
+                copyImageList.push(imageList);
+                setImage(copyImageList);
+              }
+            }}></InputTextComponent>
           <ImageLoad data={image} onDelete={onDelete}/>
-          </div>      
+        </div>      
         <form id='board_form'>
         <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} />
         <div>
@@ -101,7 +85,7 @@ function PostCreateComponent() {
               setBlogContent({
                 ...blogContent,
                 content: event
-              });
+              }); 
             }}
         />
         </div>
@@ -113,4 +97,3 @@ function PostCreateComponent() {
         }
         
 export default React.memo(PostCreateComponent);
-// export default PostCreateComponent;

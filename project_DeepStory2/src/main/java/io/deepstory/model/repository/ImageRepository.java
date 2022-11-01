@@ -21,4 +21,5 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Integer>  {
   @Query("select e from ImageEntity e where e.postId = :postId")
   ImageEntity findImageName(@Param("postId") PostEntity postEntity);
 
+
 }

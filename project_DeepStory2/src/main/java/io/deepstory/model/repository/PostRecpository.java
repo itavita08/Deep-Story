@@ -11,7 +11,5 @@ import io.lettuce.core.dynamic.annotation.Param;
 @Repository
 public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 
-//    @Modifying
-//    @Query("select p.postId from PostEntity p where postName = :postName and postContents = :postContents and accountId = :accountId")
-//    int findPostId(@Param("postName") String postName, @Param("postContents") String postContents, @Param("accountId") int accountId);
+
 }
