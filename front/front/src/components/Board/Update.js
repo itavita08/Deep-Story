@@ -11,12 +11,12 @@ import ReactQuill, {Quill} from 'react-quill';
 function Update(){
     const location = useLocation();
     const [title, setTitle] = useState("");
-    const [contents, setContents] = useState("");
+    const [content, setContent] = useState("");
     const [image, setImage] = useState([]);
     const [postId, setPostId] = useState(location.state.postId);
     const [blogContent, setBlogContent] = useState({
         title: '',
-        content: ''
+        contents: ''
         })
 
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ function Update(){
             data => {
               console.log(data.data); 
               setTitle(data.data.title)
-              setContents(data.data.content)
+              setContent(data.data.content)
               const imageList = {name:data.data.image}
               const copyImageList = [...image]
               copyImageList.push(imageList);
@@ -71,13 +71,13 @@ function Update(){
         // const content = blogContent.content;
         if(title === "") {
             return alert('제목을 입력해주세요.');
-        } else if(contents === "") {
+        } else if(content === "") {
             return alert('내용을 입력해주세요.');
         }  
         await axios.post('http://localhost:80/postUpdate', {
             postId,
             title,
-            contents,
+            content,
             image
         })
         .then(
@@ -126,13 +126,13 @@ function Update(){
         
          }/>
         <div>
-        < ReactQuill 
+        < ReactQuill value={content}
             onChange={(event) => {
             //   setBlogContent({
             //     ...blogContent,
             //     content: event
             //   });
-              setContents(event) 
+              setContent(event) 
             }}
         />
         </div>
