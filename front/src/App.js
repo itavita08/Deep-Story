@@ -31,7 +31,7 @@ function App(props) {
         <p/>
         <Link to="/SendText">테스트</Link>
         <p/>
-        <Link to="/accountPostAll">계정 모든 게시물</Link>
+        <Link to="/postAll">모든 게시물</Link>
         <p/>
         <Link to="/Logout">로그아웃</Link>
 

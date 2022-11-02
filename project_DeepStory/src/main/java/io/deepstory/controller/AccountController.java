@@ -1,11 +1,12 @@
 package io.deepstory.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +31,7 @@ import io.deepstory.model.dto.ImageDTO;
 import io.deepstory.model.dto.LoginRequestDTO;
 import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
+import io.deepstory.model.dto.PostListDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -47,6 +49,8 @@ public class AccountController {
 	private final TokenDecoding tokenDecoding;
 
 	private ObjectMapper omapper = new ObjectMapper();
+	
+	private ModelMapper mapper = new ModelMapper();
 
 	/** 토큰이 필요없는 페이지: 로그인, 회원가입 => /auth/** 로 url 지정.!! **/
 	// 회원가입
@@ -131,7 +135,8 @@ public class AccountController {
 		}
 		return null;
 	}
-
+	
+	//게시물 삭제  
 	@PostMapping("/postDelete")
 	public String postDelete(@RequestBody Map<String, Integer> input) throws Exception {
 		System.out.println(input);
@@ -147,20 +152,13 @@ public class AccountController {
 	    }
 	    return null;
 	}
-
-	@PostMapping("/accountPostAll")
-	public String accountPostAll(HttpServletRequest request) throws Exception {
-		System.out.println("-------account post controller-----");
-		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-		System.out.println("accountId: "+ subject.getAccountId());
-		List<PostDTO> postAll = postService.getAccountPostAll(subject.getAccountId());
-		return omapper.writeValueAsString(postAll);
-	}
 	
+	//홈페이지의 게시물 전체 조회 
 	@PostMapping("/postAll")
 	public String postAll() throws Exception {
 		System.out.println("-------post controller-----");
-		List<PostDTO> postAll = postService.PostAll();
+		ArrayList<PostListDTO> postAll = postService.getPostAll();
+		System.out.println(postAll.get(0).toString());
 		return omapper.writeValueAsString(postAll);
 	}
 	

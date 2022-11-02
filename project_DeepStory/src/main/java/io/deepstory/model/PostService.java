@@ -1,7 +1,9 @@
 package io.deepstory.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import io.deepstory.model.dto.ImageDTO;
 import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
+import io.deepstory.model.dto.PostListDTO;
 import io.deepstory.model.entity.AccountEntity;
 import io.deepstory.model.entity.ImageEntity;
 import io.deepstory.model.entity.PostEntity;
@@ -30,7 +33,8 @@ public class PostService {
 	private ImageRepostory imageRepository;
 	
 	private ModelMapper mapper = new ModelMapper();
-	
+		
+		@Transactional
         public Integer addPost(PostDTO postDTO) {
 		
         Optional<AccountEntity> accountId = accountRepository.findById(postDTO.getAccountId());
@@ -44,7 +48,7 @@ public class PostService {
 		return 0;
 	}
 
-
+	@Transactional
 	public PostDTO getPost(int postId) {
 		Optional<PostEntity> postEntity = postRepository.findById(postId);
 		PostDTO postDTO = PostDTO.builder().postId(postId).postName(postEntity.get().getPostName()).postContents(postEntity.get().getPostContents()).accountId(postEntity.get().getAccountId().getAccountId()).build();
@@ -70,7 +74,7 @@ public class PostService {
     }
 
 
-
+	@Transactional
     public String getImage(int postId) {
 	    Optional<PostEntity> postEntity = postRepository.findById(postId);
         String imageName = imageRepository.findImageName(postEntity.get()).getImageName();
@@ -101,30 +105,43 @@ public class PostService {
         
         return post.getPostId();
     }
-
-
-	public List<PostDTO> getAccountPostAll(int accountId ) {
+    
+    // 홈페이지에 이미지 있는 모든 게시물 조회 
+    @Transactional
+	public ArrayList<PostListDTO> getPostAll( ) {
         System.out.println("------post service------");
-        System.out.println("----accountId------" + accountId);
-        Optional<AccountEntity> account = accountRepository.findById(accountId);
-		System.out.println("accountEntity : "+account.get().getAccountId());
+        
+        List<PostEntity> postEntityList = postRepository.findAll();
+		System.out.println("postentity post name" + postEntityList.get(0).getPostName());
 		
-        List<PostEntity> postEntityAll = postRepository.findAllByAccountId(account.get());
-		System.out.println(postEntityAll.get(0));
+		List<ImageEntity> imageEntityList = imageRepository.findAll();
+		System.out.println("imageEntityList 0 image name: "+imageEntityList.get(0).getImageName());
 		
-		List<PostDTO> postDTOAll = null;
-		for(PostEntity p : postEntityAll) {
-			boolean addResult = postDTOAll.add(PostDTO.builder().postId(p.getPostId()).postName(p.getPostName()).postContents(p.getPostContents()).accountId(accountId).build());
+		ArrayList<PostListDTO> postListDTOList = new ArrayList<PostListDTO>();
+		int index = 0;
+        for (ImageEntity i : imageEntityList) {
+        	
+        	int postId = i.getPostId().getPostId();
+        	
+        	if(postListDTOList.size() == 0) {
+        		postListDTOList.add(PostListDTO.builder().postId(postId).title(postEntityList.get(index).getPostName()).content(postEntityList.get(index).getPostContents()).image(i.getImageName()).build());
+        		index = index + 1;
+        	} 
+        	else if (postListDTOList.get(postListDTOList.size() - 1).getPostId() == postId){
+        		String preImage = postListDTOList.get(index).getImage();
+        		postListDTOList.get(index).setImage(preImage +", " +i.getImageName());
+        		index = index + 1;
+        	}else {
+        		postListDTOList.add(PostListDTO.builder().postId(postId).title(postEntityList.get(index).getPostName()).content(postEntityList.get(index).getPostContents()).image(i.getImageName()).build());
+            	index = index + 1;
+        	}
+        	
 		}
-		System.out.println(postDTOAll.get(0));
-		return postDTOAll;
+
+		return postListDTOList;
 	}
 
 
-	public List<PostDTO> PostAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 	

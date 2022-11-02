@@ -7,7 +7,7 @@ import SignComponets from './components/Account/SignComponents';
 import LogoutComponent from './components/Account/LogoutComponet';
 import PostCreateComponent from './components/Board/PostCreateComponent';
 import Detail from './components/Board/Detail';
-import AccountPostAll from './components/Board/AccountPostAll';
+import PostAll from './components/Board/PostAll';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -35,7 +35,7 @@ root.render(
           <Route path="/SendText" element={<SendText />} /> 
           <Route path="/Logout" element={<LogoutComponent />} /> 
           <Route path='/Detail' element={<Detail />} />
-          <Route path='/accountPostAll' element={<AccountPostAll/>}/>
+          <Route path='/PostAll' element={<PostAll/>}/>
 				</Routes>
       
       </BrowserRouter>

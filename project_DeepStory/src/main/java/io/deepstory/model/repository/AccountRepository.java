@@ -14,4 +14,6 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Integer
     boolean existsByAccountEmail(String accountEmail);
 
     Optional<AccountEntity> findByAccountEmail(String accountEmail);
+
+    Optional<AccountEntity> findByAccountId(int accountId);
 }
