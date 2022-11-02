@@ -238,6 +238,18 @@ public class AccountController {
         
     }
     
+    // 좋아요 순 상위 게시물
+    @GetMapping("/bestPost")
+    public String showBestPost() throws JsonProcessingException{
+        
+        HashMap<String, Map<String, String>> map = postService.showBestPost();
+        
+        System.out.println(omapper.writeValueAsString(map));
+        
+        return omapper.writeValueAsString(map);
+        
+    }
+    
 
     
 

@@ -1,13 +1,15 @@
 package io.deepstory.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,13 +109,10 @@ public class PostService {
         
 	    Optional<PostEntity> postEntity = postRepository.findById(postId);
         String imageName = imageRepository.findImageName(postEntity.get()).getImageName();
-//        Optional<ImageEntity> imageName = imageRepository.findById(imageId);
-//        System.out.println(imageName.get().getImageName());
-        System.out.println(imageName);
-        
-//        return imageName.get().getImageName();
+
         return imageName;
     }
+    
 
     @Transactional
     public boolean deletePost(int postId) {
@@ -144,6 +143,7 @@ public class PostService {
         return post.getPostId();
     }
 
+    
     @Transactional
     public boolean addLove(int accountId, int postId) {
         
@@ -177,15 +177,30 @@ public class PostService {
         return result;
     }
 
+
+    public HashMap<String, Map<String, String>> showBestPost() {
+        List<Object[][]> bestPosts = loveRepository.findCountLove();
+        
+        HashMap<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
+       
+        for(int i = 0; i<3; i++) {
+            PostDTO post = getPost(((PostEntity)(bestPosts.get(i))[1][0]).getPostId());
+            String imageName = getImage(((PostEntity)(bestPosts.get(i))[1][0]).getPostId());
+            
+            HashMap<String, String> mapDetail = new HashMap<String, String>();
+            mapDetail.put("title", post.getPostName());
+            mapDetail.put("content", post.getPostContents());
+            mapDetail.put("image", imageName);
+            
+            map.put(Integer.toString(i), mapDetail);
+        }
+       
+        System.out.println(map.toString());
+        
+        return map;
+       
+    }
 }
-
-
-
-
-
-
-
-
 
 
 

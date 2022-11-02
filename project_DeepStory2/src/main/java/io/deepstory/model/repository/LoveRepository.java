@@ -1,6 +1,7 @@
 package io.deepstory.model.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,8 @@ public interface LoveRepository extends JpaRepository<LoveEntity, Integer> {
     
     @Query("select l from LoveEntity l where l.postId = :postId")
     List<LoveEntity> findAllByPostId(@Param("postId") PostEntity postEntity);
+    
+    @Query("select count(l.loveId) as loveId, l.postId from LoveEntity l group by l.postId order by count(l.loveId) desc")
+//    List<Map<String, Object>> findCountLove();
+    List<Object[][]> findCountLove();
 }
