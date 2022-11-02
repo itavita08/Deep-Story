@@ -74,6 +74,7 @@ function Detail(){
   }; 
 
   return (
+    
     <div>
       <div>
         <h2>좋아요
@@ -92,9 +93,7 @@ function Detail(){
             }} src={"/static/image/"+image+".png"}/><br/>
       <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
     </div>
-  )
+  ) 
 }
-
-
 
 export default Detail;
