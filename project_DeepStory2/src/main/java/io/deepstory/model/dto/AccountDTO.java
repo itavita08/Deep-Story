@@ -37,8 +37,8 @@ public class AccountDTO {
                 account.getAccountEmail(),
                 account.getAccountName(),
                 account.getAccountPassword(),
-                account.getAccountGender(),
                 account.getAccountDate(),
+                account.getAccountGender(),
                 account.getAccountType());
     }
 }

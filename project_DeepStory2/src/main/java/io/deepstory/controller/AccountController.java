@@ -190,7 +190,7 @@ public class AccountController {
 	
 	
 	// 게시물 수정
-    @PostMapping(value="/postUpdate")
+    @PostMapping("/postUpdate")
     public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request){
         
         JsonObject obj =new JsonObject();
@@ -216,6 +216,26 @@ public class AccountController {
             return obj.toString();
         }
         return null;
+    }
+    
+    // 좋아요
+    @PostMapping("/postLove")
+    public String postLove(@RequestBody Map<String,Integer> input, HttpServletRequest request) throws JsonProcessingException {
+        
+        Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+        int accountId = subject.getAccountId();
+        
+        int postId = input.get("postId");
+        
+        if(postService.addLove(accountId, postId) == true) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("result", "true");
+            return omapper.writeValueAsString(map);
+        }
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("result", "false");
+        return omapper.writeValueAsString(map);
+        
     }
     
 

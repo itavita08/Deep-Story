@@ -16,9 +16,11 @@ import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
 import io.deepstory.model.entity.AccountEntity;
 import io.deepstory.model.entity.ImageEntity;
+import io.deepstory.model.entity.LoveEntity;
 import io.deepstory.model.entity.PostEntity;
 import io.deepstory.model.repository.AccountRepository;
 import io.deepstory.model.repository.ImageRepository;
+import io.deepstory.model.repository.LoveRepository;
 import io.deepstory.model.repository.PostRecpository;
 
 @Service
@@ -30,6 +32,8 @@ public class PostService {
 	private AccountRepository accountRepository;
 	@Autowired
 	private ImageRepository imageRepository;
+	@Autowired
+	private LoveRepository loveRepository;
 	
 	@Transactional
 	public Integer addPost(PostDTO postDTO) {
@@ -126,41 +130,63 @@ public class PostService {
     @Transactional
     public Integer updatePost(PostImageDTO postImageDTO) {
         
-        
-//        Optional<AccountEntity> accountId = accountRepository.findById(postDTO.getAccountId());
-        
-//        System.out.println("-------------3. 게시물 저장 Post DAO 확인----------");
-//        System.out.println("3-1. addPost accountName");
-//        System.out.println(accountId.get().getAccountName());
-//        System.out.println("3-2. addPost accountId");
-//        System.out.println(accountId.get().getAccountId());
-        
-//        PostEntity postEntity = new PostEntity(postDTO.getPostId(), postDTO.getPostName(), postDTO.getPostContents(), accountId.get());
-        System.out.println("127번 post 조회");
         PostEntity postEntity = postRepository.findById(postImageDTO.getPostId()).get();
-        System.out.println(postEntity.toString());
-        System.out.println("127번 image 조회");
         ImageEntity imageEntity = imageRepository.findImageName(postEntity);
-        System.out.println(imageEntity.toString());
         
         postEntity.setPostName(postImageDTO.getTitle());
         postEntity.setPostContents(postImageDTO.getContent());
                 
         imageEntity.setImageName(postImageDTO.getImage().get(0).get("name"));
         
-        
-        
-//        System.out.println("3-3. addPost postEntity accountId");
-//        System.out.println(postEntity.getAccountId().getAccountId());
-        
-//        System.out.println("-------------4. 게시물 저장 save 확인----------");
         PostEntity post = postRepository.save(postEntity);
         ImageEntity image = imageRepository.save(imageEntity);
-//        System.out.println("-----------5. save후 post반환값 확인------------");
-        System.out.println(post.toString());
-        System.out.println(image.toString());
         
         return post.getPostId();
     }
 
+    @Transactional
+    public boolean addLove(int accountId, int postId) {
+        
+        PostEntity postEntity = postRepository.findById(postId).get();
+        AccountEntity accountEntity = accountRepository.findById(accountId).get();
+        
+        boolean result = false;
+        
+        List<LoveEntity> allLove = loveRepository.findAllByPostId(postEntity);
+        
+        if(!allLove.isEmpty()) {
+            for(LoveEntity love : allLove) {
+                if(love.getAccountId().getAccountId() != accountId) {
+                    result = true;
+                } else {
+                    return result;
+                }
+            }
+        } else {
+            LoveEntity loveEntity = LoveEntity.builder().accountId(accountEntity).postId(postEntity).build();
+            loveRepository.save(loveEntity);
+            result = true;
+            return result;
+        }
+        
+        if(result = true) {
+            LoveEntity loveEntity = LoveEntity.builder().accountId(accountEntity).postId(postEntity).build();
+            loveRepository.save(loveEntity);
+        }
+        
+        return result;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

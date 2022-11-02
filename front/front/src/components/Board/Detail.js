@@ -24,7 +24,7 @@ function Detail(){
           console.log(data.data); 
           setTitle(data.data.title)
           setContents(data.data.content)
-          setImage(data.data.image)
+          setImage(data.data.image) 
 
         }
       )  
