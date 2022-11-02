@@ -37,27 +37,15 @@ public class PostService {
 	@Autowired
 	private LoveRepository loveRepository;
 	
+	
 	@Transactional
 	public Integer addPost(PostDTO postDTO) {
 		
-		
 		Optional<AccountEntity> accountId = accountRepository.findById(postDTO.getAccountId());
 		
-		System.out.println("-------------3. 게시물 저장 Post DAO 확인----------");
-		System.out.println("3-1. addPost accountName");
-		System.out.println(accountId.get().getAccountName());
-		System.out.println("3-2. addPost accountId");
-		System.out.println(accountId.get().getAccountId());
-		
 		PostEntity postEntity = new PostEntity(postDTO.getPostId(), postDTO.getPostName(), postDTO.getPostContents(), accountId.get());
-		
-		System.out.println("3-3. addPost postEntity accountId");
-		System.out.println(postEntity.getAccountId().getAccountId());
-		
-		System.out.println("-------------4. 게시물 저장 save 확인----------");
+
 		PostEntity post = postRepository.save(postEntity);
-		System.out.println("-----------5. save후 post반환값 확인------------");
-		System.out.println(post.toString());
 		
 		if(post != null) {
 			return post.getPostId();
@@ -70,32 +58,22 @@ public class PostService {
 		
 		Optional<PostEntity> postEntity = postRepository.findById(postId);
 		
-		System.out.println("--------------1234--------------");
-		System.out.println(postEntity.get().getPostId());
-		
 		PostDTO postDTO = PostDTO.builder().postId(postId).postName(postEntity.get().getPostName()).postContents(postEntity.get().getPostContents()).accountId(postEntity.get().getAccountId().getAccountId()).build();
-		
-		System.out.println(postDTO.toString());
 		
 		return postDTO;
 	}
+	
 
 	@Transactional
     public Integer addImage(ImageDTO newImage) {
 	    
-	    System.out.println("-------------8. 게시물 저장 Image DAO 확인----------");
         Optional<AccountEntity> accountId = accountRepository.findById(newImage.getAccountId());
         Optional<PostEntity> postId = postRepository.findById(newImage.getPostId());
-        System.out.println("8-1 addImage accountId");
-        System.out.println(accountId.get().toString());
-        System.out.println("8-2 addImage postId");
-        System.out.println(postId.get().toString());
         
         ImageEntity imageEntity = ImageEntity.builder().imageName(newImage.getImageName()).accountId(accountId.get()).postId(postId.get()).build();
         
         ImageEntity image = imageRepository.save(imageEntity);
-        System.out.println("-----------9. save후 image 반환값 확인------------");
-        System.out.println(image.toString());
+
         if(image != null) {
             return image.getPostId().getPostId();
         }
@@ -104,7 +82,6 @@ public class PostService {
     }
 
 
-	
     public String getImage(int postId) {
         
 	    Optional<PostEntity> postEntity = postRepository.findById(postId);
@@ -118,9 +95,6 @@ public class PostService {
     public boolean deletePost(int postId) {
         
         postRepository.deleteById(postId);
-//        if(postRepository.findById(postId) == null) {
-//            return true;
-//        }
         
         return true;
     }
@@ -199,6 +173,19 @@ public class PostService {
         
         return map;
        
+    }
+
+
+    public List<String> getAllImage(int accountId) {
+
+        AccountEntity accountEntity = accountRepository.findById(accountId).get();
+        
+        List<String> imageNameList = imageRepository.findImageNameByAccountId(accountEntity);
+        
+        System.out.println(imageNameList);
+        
+        return imageNameList;
+        
     }
 }
 
