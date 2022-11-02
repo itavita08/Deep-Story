@@ -1,10 +1,16 @@
 import React, { useState} from 'react';
 import InputTextComponent from './InputTextComponent';
+import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
+import LoginHeader from '../Header/LoginHeader'
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import ImageLoad from './ImageloadComponent';
 import { useNavigate } from 'react-router-dom';
+import '../../main.css';
+
+import styled from 'styled-components';
+import { Layout, Menu } from 'antd';
 
 
 function PostCreateComponent() {
@@ -31,30 +37,60 @@ function PostCreateComponent() {
     setImage(newReportList);
   };
 
-  const _submitBoard = async () => {
+  const _submitBoard = async(e) => {
+    // e.preventDefault();
     const title = blogContent.title;
     const content = blogContent.content;
     if(title === "") {
       return alert('제목을 입력해주세요.');
     } else if(content === "") {
       return alert('내용을 입력해주세요.');
-    }
+    }  
     await axios.post('http://localhost:8080/postInsert', {
-        title:title,
-        content:content,
-        image:JSON.stringify(image)
+        title,
+        content,
+        image
     })
-    .then(alert("Post 저장 완료"))
+    // .then(
+    //   response => response.json()
+    // 
+    // .then(response => {
+    //   console.log(response)
+    // }
+    // )
     .then(
-      navigate("/detail",{
+      response =>{
+      console.log(response);
+        if(response != null){
+        navigate("/Detail",{
         state: {
-          postId : 1
+          postId : response.data.postId
         }
-      })
-    )
+      },{ replace: false})}
+      }
+  )
+  .catch(err => {
+    console.log('Oh noooo!!');
+    console.log(err);
+  })
 };
 
+// const _submitBoard = async (e) => {
+//   navigate("/detail",{
+//     state:{
+//       postId:10
+//     }
+//   })
+// }
+
      return (
+
+      <div className='Mains'>
+        
+      <LoginHeader></LoginHeader>     
+      <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+      
+
       <div className='Write'>
         <div className='image'>
         <InputTextComponent onCreate={(v)=>{
@@ -81,8 +117,10 @@ function PostCreateComponent() {
             }}
         />
         </div>
-        <button onClick={() => _submitBoard()}> 포스트 등록 </button>
+        <button type='button' onClick={() => _submitBoard()}> 포스트 등록 </button>
         </form>  
+      </div>
+      
       </div>
          );
   

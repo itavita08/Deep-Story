@@ -1,21 +1,40 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
 
 import "./card.css";
 
-function Card({ imageSource, title, text, url }) {
+function Card({ postId, imageSource, title, text, url }) {
+
+  const navigate = useNavigate();
+
+  console.log("포스트아이디");
+  console.log(postId);
+  console.log(imageSource);
+
+
+  const onClickImg = () => {
+    navigate("/Detail",{
+      state: {
+        postId : postId
+      }
+    },{ replace: false})
+  };
+
+
   return (
     <div className="card text-center bg-dark animate__animated animate__fadeInUp">
       <div className="overflow">
-        <img src={imageSource} alt="a wallpaper" className="card-img-top" />
+        <img src={imageSource} alt="a wallpaper" className="card-img-top" onClick={onClickImg}/>
       </div>
       <div className="card-body text-light">
-        <h4 className="card-title">{title}</h4>
-        <p className="card-text text-secondary">
+        <h4 className="card-title"onClick={onClickImg} >{title} </h4>
+
+        {/* <p className="card-text text-secondary">
           {text
             ? text
-            : "test"}
-        </p>
+            : {text}}
+        </p> */}
         {/* <a
           href={url ? url : "#!"}
           target="_blank"

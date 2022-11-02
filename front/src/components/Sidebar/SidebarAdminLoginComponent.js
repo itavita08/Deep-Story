@@ -34,7 +34,6 @@ function SideNavigation () {
     const navigate = useNavigate();
     
     const clickPost = async () => {
-      
 
       navigate("/postCreate");
 
@@ -82,26 +81,24 @@ function SideNavigation () {
   
           <SubMenu title="My Page" icon={<AiFillCrown />}>
             
-
-
-           {/* <MenuItem icon={<AiOutlineForm />} ><button onClick={() =>  clickPost() }>Create</button></MenuItem>  */}
+           <MenuItem icon={<AiOutlineForm />} ><Link to="/mypage">Profil</Link></MenuItem> 
 
            <MenuItem icon={<AiOutlineForm />} ><Link to="/postCreate">Create</Link></MenuItem> 
 
             
-            <MenuItem icon={<AiFillPicture />}>Gellery</MenuItem>
-            <MenuItem icon={<FaHeart />}>Interest</MenuItem>
-            <MenuItem icon={<AiFillLock />}>Secret</MenuItem>
+            <MenuItem icon={<AiFillPicture />}><Link to="/">Gellery</Link></MenuItem>
+            <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
+            <MenuItem icon={<AiFillLock />}><Link to="/">Secret</Link></MenuItem>
 
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
-            <MenuItem icon={<AiFillSignal />}>Dash Board</MenuItem>
+            <MenuItem icon={<AiFillSignal />}><Link to="/">Dash Board</Link></MenuItem>
           </SubMenu>
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>
           
-        <MenuItem icon={<AiOutlineLogout />}>Logout</MenuItem>
+        <MenuItem icon={<AiOutlineLogout />}><Link to="/logout">Logout</Link></MenuItem>
   
         
         </Menu>
@@ -109,10 +106,6 @@ function SideNavigation () {
 
       </ProSidebar>
 
-
-       <Routes> 
-           <Route path="/postCreate" exact element={<PostCreateComponent />} />  
-       </Routes> 
  
 
       </div>

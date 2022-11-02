@@ -46,13 +46,10 @@ const SideNavigation = () => {
   
         <Menu iconShape="square">
   
-        <SubMenu title="Home" icon={<AiFillHome />}>
+        <Link to="/"><SubMenu title="Home" icon={<AiFillHome />}>
           <MenuItem icon={<AiFillAppstore />}>View All</MenuItem>
-        </SubMenu>
-  
-  
+        </SubMenu></Link>
 
-  
         
         </Menu>
       </ProSidebar>

@@ -15,7 +15,7 @@ export default function Header() {
       <div className="search">
         <input type="text" placeholder="검색" id="searchbar" />
       
-         <button id="b_search">
+         <button id="b_search" >
           <p>검색</p>
         </button>
 

@@ -10,18 +10,16 @@ class AuthenticationService {
     // 1. 로그인
     // email, password 서버로 전송
     executeJwtAuthenticationService(accountEmail, accountPassword) {
-        
         return axios.post('http://localhost:8080/auth/login', {
             accountEmail,
             accountPassword
-        });
+        })
     }
 
 
     // 토큰 저장
     // email 을 authenticatedUser로 localStorage에 저장
     registerSuccessfulLoginForJwt(accountEmail, atk, rtk) {
-
 
         // 세션 스토리지에 이메일 저장
         sessionStorage.setItem('authenticatedUser', accountEmail);
@@ -43,6 +41,8 @@ class AuthenticationService {
             config => {
 
                 const AccessToken = getCookie('AccessToken');
+                
+                console.log(AccessToken);
 
                 // token이 있다면 header에 Bearer + token 담아서 보냄
                 if (AccessToken && config.url !=='http://localhost:8080/reissue') {

@@ -57,8 +57,6 @@ const SideNavigation = () => {
             <MenuItem icon={<FaHeart />}>Interest</MenuItem>
             <MenuItem icon={<AiFillLock />}>Secret</MenuItem>
           </SubMenu>
-  
-
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>
           
