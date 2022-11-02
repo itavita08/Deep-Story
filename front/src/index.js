@@ -8,6 +8,7 @@ import LogoutComponent from './components/Account/LogoutComponet';
 import PostCreateComponent from './components/Board/PostCreateComponent';
 import Detail from './components/Board/Detail';
 import PostAll from './components/Board/PostAll';
+import PostAllView from './components/Board/PostAllView';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -36,6 +37,7 @@ root.render(
           <Route path="/Logout" element={<LogoutComponent />} /> 
           <Route path='/Detail' element={<Detail />} />
           <Route path='/PostAll' element={<PostAll/>}/>
+          <Route path='/Postallview' element={<PostAllView/>}/>
 				</Routes>
       
       </BrowserRouter>
