@@ -1,49 +1,79 @@
 
-import React from 'react';
+import React, { Component }  from 'react';
+import LogoutHeader from './components/Header/LogoutHeader';
+import LoginHeader from './components/Header/LoginHeader';
+
+
+import SidebarLogoutComponent from './components/Sidebar/SidebarLogoutComponent';
+import SidebarAdminLoginComponent from './components/Sidebar/SidebarAdminLoginComponent';
+
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 import { Link } from 'react-router-dom';
+import { setCookie, getCookie, deleteCookie } from './storage/Cookie';
+
+// import { connect } from 'react-redux';
+// import {bindActionCreators} from 'redux';
+// import * as userActions from 'redux/modules/user';
 
 
-function App(props) {
+ function App(props) {
 
-  const isLoggedIn = props.isLoggedIn;
+//  class App extends Component {
 
-  if (!isLoggedIn) {
+  const loggedInfo = getCookie('islogin');
+
+  // const isLoggedIn = props.isLoggedIn;
+
+//   initializeUserInfo = async () => {
+//   
+//   if(!loggedInfo) return; // 로그인 정보가 없다면 여기서 멈춥니다.
+
+//   const { UserActions } = this.props;
+//   UserActions.setLoggedInfo(loggedInfo);
+//   try {
+//       await UserActions.checkStatus();
+//   } catch (e) {
+//       deleteCookie('islogin')
+//       // window.location.href = '/auth/login?expired';
+//   }
+// }
+
+
+//   componentDidMount() {
+//     this.initializeUserInfo();
+// }
+
+
+
+
+  // render() {
 	return (
+
 		<div className='App'>
+
+        <LogoutHeader></LogoutHeader> 
+
+        {/* <LoginHeader></LoginHeader> */}
+
+        <SidebarLogoutComponent></SidebarLogoutComponent>
+        {/* <SidebarAdminLoginComponent></SidebarAdminLoginComponent> */}
+
+
+        
       
-      <h3>----- 메인 페이지 -----</h3>
-
-      {/* <div>
-        <SidebarMainLoginComponent></SidebarMainLoginComponent>
-      </div> */}
-
-      <img className="mainImage" src= "static/image/image.png" alt="mainImage01"  />  
-
-      <div>
-        <Link to="/">홈</Link>
-        <p/>
-        <Link to="/login">로그인</Link>
-        <p/>
-        <Link to="/sign">회원가입</Link>
-        <p/>
-        <Link to="/PostCreate">글 쓰기</Link>
-        <p/>
-        <Link to="/SendText">테스트</Link>
-        <p/>
-        <Link to="/postAll">모든 게시물</Link>
-        <p/>
-        <Link to="/Logout">로그아웃</Link>
-
-      </div>
-
-				
 		</div>
 	);
+ // }
 }
-}
-
 
 export default App;
+
+// export default connect(
+//   null,
+//   (dispatch) => ({
+//       UserActions: bindActionCreators(userActions, dispatch)
+//   })
+// )(App);
 
 

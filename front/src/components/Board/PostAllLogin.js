@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +11,7 @@ function AccountPostAll() {
          response => {
           console.log(response.data);
           if(response != null){
-            navigate("/Postallview",{
+            navigate("/postallviewLogin",{
             state: {
               data : response.data
             }

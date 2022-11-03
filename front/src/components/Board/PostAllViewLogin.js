@@ -1,8 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Card from "../CardGroup/Card";
-import Paging from "./Paging";
+import Paging from "../Paging/Paging";
 import { useLocation } from 'react-router-dom';
+
+import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
+import LoginHeader from '../Header/LoginHeader'
 
 function PostAllView(){
   const location = useLocation();
@@ -29,6 +31,10 @@ function PostAllView(){
 
   return(
     <div>
+
+        <LoginHeader></LoginHeader>
+        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+
       {currentPosts && items.length > 0 ? (
         currentPosts.map((item) => (
             <div className="container d-flex justify-content-center align-items-center h-100">
