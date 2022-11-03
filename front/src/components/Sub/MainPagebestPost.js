@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import React, { useEffect, useState } from 'react';
 // import test from './Test';
-
+import styled from "styled-components";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-
+import "./MainPagecss.css";
 import { Link } from 'react-router-dom';
 
 function MypageCard() {
@@ -29,32 +29,7 @@ function MypageCard() {
     // const [postId, setPostId] = useState("");
     const navigate = useNavigate();
 
-    // const disList = (list2) => {
-    //     return (
-    //         <h2>상위3개 test용</h2>,
-            
-    //         <img key={list2[0].image} style={{
-    //             height: -100,
-    //             width: 500
-    //         }} src={"/static/image/"+list2[0].image+".png"}/>,
-    //         <h3>title:{list2[0].title}</h3>,
-    //         <h3>content:{list2[0].content}</h3>,
-            
-    //         <img key={list2[1].image} style={{
-    //             height: -100,
-    //             width: 500
-    //         }} src={"/static/image/"+list2[1].image+".png"}/>,
-    //         <h3>title:{list2[1].title}</h3>,
-    //         <h3>content:{list2[1].content}</h3>,
-            
-    //         <img key={list2[2].image} style={{
-    //             height: -100,
-    //             width: 500
-    //         }} src={"/static/image/"+list2[2].image+".png"}/>,
-    //         <h3>title:{list2[2].title}</h3>,
-    //         <h3>content:{list2[2].content}</h3>
-    //     )
-    // }
+
 
     const getbestPost = async () => {
         await axios.get("http://localhost:8080/bestPost")
@@ -68,25 +43,13 @@ function MypageCard() {
                     "image":data.data.key1.image},{...list, "title":data.data.key2.title,
                     "content":data.data.key2.content,
                     "image":data.data.key2.image}])
-                    // setTitle(1)
-                    // const list2 = [{...list, "title":data.data.key0.title,
-                    // "content":data.data.key0.content,
-                    // "image":data.data.key0.image},{...list, "title":data.data.key1.title,
-                    // "content":data.data.key1.content,
-                    // "image":data.data.key1.image},{...list, "title":data.data.key2.title,
-                    // "content":data.data.key2.content,
-                    // "image":data.data.key2.image}]
-                    // disList(list2)
+                    
 
 
                 }
             )
     };
-    // const handleButton = (e) => {
-    //     setList([...list, title])
-    //     setList([...list, content])
-    //     setList([...list, image])
-    // }
+    
 
     useEffect(() => {
         // console.log()
@@ -94,44 +57,54 @@ function MypageCard() {
         // alert(list[0].title) 
         console.log(list);
         console.log(list[0].title);
-        // console.log(list[1].title);
-        // console.log(list[2].title);
+        
         
     }, [setList]);
 
     
     return (
+        
+        <div class="card-group">
         <div>
-            <h2>상위3개 test용</h2>
-            {/* <Test test={title[0]}
-            <Test test={title[1]}
-            <Test test={title[2]} */}
-            <div>
-            <img key="1" style={{
-                height: -100,
-                width: 500
+            <h2>상위 게시물</h2>
+            
+            <div class="card" style={{float:'left'}}>
+            <img key="1" class="card-img-top" style={{
+                height: 200,
+                width: 300
             }} src={"/static/image/"+list[0].image+".png"}/>
-            <h3>title:{list[0].title}</h3>
-            <h3>content:{list[0].content}</h3>
-            
-            <img key="2" style={{ 
-                height: -100,
-                width: 500
+            <div class="card-body">
+            <h5 class="card-title">title:{list[0].title}</h5>
+            <p class="card-text">content:{list[0].content}</p>
+            </div>
+            </div>
+
+            <div class="card" style={{float:'left'}}>
+            <img key="2" class="card-img-top" style={{ 
+                height: 200,
+                width: 300
             }} src={"/static/image/"+list[1].image+".png"}/>
-            <h3>title:{list[1].title}</h3>
-            <h3>content:{list[1].content}</h3>
-            
-            <img key="3" style={{ 
-                height: -100,
-                width: 500
+            <div class="card-body">
+            <h5 class="card-title">title:{list[1].title}</h5>
+            <p class="card-text">content:{list[1].content}</p>
+            </div>
+            </div>
+
+            <div class="card">
+            <img key="3" class="card-img-top" style={{ 
+                height: 200,
+                width: 300
             }} src={"/static/image/"+list[2].image+".png"}/>
-            <h3>title:{list[2].title}</h3> 
-            <h3>content:{list[2].content}</h3>
+            <div class="card-body">
+            <h5 class="card-title">title:{list[2].title}</h5> 
+            <p class="card-text">content:{list[2].content}</p>
+            </div>
+            </div>
             </div>
         {/* {disList} */}
         </div>
         
-
+        
     )
 }
 export default MypageCard;

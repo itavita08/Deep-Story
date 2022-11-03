@@ -44,7 +44,9 @@ function SideNavigation () {
     // added styles
     const styles = {
       sideBarHeight: {
-        height: "100vh"
+        height: "100vh",
+        float: "left",
+        margin: "10px"
       },
       menuIcon: {
         float: "right",
