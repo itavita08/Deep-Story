@@ -16,7 +16,8 @@ public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 
 	List<PostEntity> findAllByAccountId(AccountEntity account); 
 	
-	
+	@Query("select p.accountId from PostEntity p where p.postId = :postId")
+	Optional<AccountEntity> findAccountIdByPostId(int postId);
 }
 
 

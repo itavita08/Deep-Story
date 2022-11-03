@@ -57,6 +57,16 @@ public class PostService {
 		}
 		return null;
 	}
+
+	@Transactional
+	public AccountDTO getAccount(int postId) {
+		Optional<AccountEntity> account = postRepository.findAccountIdByPostId(postId);
+		AccountDTO accountDTO = AccountDTO.toDTO(account.get());
+		if(accountDTO != null) {
+			return accountDTO;
+		}
+		return null;
+	}
 	
 	@Transactional
     public Integer addImage(ImageDTO newImage) {

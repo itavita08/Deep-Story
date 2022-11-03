@@ -124,12 +124,14 @@ public class AccountController {
 		if (input != null) {
 			PostDTO postDTO = postService.getPost(input.get("postId"));
 			String imageName = postService.getImage(input.get("postId"));
+			AccountDTO accountDTO = postService.getAccount(input.get("postId"));
 
 			if (postDTO != null) {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("title", postDTO.getPostName());
 				map.put("content", postDTO.getPostContents());
 				map.put("image", imageName);
+				map.put("email", accountDTO.getAccountEmail());
 				return omapper.writeValueAsString(map);
 			}
 		}
