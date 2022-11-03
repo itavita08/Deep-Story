@@ -20,6 +20,7 @@ import io.deepstory.model.entity.AccountEntity;
 import io.deepstory.model.entity.ImageEntity;
 import io.deepstory.model.entity.LoveEntity;
 import io.deepstory.model.entity.PostEntity;
+import io.deepstory.model.entity.SecretFriendsEntity;
 import io.deepstory.model.repository.AccountRepository;
 import io.deepstory.model.repository.ImageRepository;
 import io.deepstory.model.repository.LoveRepository;
@@ -327,4 +328,29 @@ public class PostService {
 
 		return postListDTOList;
 	}
+    
+
+    
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

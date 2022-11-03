@@ -2,6 +2,7 @@ package io.deepstory.model;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AccountService {
 
-	private final AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
+	
 	private final PasswordEncoder passwordEncoder;
 
 	// 회원가입 

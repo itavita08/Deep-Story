@@ -27,12 +27,15 @@ import io.deepstory.jwt.TokenDecoding;
 import io.deepstory.jwt.TokenResponse;
 import io.deepstory.model.AccountService;
 import io.deepstory.model.PostService;
+import io.deepstory.model.SecretService;
 import io.deepstory.model.dto.AccountDTO;
 import io.deepstory.model.dto.ImageDTO;
 import io.deepstory.model.dto.LoginRequestDTO;
 import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
 import io.deepstory.model.dto.PostListDTO;
+import io.deepstory.model.dto.SecretFriendAccountDTO;
+import io.deepstory.model.dto.SecretPostListDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -41,283 +44,352 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Controller {
 
-	private final AccountService accountService;
-    private final JwtProvider jwtProvider;
-    
+	private final JwtProvider jwtProvider;
+	private final TokenDecoding tokenDecoding;
+
 	@Autowired
 	private PostService postService;
-	
-	private final TokenDecoding tokenDecoding;
-	
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private SecretService secretService;
+
 	private ObjectMapper omapper = new ObjectMapper();
 
-    /** 토큰이 필요없는 페이지: 로그인, 회원가입  => /auth/** 로 url 지정.!!  **/
-    // 회원가입
+	/** 토큰이 필요없는 페이지: 로그인, 회원가입 => /auth/** 로 url 지정.!! **/
+	// 회원가입
 	@PostMapping("/auth/signUp")
 	public AccountDTO signUp(@RequestBody SignUpRequestDTO signUpRequest) {
 
 		return accountService.signUp(signUpRequest);
 	}
 
-	// 로그인 
+	// 로그인
 	@PostMapping("/auth/login")
 	public TokenResponse login(@RequestBody LoginRequestDTO loginRequest) throws JsonProcessingException {
-		
+
 		// 로그인 정보 확인 후 성공 시 계정 정보 들고 오기 (틀린 정보 시 서비스단에서 예외 발생)
 		AccountDTO accountResponse = accountService.login(loginRequest);
-		
+
 		// 로그인 검증 성공으로 토큰 발급 // atk, rtk 발급
 		return jwtProvider.createTokensByLogin(accountResponse);
-		
+
 	}
-	
-    
-    // 재발급 요청 용 - atk 만료되었다고 응답하면, rtk 로 요청하여  atk 재발급
-    @GetMapping("/reissue")
-    public TokenResponse reissue(
-            @AuthenticationPrincipal AccountDetails accountDetails
-    ) throws JsonProcessingException {
-    	
-        AccountDTO accountResponse = AccountDTO.toDTO(accountDetails.getAccount());
-        
-        // 클라이언트에 재발급한 atk 로 응답
-        return jwtProvider.reissueAtk(accountResponse);
-    }
-    
-    /** Board **/
-    
-    // 게시물 저장
-    @PostMapping(value="/postInsert")
-	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request){
-        
-        JsonObject obj =new JsonObject();
-    	
-    	System.out.println("----------1. 게시물 저장----------");
-    	System.out.println("1-1. react에서 받아온 data 출력");
-    	System.out.println(postImage);
-    	
-    	Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-    			
-		if(postImage.getTitle() != null) {
-			
-			PostDTO newPost = PostDTO.builder().postName(postImage.getTitle()).postContents(postImage.getContent()).accountId(subject.getAccountId()).build();
-			
+
+	// 재발급 요청 용 - atk 만료되었다고 응답하면, rtk 로 요청하여 atk 재발급
+	@GetMapping("/reissue")
+	public TokenResponse reissue(@AuthenticationPrincipal AccountDetails accountDetails)
+			throws JsonProcessingException {
+
+		AccountDTO accountResponse = AccountDTO.toDTO(accountDetails.getAccount());
+
+		// 클라이언트에 재발급한 atk 로 응답
+		return jwtProvider.reissueAtk(accountResponse);
+	}
+
+	/** Board **/
+
+	// 게시물 저장
+	@PostMapping(value = "/postInsert")
+	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request) {
+
+		JsonObject obj = new JsonObject();
+
+		System.out.println("----------1. 게시물 저장----------");
+		System.out.println("1-1. react에서 받아온 data 출력");
+		System.out.println(postImage);
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+
+		if (postImage.getTitle() != null) {
+
+			PostDTO newPost = PostDTO.builder().postName(postImage.getTitle()).postContents(postImage.getContent())
+					.accountId(subject.getAccountId()).build();
+
 			System.out.println("----------2. 저장 전 postDTO.build 출력----------");
 			System.out.println(newPost);
-			
+
 			int postId = postService.addPost(newPost);
 			System.out.println("-------------6. save 후 postId 확인------------");
 			System.out.println(postId);
-			
-			if(postId != 0) {
-			    System.out.println("-------------7. 저장 전 imageDTO.build 출력------------");
-			    ImageDTO newImage = ImageDTO.builder().imageName(postImage.getImage().get(0).get("name")).accountId(subject.getAccountId()).postId(postId).build();
-			    System.out.println(newImage);
-			    
-			    int finalPostId = postService.addImage(newImage);
-			    if(finalPostId != 0) {
-			        System.out.println("---------10. postId 반환------------");
-			        System.out.println(finalPostId);
-			        
-			        obj.addProperty("postId",finalPostId);
-			        
-			        System.out.println("---------11. react로 반환 값 확인------------");
-			        System.out.println(obj.toString());
-			        
-			        return obj.toString();
-			        
-			    } else {
-			        return null;
-			    }
+
+			if (postId != 0) {
+				System.out.println("-------------7. 저장 전 imageDTO.build 출력------------");
+				ImageDTO newImage = ImageDTO.builder().imageName(postImage.getImage().get(0).get("name"))
+						.accountId(subject.getAccountId()).postId(postId).build();
+				System.out.println(newImage);
+
+				int finalPostId = postService.addImage(newImage);
+				if (finalPostId != 0) {
+					System.out.println("---------10. postId 반환------------");
+					System.out.println(finalPostId);
+
+					obj.addProperty("postId", finalPostId);
+
+					System.out.println("---------11. react로 반환 값 확인------------");
+					System.out.println(obj.toString());
+
+					return obj.toString();
+
+				} else {
+					return null;
+				}
 			} else {
-			    return null;
+				return null;
 			}
 		} else {
 			return null;
 		}
 	}
-	
-    // 게시물 조회 후 특정 게시물 정보 반환
+
+	// 게시물 조회 후 특정 게시물 정보 반환
 	@PostMapping("/postDetail")
-	public String test02(@RequestBody Map<String,Integer> input) throws Exception {
-		
+	public String test02(@RequestBody Map<String, Integer> input) throws Exception {
+
 		System.out.println("---------12. 상세 게시물 시작------------");
 		System.out.println("12-1 상세 게시물 react 반환값 확인");
 		System.out.println(input);
 
 		PostDTO postDTO = null;
 		String imageName = "noimage";
-		
+
 		try {
-			if(input != null) {
-				postDTO = postService.getPost(input.get("postId"));				
+			if (input != null) {
+				postDTO = postService.getPost(input.get("postId"));
 				imageName = postService.getImage(input.get("postId"));
 			}
-			 	
-		} catch (Exception e){
-			System.out.println("이미지 없음.");	
+
+		} catch (Exception e) {
+			System.out.println("이미지 없음.");
 		}
-		
-		if(postDTO != null) {
-		    HashMap<String, String> map = new HashMap<String, String>();
-		    map.put("title", postDTO.getPostName());
-		    map.put("content", postDTO.getPostContents());
-		    map.put("image", imageName);
-		    
+
+		if (postDTO != null) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("title", postDTO.getPostName());
+			map.put("content", postDTO.getPostContents());
+			map.put("image", imageName);
+
 			return omapper.writeValueAsString(map);
 		}
 
 		return null;
 	}
-	
+
 	// 게시물 삭제
 	@PostMapping("/postDelete")
-	public String postDelete(@RequestBody Map<String,Integer> input) throws Exception {
-	    
-	    if(input != null) {
-	        if(postService.deletePost(input.get("postId"))) {
-	            HashMap<String, String> map = new HashMap<String, String>();
-	            map.put("result", "true");
-	            
-	            return omapper.writeValueAsString(map);
-	        }
-	        return null;
-	    }
-	    return null;
-	}
-	
-	
-	// 게시물 수정
-    @PostMapping("/postUpdate")
-    public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request){
-        
-        JsonObject obj = new JsonObject();
-        
-        Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-                
-        if(postImage.getTitle() != null) {
-            
-            int postId = postService.updatePost(postImage);
-            
-            obj.addProperty("postId",postId);
-            
-            return obj.toString();
-        }
-        return null;
-    }
-    
-    
-    // 좋아요
-    @PostMapping("/postLove")
-    public String postLove(@RequestBody Map<String,Integer> input, HttpServletRequest request) throws JsonProcessingException {
-        
-        Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-        int accountId = subject.getAccountId();
-        
-        int postId = input.get("postId");
-        
-        if(postService.addLove(accountId, postId) == true) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("result", "true");
-            return omapper.writeValueAsString(map);
-        }
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("result", "false");
-        return omapper.writeValueAsString(map);
-        
-    }
-    
-    
-    // 좋아요 순 상위 게시물
-    @GetMapping("/bestPost")
-    public String showBestPost() throws JsonProcessingException{
-        
-        HashMap<String, Map<String, String>> map = postService.showBestPost();
-        
-        System.out.println(omapper.writeValueAsString(map));
-        
-        return omapper.writeValueAsString(map);
-        
-    }
-    
+	public String postDelete(@RequestBody Map<String, Integer> input) throws Exception {
 
-    // 갤러리
-    @GetMapping("/gallery")
-    public String showGallery(HttpServletRequest request) {
-        
-        Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-        int accountId = subject.getAccountId();
-        
-        List<String> imageNameList = postService.getAllImage(accountId);
-        
-        String json = new Gson().toJson(imageNameList);
-        
-        System.out.println(json);
-        
-        return json;
-        
-    }
-	
-	
-    
-    // 프로필 정보 반환 - 마이페이지 
+		if (input != null) {
+			if (postService.deletePost(input.get("postId"))) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("result", "true");
+
+				return omapper.writeValueAsString(map);
+			}
+			return null;
+		}
+		return null;
+	}
+
+	// 게시물 수정
+	@PostMapping("/postUpdate")
+	public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request) {
+
+		JsonObject obj = new JsonObject();
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+
+		if (postImage.getTitle() != null) {
+
+			int postId = postService.updatePost(postImage);
+
+			obj.addProperty("postId", postId);
+
+			return obj.toString();
+		}
+		return null;
+	}
+
+	// 좋아요
+	@PostMapping("/postLove")
+	public String postLove(@RequestBody Map<String, Integer> input, HttpServletRequest request)
+			throws JsonProcessingException {
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+		int accountId = subject.getAccountId();
+
+		int postId = input.get("postId");
+
+		if (postService.addLove(accountId, postId) == true) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("result", "true");
+			return omapper.writeValueAsString(map);
+		}
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("result", "false");
+		return omapper.writeValueAsString(map);
+
+	}
+
+	// 좋아요 순 상위 게시물
+	@GetMapping("/bestPost")
+	public String showBestPost() throws JsonProcessingException {
+
+		HashMap<String, Map<String, String>> map = postService.showBestPost();
+
+		System.out.println(omapper.writeValueAsString(map));
+
+		return omapper.writeValueAsString(map);
+
+	}
+
+	// 갤러리
+	@GetMapping("/gallery")
+	public String showGallery(HttpServletRequest request) {
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+		int accountId = subject.getAccountId();
+
+		List<String> imageNameList = postService.getAllImage(accountId);
+
+		String json = new Gson().toJson(imageNameList);
+
+		System.out.println(json);
+
+		return json;
+
+	}
+
+	// 프로필 정보 반환 - 마이페이지
 	@GetMapping("/getProfil")
 	public Subject getProfil(HttpServletRequest request) throws Exception {
-		
+
 		System.out.println("프로필 조회");
-		
-    	Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-    	
-		
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+
 		return subject;
 
 	}
-	
-	// 해당 유저의 게시물 조회 - 마이페이지
+
+	// 해당 유저의 게시물 목록 조회 - 마이페이지
 	@GetMapping("/getPostListbyUser")
 	public ArrayList<PostListDTO> getPostListbyUser(HttpServletRequest request) throws Exception {
-		
+
 		System.out.println(" 특정 유저의 게시물 조회  ");
-		
-    	Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
-    	
-    	ArrayList<PostListDTO> postList = postService.getPostListByUser(subject.getAccountId());
-    	
-    	System.out.println(postList);
-    	
-    	return postList;
-    	
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+
+		ArrayList<PostListDTO> postList = postService.getPostListByUser(subject.getAccountId());
+
+		System.out.println(postList);
+
+		return postList;
+
 	}
-	
-	// 검색  기능 - 메인페이지
+
+	// 검색 기능 - 메인페이지
 	@PostMapping("/searchUserPost")
-	public ArrayList<PostListDTO> searchUserPost(@RequestBody Map<String, String> keyword, HttpServletRequest request) throws Exception {
-		
+	public ArrayList<PostListDTO> searchUserPost(@RequestBody Map<String, String> keyword, HttpServletRequest request)
+			throws Exception {
+
 		System.out.println(" 검색  기능 ");
-		    	
+
 		ArrayList<PostListDTO> searchResult = postService.searchUserPost(keyword.get("keyword"));
-		
+
 		System.out.println("확인 ----------------");
 		System.out.println(searchResult);
-    	
-    	return searchResult;
-    	
+
+		return searchResult;
+
 	}
-	
-	// 홈페이지의 게시물 전체 조회 
+
+	// 홈페이지의 게시물 전체 조회
 	@GetMapping("/postAll")
 	public String postAll() throws Exception {
 		System.out.println("-------post controller-----");
 		ArrayList<PostListDTO> postAll = postService.getPostAll();
 		System.out.println(postAll.get(0).toString());
+
 		return omapper.writeValueAsString(postAll);
 	}
+
+	// 비밀 친구 요청
+	@PostMapping("/secretReqeust")
+	public void secretReqeust(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
+
+		int hostId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+
+		String guestEmail = data.get("guestEmail");
+		String secretBoard = data.get("secretBoard");
+
+		secretService.secretReqeust(hostId, guestEmail, secretBoard);
+
+	}
+
+	// 비밀 친구 알람
+	@GetMapping("/secretAlarm")
+	public ArrayList<SecretFriendAccountDTO> secretAlarm(HttpServletRequest request) throws Exception {
+
+		int guestId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+
+		ArrayList<SecretFriendAccountDTO> alarmList = secretService.secretAlarm(guestId);
+
+		return alarmList;
+
+	}
+
+	// 비밀 친구 수락
+	@GetMapping("/secretAccept")
+	public void secretAccept(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
+
+		int guestId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+
+		secretService.secretAccept(guestId, data.get("friendEmail"));
+
+	}
+
+	// 마이페이지 친구 목록
+	@GetMapping("/getSecretFriends")
+	public ArrayList<SecretFriendAccountDTO> getSecretFriends(HttpServletRequest request) throws Exception {
+
+		int accountId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+
+		ArrayList<SecretFriendAccountDTO> friendAccountList = secretService.getSecretFriend(accountId);
+
+		return friendAccountList;
+
+	}
+
+	// 비밀 메인 페이지 정보 반환 - 각자 프로필 정보 (이름, 이메일)
+	@GetMapping("/getSecretProfil")
+	public HashMap<String, SecretFriendAccountDTO> getSecretProfil(@RequestBody Map<String, String> data,
+			HttpServletRequest request) throws Exception {
+
+		Subject account = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+
+		int secretFriendId = Integer.parseInt(data.get("secretFriendId"));
+		
+		HashMap<String, SecretFriendAccountDTO> profil = secretService.getSecretProfil(account, secretFriendId,
+				data.get("friendEmail"));
+
+		return profil;
+
+	}
+
+	// 비밀 메인 페이지 정보 반환 - 게시글 목록 반환
+	// 해당 유저의 게시물 조회 - 마이페이지
+	@GetMapping("/getSecretPostList")
+	public ArrayList<SecretPostListDTO> getSecretPostList(@RequestBody Map<String, String> data,
+			HttpServletRequest request) throws Exception {
+
+		ArrayList<SecretPostListDTO> secretPostList = secretService
+				.getSecretPostList(Integer.parseInt(data.get("secretFriendId")));
+
+		return secretPostList;
+
+	}
+
 	
-	
-	
-	
+
 }
-
-
-
-
