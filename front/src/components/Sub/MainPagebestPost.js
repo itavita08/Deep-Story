@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react';
+// import test from './Test';
 
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
@@ -13,6 +14,14 @@ function MypageCard() {
     const [content, setContent] = useState("");
     const [image, setImage] = useState("");
     const [list, setList] = useState([{
+        "title": "",
+        "content": "",
+        "image": ""
+    },{
+        "title": "",
+        "content": "",
+        "image": ""
+    },{
         "title": "",
         "content": "",
         "image": ""
@@ -88,32 +97,35 @@ function MypageCard() {
         // console.log(list[1].title);
         // console.log(list[2].title);
         
-    }, []);
+    }, [setList]);
 
     
     return (
         <div>
             <h2>상위3개 test용</h2>
+            {/* <Test test={title[0]}
+            <Test test={title[1]}
+            <Test test={title[2]} */}
             <div>
-            <img key={list[0].image} style={{
+            <img key="1" style={{
                 height: -100,
                 width: 500
             }} src={"/static/image/"+list[0].image+".png"}/>
             <h3>title:{list[0].title}</h3>
             <h3>content:{list[0].content}</h3>
             
-            <img key={list[1].image} style={{ 
+            <img key="2" style={{ 
                 height: -100,
                 width: 500
             }} src={"/static/image/"+list[1].image+".png"}/>
             <h3>title:{list[1].title}</h3>
             <h3>content:{list[1].content}</h3>
             
-            <img key={list[2].image} style={{
+            <img key="3" style={{ 
                 height: -100,
                 width: 500
             }} src={"/static/image/"+list[2].image+".png"}/>
-            <h3>title:{list[2].title}</h3>
+            <h3>title:{list[2].title}</h3> 
             <h3>content:{list[2].content}</h3>
             </div>
         {/* {disList} */}
