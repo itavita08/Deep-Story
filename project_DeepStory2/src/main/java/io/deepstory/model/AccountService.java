@@ -1,5 +1,7 @@
 package io.deepstory.model;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,6 +68,22 @@ public class AccountService {
 
      // 비밀 번호 제외하고 반환
         return AccountDTO.toDTO(account);
+    }
+
+    
+    public List<Integer> getGender() {
+        
+        List<Integer> countGender = accountRepository.getCountGender();
+        System.out.println(countGender);
+        
+        return countGender;
+    }
+
+    public int getTotalUser() {
+        
+        int totalUser = accountRepository.getTotalUser();
+        
+        return totalUser;
     }
 }
 

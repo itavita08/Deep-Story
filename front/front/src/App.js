@@ -44,6 +44,10 @@ function App(props) {
         <Link to="/SendText">테스트</Link>
         <p/>
         <Link to="/Logout">로그아웃</Link>
+        <p/>
+        <Link to="/pieChart">파이차트</Link>
+        <p/>
+        <Link to="/totalChart">총합차트</Link>
 
       </div>
 		</div>

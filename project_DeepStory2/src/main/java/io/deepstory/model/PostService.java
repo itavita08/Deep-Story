@@ -187,6 +187,15 @@ public class PostService {
         return imageNameList;
         
     }
+
+
+    public int getTotalPost() {
+        
+        int totalPost = postRepository.getTotalPost();
+        
+        return totalPost;
+        
+    }
 }
 
 

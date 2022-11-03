@@ -1,5 +1,6 @@
 package io.deepstory.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,5 +234,34 @@ public class AccountController {
         
     }
 
+    
+    // 성별 파이차트
+    @GetMapping("/getGender")
+    public String getGender() {
+        
+        List<Integer> countGender = accountService.getGender();
+        String json = new Gson().toJson(countGender);
+        
+        System.out.println(json);
+        
+        return json;
+    }
+    
+    // Total 차트
+    @GetMapping("/getTotal")
+    public String getTotal() {
+        
+        int totalPost = postService.getTotalPost();
+        int totalUser = accountService.getTotalUser();
+        
+        List<Integer> totalList = new ArrayList<Integer>();
+        
+        totalList.add(totalPost);
+        totalList.add(totalUser);
+        
+        String json = new Gson().toJson(totalList);
+        
+        return json;
+    }
 
 }

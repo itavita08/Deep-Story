@@ -10,6 +10,8 @@ import SignComponets from './components/Account/SignComponents';
 import LogoutComponent from './components/Account/LogoutComponet';
 import PostCreateComponent from './components/Board/PostCreateComponent';
 import Update from './components/Board/Update';
+import GenderPieChart from './components/Chart/GenderPieChart';
+import Total from './components/Chart/Total';
 
 
 import axios from "axios";
@@ -41,6 +43,8 @@ root.render(
             <Route path="/Logout" element={<LogoutComponent />} /> 
             <Route path="/detail" element={<Detail />} />
             <Route path="/update" element={<Update />} />
+            <Route path="/pieChart" element={<GenderPieChart />} />
+            <Route path="/totalChart" element={<Total />} />
           </Routes>
 
       </BrowserRouter>

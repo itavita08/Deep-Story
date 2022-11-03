@@ -16,4 +16,6 @@ public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 
 //    @Query("select p.postId from postEntity p")
 //    List<Integer> findAccount();
+    @Query("select count(p.postId) from PostEntity p")
+    int getTotalPost();
 }
