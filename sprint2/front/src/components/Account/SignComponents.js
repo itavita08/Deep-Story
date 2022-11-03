@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticationService from '../../service/AuthenticationService';
-
-
+import { useNavigate } from 'react-router-dom';
 
 export default function SignComponets(props) {
 
@@ -20,6 +19,8 @@ export default function SignComponets(props) {
         });
     };
 
+    const navigate = useNavigate();
+
     const signClicked = ()  => {
 
         console.log(state.accountEmail)
@@ -29,6 +30,9 @@ export default function SignComponets(props) {
             console.log("회원 가입 성공 반환 값 확인")
             console.log(response)
             console.log(response.data.accountEmail)
+            alert("회원가입에 성공하셨습니다.")
+            navigate('/');
+
         }).catch( () =>{
 
             alert("인증에 실패하였습니다 다시 시도해 주세요.")

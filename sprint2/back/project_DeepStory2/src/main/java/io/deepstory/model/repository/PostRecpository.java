@@ -12,5 +12,18 @@ import io.deepstory.model.entity.PostEntity;
 public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 
 	List<PostEntity> findAllByAccountId(AccountEntity accountId);
+	
+	List<PostEntity> findByPostNameIgnoreCaseContaining(String keyword);
+	
+	List<PostEntity> findByPostContentsIgnoreCaseContaining(String keyword);
+	
+
+	
+
+	
+	
+	
+	
+	
 
 }

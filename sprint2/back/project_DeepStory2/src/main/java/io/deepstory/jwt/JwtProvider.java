@@ -43,12 +43,10 @@ public class JwtProvider {
 	@Value("${spring.jwt.issuer}")
 	private String issuer;
 	
-	
 
 	@PostConstruct
 	protected void init() {
 		
-		// secretkey 를 미리 인코딩 해줌.
 		key = Base64.getEncoder().encodeToString(key.getBytes());
 		
 		System.out.println(key);
@@ -68,7 +66,6 @@ public class JwtProvider {
 		String atk = createToken(atkSubject, atkLive);
         String rtk = createToken(rtkSubject, rtkLive);
 
-        // 이메일, rtk 를 db 에 저장.
         redisDao.setValues(accountResponse.getAccountEmail(), rtk, Duration.ofMillis(rtkLive));
 
 		return new TokenResponse(atk, rtk);
@@ -78,18 +75,18 @@ public class JwtProvider {
 	private String createToken(Subject subject, Long tokenLive) throws JsonProcessingException {
 
 		// 발행 유저 정보
-		String subjectStr = objectMapper.writeValueAsString(subject); //subject -> json 문자열 형태로 변환
-		Claims claims = Jwts.claims().setSubject(subjectStr); // payload 부분에 들어갈 정보 조각들
+		String subjectStr = objectMapper.writeValueAsString(subject);
+		Claims claims = Jwts.claims().setSubject(subjectStr); 
 
 		// 발행 시간, 유효 시간
 		long now = (new Date()).getTime();
-		Date accessTokenExpiresIn = new Date(now + tokenLive); // atk, rtk
+		Date accessTokenExpiresIn = new Date(now + tokenLive); 
 
 		System.out.println("만료 시간 " + accessTokenExpiresIn); // 300000(1000 = 1s) 즉, 5분으로 설정
 		
 		// 해싱 알고리즘과 키
 		return Jwts.builder()
-				.setIssuer(issuer) // 토큰 발급자 지정
+				.setIssuer(issuer) 
 				.setClaims(claims)
 				.setIssuedAt(new Date(now)) //생성일 설정
 				.setExpiration(accessTokenExpiresIn) //만료일 설정
@@ -105,10 +102,8 @@ public class JwtProvider {
     }
     
     // atk 재발급
-    // 필터 단계에서 검증된 RTK에서 꺼낸 유저 email이 Redis 인메모리에 존재하는지 확인 후, ATK 재발급을 진행
     public TokenResponse reissueAtk(AccountDTO accountResponse) throws JsonProcessingException {
         
-    	// 이메일로 rtk 꺼내기.
     	String rtkInRedis = redisDao.getValues(accountResponse.getAccountEmail());
         
     	System.out.println("rtkInRedis 확인 ------------------");
@@ -120,7 +115,6 @@ public class JwtProvider {
         Subject atkSubject = Subject.atk(accountResponse.getAccountId(), accountResponse.getAccountEmail(),
 				accountResponse.getAccountName(), accountResponse.getAccountPassword(), accountResponse.getAccountGender(), accountResponse.getAccountDate(),accountResponse.getAccountType());
 		
-        // atk 재발급 진행
         String atk = createToken(atkSubject, atkLive);
         
         return new TokenResponse(atk, null);

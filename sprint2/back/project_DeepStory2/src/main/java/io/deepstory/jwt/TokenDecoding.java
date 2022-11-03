@@ -20,16 +20,12 @@ public class TokenDecoding {
 
 				Subject subject = jwtProvider.getSubject(atk);
 
-//				int accountId = subject.getAccountId();
-
 				return subject;
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
-
-		
 
 		return null;
 

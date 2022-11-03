@@ -22,11 +22,18 @@ import PostCreateComponent from './components/Board/PostCreateComponent';
 import DetailComponent from './components/Board/Detail'
 import MypageComponent from './components/Sub/MypageComponent';
 import UpdateProfilComponent from './components/Sub/UpdateProfilComponent';
+import SearchResultLoginComponent from './components/Sub/SearchResultLoginComponent';
+import SearchResultLogoutComponent from './components/Sub/SearchResultLogoutComponent';
+import GetGelleryComponent from './components/Gellery/GetGelleryComponent';
+import GelleryResultComponent from './components/Gellery/GelleryResultComponent';
+import UpdateComponent from './components/Board/UpdateComponent'
+import PostAllLogin from './components/Board/PostAllLogin';
+import PostAllLogout from './components/Board/PostAllLogout';
+import PostAllViewLogin from './components/Board/PostAllViewLogin';
+import PostAllViewLogout from './components/Board/PostAllViewLogout';
+
 import store from './store';
 import { CookiesProvider } from 'react-cookie';
-
-
-
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -60,6 +67,15 @@ root.render(
             <Route path="/detail" exact element={<DetailComponent />} />  
             <Route path="/mypage" exact element={<MypageComponent />} />  
             <Route path="/updateProfil" exact element={<UpdateProfilComponent />} />  
+            <Route path="/searchResultLogin" exact element={<SearchResultLoginComponent />} />  
+            <Route path="/searchResultLogout" exact element={<SearchResultLogoutComponent />} />  
+            <Route path="/getGellery" exact element={<GetGelleryComponent />} />  
+            <Route path="/gelleryResult" exact element={<GelleryResultComponent />} />  
+            <Route path="/updatePost" exact element={<UpdateComponent />} />
+            <Route path='/postAllLogin' element={<PostAllLogin/>}/>
+            <Route path='/postAllLogout' element={<PostAllLogout/>}/>
+            <Route path='/postallviewLogin' element={<PostAllViewLogin/>}/>
+            <Route path='/postallviewLogout' element={<PostAllViewLogout/>}/>
             
           </Routes>
         </BrowserRouter>

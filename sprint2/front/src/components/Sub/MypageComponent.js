@@ -40,22 +40,19 @@ function MypageComponent(props) {
           )
         };
 
+
     const getPostList = async() => {
       await axios.get("http://localhost:8080/getPostListbyUser")
       .then(
         response => {
            console.log(response.data);
           // console.log(response.data.length);
-
           setPostCount(response.data.length);
           setPostList(response.data)
-        
         }
         )
         }
       
-    
-
     useEffect(() => {
         getProfil();
         getPostList();

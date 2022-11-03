@@ -55,10 +55,6 @@ function SideNavigation () {
       setCollapsed(!collapsed);
     };
 
-
-
-
-
   return (
 
     <div>
@@ -75,7 +71,7 @@ function SideNavigation () {
         <Menu iconShape="square">
   
         <SubMenu title="Home" icon={<AiFillHome />}>
-          <MenuItem icon={<AiFillAppstore />}>View All</MenuItem>
+          <MenuItem icon={<AiFillAppstore />}><Link to = "/postAllLogin">View All</Link></MenuItem>
         </SubMenu>
   
   
@@ -86,7 +82,8 @@ function SideNavigation () {
            <MenuItem icon={<AiOutlineForm />} ><Link to="/postCreate">Create</Link></MenuItem> 
 
             
-            <MenuItem icon={<AiFillPicture />}><Link to="/">Gellery</Link></MenuItem>
+            <MenuItem icon={<AiFillPicture />}><Link to="/getGellery">Gellery</Link></MenuItem>
+            
             <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
             <MenuItem icon={<AiFillLock />}><Link to="/">Secret</Link></MenuItem>
 
