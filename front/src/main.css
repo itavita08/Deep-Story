@@ -37,3 +37,10 @@
 .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
   min-height: 500px;
 }
+.board_form {
+  position: relative;
+  float: right;
+  left: 18%;
+  bottom: 50%;
+  size: 20%;
+}

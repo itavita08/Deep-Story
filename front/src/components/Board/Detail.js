@@ -3,7 +3,8 @@ import React, { useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
+import LoginHeader from '../Header/LoginHeader'
 function Detail(){
   const location = useLocation();
   const [title, setTitle] = useState("");
@@ -74,7 +75,10 @@ function Detail(){
   }; 
 
   return (
-    
+    <div className='Mains'>
+        
+      <LoginHeader></LoginHeader>     
+      <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
     <div>
       <div>
         <h2>좋아요
@@ -85,13 +89,15 @@ function Detail(){
           </h2> 
       </div>
       <h1>게시물 상세 페이지</h1>
-      <h3> title : {title}</h3>
-      <div dangerouslySetInnerHTML={{ __html: contents }} />
       <img key={image} style={{
                 height: -100,
                 width: 500
             }} src={"/static/image/"+image+".png"}/><br/>
+      <h3> title : {title}</h3>
+      <div dangerouslySetInnerHTML={{ __html: contents }} />
+      
       <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
+    </div>
     </div>
   ) 
 }

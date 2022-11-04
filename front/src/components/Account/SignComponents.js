@@ -40,8 +40,11 @@ export default function SignComponets(props) {
                 // navigate('./login')
                 window.location.replace('./login');
 
-            }).catch(() => {
+            }).catch((error) => {
 
+                console.log(error.response)
+
+                
                 alert("인증에 실패하였습니다 다시 시도해 주세요.")
                 // this.setState({showSuccessMessage:false})
                 // this.setState({hasLoginFailed:true})
@@ -111,14 +114,23 @@ export default function SignComponets(props) {
                         </div>
                         <div className="form-group mt-3">
                             <label>Gender</label>
-                            <input
+                            <select type="option"
+                                    className="form-control mt-1"
+                                    name="accountGender"
+                                    value={state.accountGender} 
+                                    onChange={handleChange}
+                                    >
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                            {/* <input
                                 type="text"
                                 className="form-control mt-1"
                                 name="accountGender"
                                 placeholder="Gender"
                                 value={state.accountGender}
                                 onChange={handleChange}
-                            />
+                            /> */}
+                            </select>
                         </div>
                         {/* <div className="container">
                 Email: <input type="text" name="accountEmail" value={state.accountEmail} onChange={handleChange}></input> <br></br>

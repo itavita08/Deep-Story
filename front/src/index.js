@@ -27,7 +27,7 @@ import { CookiesProvider } from 'react-cookie';
 import Detail from './components/Board/Detail';
 import Update from './components/Board/Update';
 
-
+import NotFound from './NotFound';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -62,6 +62,8 @@ root.render(
             <Route path="/mypage" exact element={<MypageComponent />} />  
             <Route path="/updateProfil" exact element={<UpdateProfilComponent />} />  
             <Route path="/update" exact element={<Update />}/>
+            <Route path="/*" element={<NotFound />} /> 
+            
             
           </Routes>
         </BrowserRouter>

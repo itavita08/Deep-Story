@@ -12,7 +12,7 @@ function videoplayer() {
             <div className='player-wrapper' style={{float:'left'}}>
                 <ReactPlayer
                     className='react-player'
-                    url={'https://www.youtube.com/watch?v=cIyAqMRVecc&ab_channel=%EC%9E%AC%EB%B2%94'}    // 플레이어 url
+                    url={'https://www.youtube.com/watch?v=D0oipIheaUM&ab_channel=NNMusic'}    // 플레이어 url
                     width='500px'         // 플레이어 크기 (가로)
                     height='300px'        // 플레이어 크기 (세로)
                     playing={true}        // 자동 재생 on

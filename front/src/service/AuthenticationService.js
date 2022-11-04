@@ -1,5 +1,7 @@
 
+import { NavigateBefore } from '@mui/icons-material';
 import axios from 'axios'
+import { Navigate } from 'react-router-dom';
 
 import { setCookie, getCookie, deleteCookie } from '../storage/Cookie';
 
@@ -39,7 +41,7 @@ class AuthenticationService {
         axios.interceptors.request.use(
             // 요청 전에 해야 할 일
             config => {
-
+                
                 const AccessToken = getCookie('AccessToken');
                 
                 console.log(AccessToken);
@@ -75,10 +77,21 @@ class AuthenticationService {
             },
 
             async (error) =>  { 
-
+                
                 const originalRequest = error.config;
                 
                 if (error.response?.status === 401 && error.response?.data.status === "UNAUTHORIZED"){
+                    if (401 === error.response.status) {
+                        // swal({
+                        //     title: "Session Expired",
+                        //     text: "로그인 세션이 만료되었습니다. 로그인페이지로",
+                        //     type: "warning",
+                        //     showCancelButton: true,
+                        //     confirmButtonColor: "#DD6B55",
+                        //     confirmButtonText: "Yes",
+                        //     closeOnConfirm: false
+                        // });
+                        // alert("1")
 
                         return axios.get('http://localhost:8080/reissue')
                             .then(response => {
@@ -88,6 +101,8 @@ class AuthenticationService {
                                     setCookie("AccessToken", response.data.atk);
 
                                     originalRequest.headers['Authorization'] = `bearer ${response.data.atk}`;
+                                    
+                                    
 
                                     return axios(originalRequest);
 
@@ -99,9 +114,9 @@ class AuthenticationService {
                                 console.log(error.response)
                             }
 
-                    
+                           
                     return Promise.reject(error);
-                
+                        }
                 });
 
             }
@@ -145,7 +160,7 @@ class AuthenticationService {
         return axios.post('http://localhost:8080/auth/signUp', {
             accountEmail,
             accountName,
-            accountPassword,
+            accountPassword,    
             accountDate,
             accountGender
         })

@@ -36,7 +36,7 @@ export default function LoginComponent(props) {
                     console.log('==================', response.data.msg)
 
                 } else if (response.data.accountEmail === null) {
-                    console.log('=======================', '비밀번호 불일치')
+                    console.log('=======================', response.data.msg)
                     // alert('비빌번호 불일치')
                 }
 
