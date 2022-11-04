@@ -35,6 +35,7 @@ import InputFriendRequest from './components/Friendrequest/InputFriendRequest';
 
 import store from './store';
 import { CookiesProvider } from 'react-cookie';
+import SecretMain from './components/Secret/SecretMainComponent';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -78,6 +79,8 @@ root.render(
             <Route path='/postallviewLogin' element={<PostAllViewLogin/>}/>
             <Route path='/postallviewLogout' element={<PostAllViewLogout/>}/>
             <Route path='/inputfriendrequest' element={<InputFriendRequest />}/>
+            <Route path='/secretMain' element={<SecretMain />}/>
+
           </Routes>
         </BrowserRouter>
 
