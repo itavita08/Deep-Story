@@ -1,5 +1,6 @@
 package io.deepstory.model.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,12 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Integer
     
     @Query("select count(a.accountId) from AccountEntity a")
     int getTotalUser();
+    
+    @Query("select year(a.accountDate) from AccountEntity a where a.accountGender = 'F'")
+    List<String> getYearF();
+    
+    @Query("select year(a.accountDate) from AccountEntity a where a.accountGender = 'M'")
+    List<String> getYearM();
+
+//    List<String> findAccountDate();
 }

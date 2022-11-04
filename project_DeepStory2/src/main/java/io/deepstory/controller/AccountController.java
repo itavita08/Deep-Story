@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import io.deepstory.model.dto.LoginRequestDTO;
 import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
-import io.deepstory.model.entity.PostEntity;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -68,6 +66,8 @@ public class AccountController {
 		
 		// 로그인 정보 확인 후 성공 시 계정 정보 들고 오기 (틀린 정보 시 서비스단에서 예외 발생)
 		AccountDTO accountResponse = accountService.login(loginRequest);
+		
+		accountService.userJoinTime();
 		
 		System.out.println(loginRequest.getAccountEmail());
 		System.out.println(loginRequest.getAccountPassword());
@@ -247,6 +247,7 @@ public class AccountController {
         return json;
     }
     
+    
     // Total 차트
     @GetMapping("/getTotal")
     public String getTotal() {
@@ -263,5 +264,44 @@ public class AccountController {
         
         return json;
     }
+    
+    
+    // 나이 차트
+    @GetMapping("/getAge")
+    public String getAge() throws JsonProcessingException{
+        
+        Map<String,List<Integer>> age = accountService.getAge();
+        
+        int[] cntM = new int[6];
+        int[] cntF = new int[6];
+        
+        
+        for(int i:age.get("남자")) {
+            cntM[(i/10)-1]++;
+        }
+        
+        for(int i:age.get("여자")) {
+            cntF[(i/10)-1]++;
+        }
+        
+        HashMap<String, int[]> map = new HashMap<String, int[]>();
+        map.put("M", cntM);
+        map.put("F", cntF);
+
+        
+        return omapper.writeValueAsString(map);
+    }
+    
+    
+    // 로그인 시간
+    @GetMapping("/getLoginTime")
+    public String getLoginTime() throws JsonProcessingException {
+        List<List<Integer>> time = accountService.getTime();
+        
+        String json = new Gson().toJson(time);
+        
+        return json;
+    }
+    
 
 }
