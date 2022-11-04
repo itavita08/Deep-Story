@@ -37,10 +37,8 @@ export default function LoginComponent(props) {
 
                 } else if (response.data.accountEmail === null) {
                     console.log('=======================', response.data.msg)
-                    // alert('비빌번호 불일치')
                 }
 
-                //document.location.href = '/MainPageLogin'
                 navigate('/MainPageLogin');
 
                 setState({ hasLoginFailed: true })

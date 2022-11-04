@@ -26,7 +26,12 @@ import store from './store';
 import { CookiesProvider } from 'react-cookie';
 import Detail from './components/Board/Detail';
 import Update from './components/Board/Update';
-
+import PostAllLogin from './components/Board/PostAllLogin';
+import PostAllLogout from './components/Board/PostAllLogout';
+import PostAllViewLogin from './components/Board/PostAllViewLogin';
+import PostAllViewLogout from './components/Board/PostAllViewLogout';
+import InputFriendRequest from './components/Friendrequest/InputFriendRequest';
+import SecretMain from './components/Secret/SecretMainComponent';
 import NotFound from './NotFound';
 
 
@@ -62,6 +67,11 @@ root.render(
             <Route path="/mypage" exact element={<MypageComponent />} />  
             <Route path="/updateProfil" exact element={<UpdateProfilComponent />} />  
             <Route path="/update" exact element={<Update />}/>
+            <Route path='/postallviewLogin' element={<PostAllViewLogin/>}/>
+            <Route path='/postallviewLogout' element={<PostAllViewLogout/>}/>
+            <Route path='/inputfriendrequest' element={<InputFriendRequest />}/>
+            <Route path='/secretMain' element={<SecretMain />}/>
+            
             <Route path="/*" element={<NotFound />} /> 
             
             

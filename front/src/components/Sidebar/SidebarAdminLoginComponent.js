@@ -89,9 +89,9 @@ function SideNavigation () {
 
             
             <MenuItem icon={<AiFillPicture />}><Link to="/">Gellery</Link></MenuItem>
+            
             <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
-            <MenuItem icon={<AiFillLock />}><Link to="/">Secret</Link></MenuItem>
-
+            <MenuItem icon={<AiFillLock />}><Link to="/secretMain">Secret</Link></MenuItem>
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
