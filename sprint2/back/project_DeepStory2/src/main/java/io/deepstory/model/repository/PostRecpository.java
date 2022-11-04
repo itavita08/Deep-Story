@@ -3,6 +3,7 @@ package io.deepstory.model.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import io.deepstory.model.entity.AccountEntity;
@@ -17,7 +18,9 @@ public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 	
 	List<PostEntity> findByPostContentsIgnoreCaseContaining(String keyword);
 	
-
+    @Query("select count(p.postId) from PostEntity p")
+    int getTotalPost();
+	
 	
 
 	

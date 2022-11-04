@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import io.deepstory.jwt.Subject;
 import io.deepstory.model.dto.SecretFriendAccountDTO;
+import io.deepstory.model.dto.SecretFriendListDTO;
 import io.deepstory.model.dto.SecretPostListDTO;
 import io.deepstory.model.entity.AccountEntity;
 import io.deepstory.model.entity.SecretFriendsEntity;
@@ -38,23 +39,19 @@ public class SecretService {
 	private SecretImageRepository secretImageRepository;
 
 	// 비밀 친구 요청
-	@Transactional
-	public void secretReqeust(int hostId, String guestEmail, String secretBoard) throws Exception {
-
-		AccountEntity host = accountRepository.findById(hostId).get();
-
-		AccountEntity guest = accountRepository.findByAccountEmail(guestEmail).get();
-
-		SecretFriendsEntity secretFriends = SecretFriendsEntity.builder().secretBoard(secretBoard).state("신청상태")
-				.hostId(host).guestId(guest).build();
-
-		SecretFriendsEntity secretResult = secretFreindsRecpository.save(secretFriends);
-
-		if (secretResult == null) {
-
-			System.out.println("친구 추가에 실패하였습니다.");
+		@Transactional
+		public boolean secretReqeust(int hostId, String guestEmail, String secretBoard) throws Exception {
+			AccountEntity host = accountRepository.findById(hostId).get();
+			AccountEntity guest = accountRepository.findByAccountEmail(guestEmail).get();
+			SecretFriendsEntity secretFriends = SecretFriendsEntity.builder().secretBoard(secretBoard).state("신청상태")
+					.hostId(host).guestId(guest).build();
+			SecretFriendsEntity secretResult = secretFreindsRecpository.save(secretFriends);
+			if (secretResult == null) {
+				System.out.println("친구 추가에 실패하였습니다.");
+				return true;
+			}
+			return false;
 		}
-	}
 
 	// 비밀 친구 알람
 	@Transactional
@@ -80,56 +77,51 @@ public class SecretService {
 	}
 
 	// 비밀 친구 수락
-	@Transactional
-	public void secretAccept(int guestId, String hostEmail) throws Exception {
-
-		System.out.println(hostEmail);
-
-		AccountEntity host = accountRepository.findByAccountEmail(hostEmail).get();
-		AccountEntity guest = accountRepository.findById(guestId).get();
-
-		secretFreindsRecpository.updateStateByHostIdAndGuestId(host, guest);
-
-	}
-
-	// 마이페이지 친구 목록
-	@Transactional
-	public ArrayList<SecretFriendAccountDTO> getSecretFriend(int accountId) throws Exception {
-
-		AccountEntity account = accountRepository.findById(accountId).get();
-		List<SecretFriendsEntity> guestFriend = null;
-		List<SecretFriendsEntity> hostFriend = null;
-
-		try {
-			System.out.println(accountId);
-			guestFriend = secretFreindsRecpository.findGuestId(account);
-			System.out.println(guestFriend.get(0).getHostId().getAccountEmail());
-
-		} catch (Exception e) {
-			System.out.println("친구 없음.");
+		@Transactional
+		public boolean secretAccept(int guestId, String hostEmail) throws Exception {
+			System.out.println(hostEmail);
+			AccountEntity host = accountRepository.findByAccountEmail(hostEmail).get();
+			AccountEntity guest = accountRepository.findById(guestId).get();
+			secretFreindsRecpository.updateStateByHostIdAndGuestId(host, guest);
+			return true;
 		}
 
-		try {
-			hostFriend = secretFreindsRecpository.findHostId(account);
-			System.out.println(hostFriend);
-
-		} catch (Exception e) {
-			System.out.println("친구 없음.");
-
+		// 마이페이지 친구 목록
+		@Transactional
+		public ArrayList<SecretFriendListDTO> getSecretFriend(int accountId) throws Exception {
+			
+			AccountEntity account = accountRepository.findById(accountId).get();
+			List<SecretFriendsEntity> guestFriend = null;
+			List<SecretFriendsEntity> hostFriend = null;
+			
+			try {
+				System.out.println(accountId);
+				guestFriend = secretFreindsRecpository.findGuestId(account);
+				System.out.println(guestFriend.get(0).getHostId().getAccountEmail());
+			} catch (Exception e) {
+				System.out.println("친구 없음.");
+			}
+			
+			try {
+				hostFriend = secretFreindsRecpository.findHostId(account);
+				System.out.println(hostFriend);
+			} catch (Exception e) {
+				System.out.println("친구 없음.");
+			}
+			
+			ArrayList<SecretFriendListDTO> friendAccountList = new ArrayList<SecretFriendListDTO>();
+			ArrayList<String> boardNames = new ArrayList<String>();
+			guestFriend.stream().forEach(s -> friendAccountList.add(new SecretFriendListDTO(s.getSecretFriendId(),
+					s.getHostId().getAccountId(), s.getHostId().getAccountEmail(), s.getHostId().getAccountName(), s.getSecretBoard())));
+			guestFriend.stream().forEach(a -> boardNames.add(a.getSecretBoard()));
+			hostFriend.stream().forEach(s -> friendAccountList.add(new SecretFriendListDTO(s.getSecretFriendId(),
+					s.getHostId().getAccountId(), s.getHostId().getAccountEmail(), s.getHostId().getAccountName(), s.getSecretBoard())));
+			
+			System.out.println(friendAccountList);
+			return friendAccountList;
 		}
-
-		ArrayList<SecretFriendAccountDTO> friendAccountList = new ArrayList<SecretFriendAccountDTO>();
-
-		guestFriend.stream().forEach(s -> friendAccountList.add(new SecretFriendAccountDTO(s.getSecretFriendId(),
-				s.getHostId().getAccountId(), s.getHostId().getAccountEmail(), s.getHostId().getAccountName())));
-		hostFriend.stream().forEach(s -> friendAccountList.add(new SecretFriendAccountDTO(s.getSecretFriendId(),
-				s.getHostId().getAccountId(), s.getHostId().getAccountEmail(), s.getHostId().getAccountName())));
-
-		System.out.println(friendAccountList);
-
-		return friendAccountList;
-
-	}
+	
+	
 
 	// 비밀 메인 페이지 정보 반환 - 각자 프로필 정보 (이름, 이메일)
 	@Transactional
@@ -152,6 +144,7 @@ public class SecretService {
 		return profil;
 
 	}
+	
 
 	// 비밀 메인 페이지 정보 반환 - 게시글 목록 반환
 	@Transactional

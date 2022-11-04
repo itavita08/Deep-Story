@@ -35,6 +35,7 @@ import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
 import io.deepstory.model.dto.PostListDTO;
 import io.deepstory.model.dto.SecretFriendAccountDTO;
+import io.deepstory.model.dto.SecretFriendListDTO;
 import io.deepstory.model.dto.SecretPostListDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,6 @@ public class Controller {
 
 	private ObjectMapper omapper = new ObjectMapper();
 
-	/** 토큰이 필요없는 페이지: 로그인, 회원가입 => /auth/** 로 url 지정.!! **/
 	// 회원가입
 	@PostMapping("/auth/signUp")
 	public AccountDTO signUp(@RequestBody SignUpRequestDTO signUpRequest) {
@@ -68,10 +68,10 @@ public class Controller {
 	@PostMapping("/auth/login")
 	public TokenResponse login(@RequestBody LoginRequestDTO loginRequest) throws JsonProcessingException {
 
-		// 로그인 정보 확인 후 성공 시 계정 정보 들고 오기 (틀린 정보 시 서비스단에서 예외 발생)
 		AccountDTO accountResponse = accountService.login(loginRequest);
 
-		// 로그인 검증 성공으로 토큰 발급 // atk, rtk 발급
+		accountService.userJoinTime();
+
 		return jwtProvider.createTokensByLogin(accountResponse);
 
 	}
@@ -83,7 +83,6 @@ public class Controller {
 
 		AccountDTO accountResponse = AccountDTO.toDTO(accountDetails.getAccount());
 
-		// 클라이언트에 재발급한 atk 로 응답
 		return jwtProvider.reissueAtk(accountResponse);
 	}
 
@@ -91,7 +90,7 @@ public class Controller {
 
 	// 게시물 저장
 	@PostMapping(value = "/postInsert")
-	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request) {
+	public String test01(@RequestBody PostImageDTO postImage, HttpServletRequest request) throws Exception {
 
 		JsonObject obj = new JsonObject();
 
@@ -193,7 +192,7 @@ public class Controller {
 
 	// 게시물 수정
 	@PostMapping("/postUpdate")
-	public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request) {
+	public String postUpdate(@RequestBody PostImageDTO postImage, HttpServletRequest request) throws Exception {
 
 		JsonObject obj = new JsonObject();
 
@@ -212,8 +211,7 @@ public class Controller {
 
 	// 좋아요
 	@PostMapping("/postLove")
-	public String postLove(@RequestBody Map<String, Integer> input, HttpServletRequest request)
-			throws JsonProcessingException {
+	public String postLove(@RequestBody Map<String, Integer> input, HttpServletRequest request) throws Exception {
 
 		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
 		int accountId = subject.getAccountId();
@@ -233,7 +231,7 @@ public class Controller {
 
 	// 좋아요 순 상위 게시물
 	@GetMapping("/bestPost")
-	public String showBestPost() throws JsonProcessingException {
+	public String showBestPost() throws Exception {
 
 		HashMap<String, Map<String, String>> map = postService.showBestPost();
 
@@ -245,7 +243,7 @@ public class Controller {
 
 	// 갤러리
 	@GetMapping("/gallery")
-	public String showGallery(HttpServletRequest request) {
+	public String showGallery(HttpServletRequest request) throws Exception {
 
 		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
 		int accountId = subject.getAccountId();
@@ -315,16 +313,21 @@ public class Controller {
 	}
 
 	// 비밀 친구 요청
+	// return boolean반환으로 수정
 	@PostMapping("/secretReqeust")
-	public void secretReqeust(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
-
-		int hostId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
-
-		String guestEmail = data.get("guestEmail");
-		String secretBoard = data.get("secretBoard");
-
-		secretService.secretReqeust(hostId, guestEmail, secretBoard);
-
+		public boolean secretReqeust(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
+			
+			int hostId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+			System.out.println("data : " + data);
+			String guestEmail = data.get("guestEmail");
+			String secretBoard = data.get("secretBoard");
+			
+			boolean result = secretService.secretReqeust(hostId, guestEmail, secretBoard);
+			
+			if (result) {
+				return true;
+			}
+			return false;
 	}
 
 	// 비밀 친구 알람
@@ -340,25 +343,31 @@ public class Controller {
 	}
 
 	// 비밀 친구 수락
-	@GetMapping("/secretAccept")
-	public void secretAccept(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
-
-		int guestId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
-
-		secretService.secretAccept(guestId, data.get("friendEmail"));
-
+	@PostMapping("/secretAccept")
+		public boolean secretAccept(@RequestBody Map<String, String> data, HttpServletRequest request) throws Exception {
+			boolean result = false;
+			int guestId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
+			System.out.println("*************비밀친구 수락 data: "+ data + guestId);
+		
+			if(data.get("answer").equals("yes") ) {
+				System.out.println("yes*****************");
+				result = secretService.secretAccept(guestId, data.get("friendEmail"));
+				if(result) {
+					return true;
+				}
+			}else {
+				// 신청 삭제  
+			}
+			return false;
 	}
 
 	// 마이페이지 친구 목록
 	@GetMapping("/getSecretFriends")
-	public ArrayList<SecretFriendAccountDTO> getSecretFriends(HttpServletRequest request) throws Exception {
-
+	public ArrayList<SecretFriendListDTO> getSecretFriends(HttpServletRequest request) throws Exception {
 		int accountId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
-
-		ArrayList<SecretFriendAccountDTO> friendAccountList = secretService.getSecretFriend(accountId);
-
-		return friendAccountList;
-
+		ArrayList<SecretFriendListDTO> friendList = secretService.getSecretFriend(accountId);
+		System.out.println("%%%%%%%%%%%%%%%% 친구 목록 : " + friendList);
+		return friendList;
 	}
 
 	// 비밀 메인 페이지 정보 반환 - 각자 프로필 정보 (이름, 이메일)
@@ -369,7 +378,7 @@ public class Controller {
 		Subject account = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
 
 		int secretFriendId = Integer.parseInt(data.get("secretFriendId"));
-		
+
 		HashMap<String, SecretFriendAccountDTO> profil = secretService.getSecretProfil(account, secretFriendId,
 				data.get("friendEmail"));
 
@@ -389,7 +398,73 @@ public class Controller {
 		return secretPostList;
 
 	}
-
 	
+    // 성별 파이차트
+    @GetMapping("/getGender")
+    public String getGender() {
+        
+        List<Integer> countGender = accountService.getGender();
+        String json = new Gson().toJson(countGender);
+        
+        System.out.println(json);
+        
+        return json;
+    }
+    
+    
+    // Total 차트
+    @GetMapping("/getTotal")
+    public String getTotal() {
+        
+        int totalPost = postService.getTotalPost();
+        int totalUser = accountService.getTotalUser();
+        
+        List<Integer> totalList = new ArrayList<Integer>();
+        
+        totalList.add(totalPost);
+        totalList.add(totalUser);
+        
+        String json = new Gson().toJson(totalList);
+        
+        return json;
+    }
+    
+    
+    // 나이 차트
+    @GetMapping("/getAge")
+    public String getAge() throws JsonProcessingException{
+        
+        Map<String,List<Integer>> age = accountService.getAge();
+        
+        int[] cntM = new int[6];
+        int[] cntF = new int[6];
+        
+        
+        for(int i:age.get("남자")) {
+            cntM[(i/10)-1]++;
+        }
+        
+        for(int i:age.get("여자")) {
+            cntF[(i/10)-1]++;
+        }
+        
+        HashMap<String, int[]> map = new HashMap<String, int[]>();
+        map.put("M", cntM);
+        map.put("F", cntF);
+
+        
+        return omapper.writeValueAsString(map);
+    }
+    
+    
+    // 로그인 시간
+    @GetMapping("/getLoginTime")
+    public String getLoginTime() throws JsonProcessingException {
+        List<List<Integer>> time = accountService.getTime();
+        
+        String json = new Gson().toJson(time);
+        
+        return json;
+    }
 
 }

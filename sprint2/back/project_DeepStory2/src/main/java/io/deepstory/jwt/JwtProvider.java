@@ -80,8 +80,11 @@ public class JwtProvider {
 
 		// 발행 시간, 유효 시간
 		long now = (new Date()).getTime();
+		
 		Date accessTokenExpiresIn = new Date(now + tokenLive); 
 
+		System.out.println("Atk 발급 시간 " + now);
+		
 		System.out.println("만료 시간 " + accessTokenExpiresIn); // 300000(1000 = 1s) 즉, 5분으로 설정
 		
 		// 해싱 알고리즘과 키
@@ -92,6 +95,10 @@ public class JwtProvider {
 				.setExpiration(accessTokenExpiresIn) //만료일 설정
 				.signWith(SignatureAlgorithm.HS256, key).compact();
 	}
+	
+	
+	
+	
 	
 	// 토큰의 payload 에 있는 유저 정보를 Subject 에 담아 확인 하기
     public Subject getSubject(String atk) throws JsonProcessingException {

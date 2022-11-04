@@ -7,7 +7,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Message {
+public class ResponseMessage {
+
+	private String statusCode;
 	
 	private HttpStatus status;
 	
