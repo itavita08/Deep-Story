@@ -1,0 +1,11 @@
+.card-group{
+
+    /* border: 5px solid #ffcc5c; */
+    display:flex; 
+    height: 400px;
+    align-items: center;
+    justify-content: left;
+    margin-left: auto;         
+    
+    
+}   
