@@ -6,20 +6,22 @@ import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import ImageLoad from "../Board/ImageloadComponent";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../main.css';
 import styled from 'styled-components';
 import { Layout, Menu } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SecretPostCreateComponent = () => {
+  const location = useLocation();
   const [blogContent, setBlogContent] = useState({
     title: '',
     content: ''
   })
   const navigate = useNavigate();
   const [secretImage, setImage] = useState([]);
-
+  const [friendId, setFriendId] = useState(location.state.friendId);
+  const [friendAccount, setFriendAccount] = useState([]);
 
   const getValue = e => {
     const name = e.currentTarget.name;
@@ -38,22 +40,23 @@ const SecretPostCreateComponent = () => {
   const _submitBoard = async(e) => {
     // e.preventDefault();
     const secretTitle = blogContent.title;
-    const secretContent = blogContent.content;
+    const secretContents = blogContent.content;
     if(secretTitle === "") {
       return alert('제목을 입력해주세요.');
-    } else if(secretContent === "") {
+    } else if(secretContents === "") {
       return alert('내용을 입력해주세요.');
     }  
     await axios.post('http://localhost:8080/secretPostInsert', {
       secretTitle,
-      secretContent,
-      secretImage
+      secretContents,
+      secretImage,
+      secretFriendId:3
     })
     .then(
       response =>{
-      console.log(response);
+      console.log(response.data);
         if(response != null){
-        navigate("/scretDetail",{
+        navigate("/secretDetail",{
         state: {
           postId : response.data.postId
         }

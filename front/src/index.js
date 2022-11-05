@@ -19,7 +19,6 @@ import MainPageLoginComponent from './components/Sub/MainPageLoginComponent';
 import LogoutComponet from './components/Account/LogoutComponet';
 import LoginComponent from './components/Account/LoginComponent';
 import PostCreateComponent from './components/Board/PostCreateComponent';
-import DetailComponent from './components/Board/Detail'
 import MypageComponent from './components/Sub/MypageComponent';
 import UpdateProfilComponent from './components/Sub/UpdateProfilComponent';
 import store from './store';
@@ -39,7 +38,7 @@ import SearchResultLogoutComponent from './components/Sub/SearchResultLogoutComp
 import GelleryResultComponent from './components/Gallery/GelleryResultComponent';
 import GetGelleryComponent from './components/Gallery/GetGelleryComponent';
 import SecretPostCreateComponent from './components/Secret/SecretPostCreateComponent';
-
+import SecretDetailComponent from './components/Secret/SecretDetailComponent';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -88,7 +87,7 @@ root.render(
             <Route path="/secretlist" element={<SecretList/>}/>
             <Route path='/secrePostCreate' element={<SecretPostCreateComponent/>}/>
             <Route path="/*" element={<NotFound />} /> 
-            
+            <Route path='/secretDetail' element={<SecretDetailComponent />}/>
             
           </Routes>
         </BrowserRouter>

@@ -12,13 +12,14 @@ const SecretDetailComponent = () => {
   const [contents, setContents] = useState("");
   const [image, setImage] = useState("");
   const [postId, setPostId] = useState(location.state.postId);
+  // const [postId, setPostId] = useState(0);
   const [accountId, setaccountId] = useState("");
   const [likes, addLikes] = useState(0);
   const navigate = useNavigate();
 
   const getPost = async() => {
     await axios.post("http://localhost:8080/secretPostDetail", {
-      postId:postId
+      secretPostId:postId
       })
       .then(
         data => {
