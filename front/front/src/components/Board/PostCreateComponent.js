@@ -61,7 +61,6 @@ function PostCreateComponent() {
     console.log(err);
   })
 };
-
      return (
       <div className='Write'>
         <div className='image'>
