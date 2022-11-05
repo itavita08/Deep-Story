@@ -21,11 +21,13 @@ import lombok.Setter;
 @NoArgsConstructor()
 @Table(name="elk_user_log")
 public class ElkUserLogEntity {
-    
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "elk_id")
     private int elkId;
-    
+
     @Column(name = "elk_login_time")
     private String elkLoginTime;
+
+
 }

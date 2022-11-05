@@ -1,5 +1,6 @@
 package io.deepstory.model.dto;
 
+import io.deepstory.model.entity.SecretFriendsEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,10 +18,13 @@ public class SecretPostDTO {
 	
 	private int secretPostId;
 	
-	private String secretPostNmae;
+	private String secretPostName;
 	
 	private String secretPostContents;
 	
 	private int secretFriendId;
+	
+	private int secretWriterId;
+
 
 }

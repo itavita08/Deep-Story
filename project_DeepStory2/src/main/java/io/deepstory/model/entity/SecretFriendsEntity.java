@@ -41,12 +41,14 @@ public class SecretFriendsEntity {
 	@Column(name = "state")
 	private String state;
 	
-	@ManyToOne(targetEntity = HostUserEntity.class)
+	@ManyToOne(targetEntity = AccountEntity.class)
 	@JoinColumn(name = "host_id")
-	private HostUserEntity hostId;
+	private AccountEntity hostId;
 	
-	@ManyToOne(targetEntity = GuestUserEntity.class,
+	@ManyToOne(targetEntity = AccountEntity.class,
 			   fetch = FetchType.LAZY)
 	@JoinColumn(name = "guest_id")
-	private GuestUserEntity guestId;
+	private AccountEntity guestId;
+	
+	
 }

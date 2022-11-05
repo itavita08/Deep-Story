@@ -7,82 +7,106 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.deepstory.model.entity.ElkUserLogEntity;
-import io.deepstory.exception.BadRequestException;
+import io.deepstory.exception.SeverErrorRequestException;
 import io.deepstory.model.dto.AccountDTO;
 import io.deepstory.model.dto.LoginRequestDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
 import io.deepstory.model.entity.AccountEntity;
+import io.deepstory.model.entity.ElkUserLogEntity;
 import io.deepstory.model.repository.AccountRepository;
 import io.deepstory.model.repository.ElkUserLogRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class AccountService {
 
-	private final AccountRepository accountRepository;
-	private final PasswordEncoder passwordEncoder;
-	private final ElkUserLogRepository elkUserLogRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-	/* 회원가입 */
+	@Autowired
+	private ElkUserLogRepository elkUserLogRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	// 회원가입
 	@Transactional
 	public AccountDTO signUp(SignUpRequestDTO signUpRequest) {
-		
-		
-		
-		// 이메일 중복 확인
-		boolean isExist = accountRepository.existsByAccountEmail(signUpRequest.getAccountEmail());
+
+		String email = signUpRequest.getAccountEmail();
+		String accountDate = signUpRequest.getAccountDate();
+
+		boolean isExist = accountRepository.existsByAccountEmail(email);
 
 		if (isExist)
-			
-			throw new BadRequestException("이미 존재하는 이메일입니다.");
 
-		// 비밀번호 암호화 !!
+			throw new SeverErrorRequestException("이미 존재하는 이메일입니다. 다시 시도해주세요.");
+
+		int at = email.indexOf("@");
+		int dot = email.indexOf(".");
+
+		if (at == -1 || dot == -1 || at > dot) {
+
+			throw new SeverErrorRequestException("이메일 양식에 맞지 않습니다. 다시 시도해주세요.");
+
+		}
+
+		try {
+			
+			Pattern pattern = Pattern.compile("(19|20)\\([-])d{2}(0[1-9]|1[012])([-])(0[1-9]|[12][0-9]|3[01])");
+
+			Matcher matcher = pattern.matcher(accountDate);
+
+			if (matcher.find() == false) {
+
+				System.out.println("에러 발생");
+
+				throw new SeverErrorRequestException("날짜 기입 양식에 맞지 않습니다. 다시 시도해주세요.");
+			}
+
+		} catch (Exception e) {
+
+			throw new SeverErrorRequestException("날짜 기입 양식에 맞지 않습니다. 다시 시도해주세요.");
+
+		}
+
 		String encodedPassword = passwordEncoder.encode(signUpRequest.getAccountPassword());
 
-		System.out.println(encodedPassword);
-		
-		AccountEntity account = AccountEntity.builder().accountEmail(signUpRequest.getAccountEmail()).accountName(signUpRequest.getAccountName()).accountPassword(encodedPassword).accountDate(signUpRequest.getAccountDate()).accountGender(signUpRequest.getAccountGender()).accountType("user").build();
-		
-		// 회원 가입 정보 DB insert
+		AccountEntity account = AccountEntity.builder().accountEmail(signUpRequest.getAccountEmail())
+				.accountName(signUpRequest.getAccountName()).accountPassword(encodedPassword)
+				.accountDate(signUpRequest.getAccountDate()).accountGender(signUpRequest.getAccountGender())
+				.accountType("user").build();
+
 		account = accountRepository.save(account);
 
-		System.out.println("회원 가입 성공");
-		// 비밀 번호 제외한 account 객체 반환
 		return AccountDTO.toDTO(account);
 	}
-	
-	/* 로그인 */
-    @Transactional
-    public AccountDTO login(LoginRequestDTO loginRequest) {
-    	
-    	// 이메일 확인
-        AccountEntity account = accountRepository
-                .findByAccountEmail(loginRequest.getAccountEmail())
-                .orElseThrow(() -> new BadRequestException("아이디 혹은 비밀번호를 확인하세요."));
 
-        // 비밀번호 확인
-        boolean matches = passwordEncoder.matches(
-                loginRequest.getAccountPassword(),
-                account.getAccountPassword());
-        
-        if (!matches) throw new BadRequestException("아이디 혹은 비밀번호를 확인하세요.");
+	// 로그인
+	@Transactional
+	public AccountDTO login(LoginRequestDTO loginRequest) {
 
-     // 비밀 번호 제외하고 반환
-        return AccountDTO.toDTO(account);
-    }
+		AccountEntity account = accountRepository.findByAccountEmail(loginRequest.getAccountEmail())
+				.orElseThrow(() -> new SeverErrorRequestException("아이디를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."));
 
-    
+		boolean matches = passwordEncoder.matches(loginRequest.getAccountPassword(), account.getAccountPassword());
+
+		if (!matches)
+			throw new SeverErrorRequestException("비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.");
+
+		return AccountDTO.toDTO(account);
+	}
+
+
     public List<Integer> getGender() {
         
         List<Integer> countGender = accountRepository.getCountGender();
@@ -156,5 +180,5 @@ public class AccountService {
         
         return list;
     }
-}
 
+}

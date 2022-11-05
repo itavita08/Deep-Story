@@ -17,9 +17,9 @@ import lombok.ToString;
 @Builder
 @ToString
 public class PostImageDTO {
+	
+	private int postId;
 
-    private int postId;
-    
     private String title;
     
     private String content;

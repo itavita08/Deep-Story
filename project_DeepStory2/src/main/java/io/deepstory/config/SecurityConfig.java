@@ -26,42 +26,32 @@ public class SecurityConfig {
 	    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 
-	/** PasswordEncoder를 Bean으로 등록 **/
+	// PasswordEncoder를 Bean으로 등록 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
-//	@Bean
-//	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-//			throws Exception {
-//		return authenticationConfiguration.getAuthenticationManager();
-//	}
 
-	/** 스프링시큐리티의 설정 HttpSecurity **/
+	// 스프링시큐리티의 설정 HttpSecurity
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		/* https://kimchanjung.github.io/programming/2020/07/02/spring-security-02/ */
-		
 		http.cors().and().csrf().disable()
 			.exceptionHandling()
-			.authenticationEntryPoint(customAuthenticationEntryPoint) // invalid한 token에 대한 예외 처리
+			.authenticationEntryPoint(customAuthenticationEntryPoint) 
 			.and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 시큐리티는 기본적으로 세션을 사용 // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             
             // 로그인, 회원가입 API 는 토큰이 없는 상태로 요청 들어오니 이 두 개 허용 해주기 !!
-			.authorizeRequests().antMatchers("/auth/**").permitAll() // 특정 URL을 설정하며, permitAll()은 antMatchers에서 설정한 URL의 접근을 인증없이 허용
-			.anyRequest().authenticated() // 모든 리소스가 인증을 해야만 접근이 허용
+			.authorizeRequests().antMatchers("/auth/**", "/postAll", "/searchUserPost").permitAll() 
+			.anyRequest().authenticated()
 			.and()
 	        .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, accountDetailsService),
-	                UsernamePasswordAuthenticationFilter.class); // customFilter (JwtAuthenticationFilter) 를 UsernamePasswordAuthenticationFilter보다 앞에 설정하여 먼저 필터링 하도록 하는 부분
+	                UsernamePasswordAuthenticationFilter.class); 
 		
-		// CORS Error 나올 시 아래 코드 주석 풀기.
 	    http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-
-		// http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		return http.build();
 	}

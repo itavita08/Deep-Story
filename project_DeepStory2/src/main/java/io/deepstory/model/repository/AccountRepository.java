@@ -1,19 +1,17 @@
 package io.deepstory.model.repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import io.deepstory.model.entity.AccountEntity;
 
 @Repository
-public interface AccountRepository extends CrudRepository<AccountEntity, Integer> {
+public interface AccountRepository extends JpaRepository<AccountEntity, Integer> {
 
-	// 중복 가입 방지 위해서 확인
     boolean existsByAccountEmail(String accountEmail);
 
     Optional<AccountEntity> findByAccountEmail(String accountEmail);
@@ -29,6 +27,5 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Integer
     
     @Query("select year(a.accountDate) from AccountEntity a where a.accountGender = 'M'")
     List<String> getYearM();
-
-//    List<String> findAccountDate();
+    
 }

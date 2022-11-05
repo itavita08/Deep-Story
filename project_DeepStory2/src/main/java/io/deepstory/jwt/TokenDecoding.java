@@ -1,6 +1,5 @@
 package io.deepstory.jwt;
 
-
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -9,33 +8,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenDecoding {
 
-    private final JwtProvider jwtProvider;
+	private final JwtProvider jwtProvider;
 
-    public Subject tokenDecode(String authorization) {
+	public Subject tokenDecode(String authorization) {
 
-            String atk = authorization.substring(7);
-            
-            System.out.println(atk);
+			String atk = authorization.substring(7);
+			
+			System.out.println(atk);
 
-            try {
+			try {
 
-                Subject subject = jwtProvider.getSubject(atk);
+				Subject subject = jwtProvider.getSubject(atk);
 
-                System.out.println(subject.getAccountId());
+				return subject;
 
-//              int accountId = subject.getAccountId();
+			} catch (Exception e) {
 
-                return subject;
+				e.printStackTrace();
+			}
 
-            } catch (Exception e) {
+		return null;
 
-                e.printStackTrace();
-            }
-
-        
-
-        return null;
-
-    }
+	}
 
 }
