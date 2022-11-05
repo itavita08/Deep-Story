@@ -9,80 +9,17 @@ const SecretList = () => {
 
   const location = useLocation();
   // const [postList, setPostLsit] = useState(location.state.postList);
-  const [secretFriendId, setSecretFriendId] = useState(location.state.secretFriendId);
-  const [friendEmail, setFriendEmail] = useState(location.state.friendEmail);
+  // const [secretFriendId, setSecretFriendId] = useState(location.state.secretFriendId);
+  // const [friendEmail, setFriendEmail] = useState(location.state.friendEmail);
   const [postList, setPostLsit] = useState([]);
-  const [myAccount, setMyAccount] = useState({
-    // secretFriendId : 0,
-    // friendId : 0,
-    // friendEmail : "",
-    // friendName : ""
-  });
-  const [friendAccount, setFriendAccount] = useState({
-    // secretFriendId : 0,
-    // friendId : 0,
-    // friendEmail : "",
-    // friendName : ""
-  });
+  const [myAccount, setMyAccount] = useState(location.state.myAccount);
+  const [friendAccount, setFriendAccount] = useState(location.state.friendAccount);
 
-  // const [myAccount, setMyAccount] = useState({
-  //   secretFriendId:location.state.myAccount.secretFriendId,
-  //   friendId:location.state.myAccount.friendId,
-  //   friendEmail:location.state.myAccount.friendEmail,
-  //   friendName: location.state.myAccount.friendName
-  // });
-  // const [friendAccount, setFriendAccount] = useState({
-  //   secretFriendId:location.state.friendAccount.secretFriendId,
-  //   friendId:location.state.friendAccount.friendId,
-  //   friendEmail:location.state.friendAccount.friendEmail,
-  //   friendName: location.state.friendAccount.friendName
-  // });
   const navigate = useNavigate();
-
-  const getFriendPost = async (id) => {
-
-    await axios.post('http://localhost:8080/getSecretPostList', {
-      secretFriendId:id
-    })
-    .then(
-      response => {
-        alert("getFriendPost response.data " + response.data);
-        if(response.data === ""){
-          navigate("/secretList", {
-            state: {
-              postList:[]
-        }})
-        }else{
-          navigate("/secretList", {
-            state: {
-              postList:response.data
-        }})
-          }
-        }
-    )
-  }
-  const getFriendProfil = async(id, email) => {
-
-    await axios.post('http://localhost:8080/getSecretProfil', {
-      secretFriendId:id,
-      FriendEmail: email
-    })
-    .then(
-      response => {
-        alert("getFriendProfil response.data " + response.data);
-        navigate("/secretList", {
-          state: {
-            myAccount:response.data.myAccount,
-            friendAccount: response.data.friendAccount
-          }
-        })})
-  }
-
 
 
   useEffect(() => {
-    getFriendPost(secretFriendId);
-    getFriendProfil(secretFriendId, friendEmail);
+    // getFriendPost(secretFriendId);
   }, [])
 
   return(
@@ -98,7 +35,7 @@ const SecretList = () => {
         <h5> Friend Name : {friendAccount.friendName} </h5>
   
 
-      <button id = "createPost" onClick={(e) => navigate("/secrePostCreate", {state: {friend:secretFriendId}})}>글 쓰기</button>
+      <button id = "createPost" onClick={(e) => navigate("/secrePostCreate", {state: {friend:friendAccount}})}>글 쓰기</button>
       
       {postList.length === 0 ? (
           <div>목록이 존재하지 않습니다.</div>

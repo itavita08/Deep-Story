@@ -19,6 +19,51 @@ const SecretMain = () => {
     )
   }
 
+  const getFriendsPost = async (id) => {
+    await axios.post('http://localhost:8080/getSecretPostList', {
+      secretFriendId:id
+    })
+    .then(
+      response => {
+        alert("getFriendPost response.data " + response.data);
+        const data = JSON.stringify(response.data);
+        const obj = JSON.parse(data);
+        if(obj.length === 0){
+          navigate("/secretList", {
+            state: {
+              postList:[]
+        }})
+        }else{
+          navigate("/secretList", {
+            state: {
+              postList:response.data
+        }})
+          }
+        }
+    )
+  };
+
+  const getFriendProfil = async(id, email) => {
+    await axios.post('http://localhost:8080/getSecretProfil', {
+      secretFriendId:id,
+      friendEmail: email
+    })
+    .then(
+      response => {
+        alert(response.data);
+        const data = JSON.stringify(response.data);
+        const obj = JSON.parse(data);
+        alert("obj: " + obj.myAccount);
+        navigate("/secretList", {
+         state:{
+            myAccount:obj.myAccount,
+            friendAccount: obj.friendAccount
+         }
+        })
+      }
+    )
+  }
+
   useEffect(() => {
     getFriendsList()
   }, [])
@@ -33,7 +78,7 @@ const SecretMain = () => {
         ): (
           <div>
             <ul>
-            {friendsList.map(a => <li style={{width:'200px'}} onClick={() => {navigate('/secretList',{state:{secretFriendId: a.secretFriendId, friendEmail:a.friendEmail}})}} key={a.friendId}><Link to='/secretlist'> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</Link></li>)} 
+            {friendsList.map(a => <li style={{width:'200px'}} onClick={(e) => {getFriendProfil(a.secretFriendId, a.friendEmail); getFriendsPost(a.secretFriendId);}} key={a.friendId}><Link to='/secretlist'> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</Link></li>)} 
             </ul>
           </div>
         )}
