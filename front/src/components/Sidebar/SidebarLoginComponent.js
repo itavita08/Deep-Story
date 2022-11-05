@@ -24,7 +24,8 @@ const SideNavigation = () => {
     const styles = {
       sideBarHeight: {
         height: "100vh",
-        float:"left"
+        float: "left",
+        margin: "10px"
       },
       menuIcon: {
         float: "right",
@@ -48,7 +49,7 @@ const SideNavigation = () => {
         <Menu iconShape="square">
   
         <SubMenu title="Home" icon={<AiFillHome />}>
-          <MenuItem icon={<AiFillAppstore />}>View All</MenuItem>
+          <MenuItem icon={<AiFillAppstore />}><Link to = "/postAllLogin">View All</Link></MenuItem>
         </SubMenu>
   
   
@@ -61,7 +62,7 @@ const SideNavigation = () => {
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>
           
-        <MenuItem icon={<AiOutlineLogout />}>Logout</MenuItem>
+        <MenuItem icon={<AiOutlineLogout />}><Link to="/logout">Logout</Link></MenuItem>
   
         
         </Menu>

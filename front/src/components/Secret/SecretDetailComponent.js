@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
 import LoginHeader from '../Header/LoginHeader'
-function Detail(){
+
+const SecretDetailComponent = () => {
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
@@ -15,10 +16,8 @@ function Detail(){
   const [likes, addLikes] = useState(0);
   const navigate = useNavigate();
 
- 
-
   const getPost = async() => {
-    await axios.post("http://localhost:8080/postDetail", {
+    await axios.post("http://localhost:8080/secretPostDetail", {
       postId:postId
       })
       .then(
@@ -31,12 +30,6 @@ function Detail(){
         }
       )  
     }; 
-  
-  useEffect(() => {
-    console.log(postId);
-    getPost(); 
-  },[] );
-
 
   const updatePost = () => {
     navigate("/update",{
@@ -45,11 +38,10 @@ function Detail(){
       }
     },{
       replace: false})
-    }; 
-    
+  }; 
 
   const deletePost = async() => {
-    await axios.post("http://localhost:8080/postDelete", {
+    await axios.post("http://localhost:8080/secretPostDelete", {
       postId:postId
       })
       .then(
@@ -59,7 +51,8 @@ function Detail(){
           replace: false}) :  alert("다시 시도해 주세요")
         }
       )  
-    }; 
+  };
+  
   const LovePost = async() => {
     await axios.post("http://localhost:8080/postLove", {
     accountId : accountId,
@@ -72,7 +65,11 @@ function Detail(){
 
       }
     )  
-  }; 
+  };
+
+  useEffect(() => {
+    getPost(); 
+  },[] );
 
   return (
     <div className='Mains'>
@@ -100,6 +97,9 @@ function Detail(){
     </div>
     </div>
   ) 
+
+
+
 }
 
-export default Detail;
+export default React.memo(SecretDetailComponent);

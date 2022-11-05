@@ -2,10 +2,13 @@ import React, { useEffect, useState} from "react";
 import axios from 'axios';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
+import { Route, Link, Routes, useNavigate } from 'react-router-dom';
+import SecretList from "./SecretListComponent";
 
 const SecretMain = () => {
 
   const [friendsList, setFriendsLsit] = useState([]);
+  const navigate = useNavigate();
 
   const getFriendsList = async() => {
     await axios.get('http://localhost:8080/getSecretFriends')
@@ -15,6 +18,25 @@ const SecretMain = () => {
     }
     )
   }
+
+  const getFriendPost = async (e, id) => {
+    e.preventDefault();
+    await axios.post('http://localhost:8080/getSecretPostList', {
+      secretFriendId:id
+    })
+    .then(
+      response => {
+        alert(response.data);
+        navigate("/secretList", {
+          state: {
+            postList:response.data
+          }
+        })
+      }
+    
+    )
+  }
+
 
   useEffect(() => {
     getFriendsList()
@@ -30,10 +52,13 @@ const SecretMain = () => {
         ): (
           <div>
             <ul>
-            {friendsList.map(a => <li>{a.friendName} {a.boardName}</li>)} 
+            {friendsList.map(a => <li style={{width:'200px'}} onClick={(e) => {getFriendPost(e, a.friendId)}} key={a.friendId}><Link to='/secretlist'> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</Link></li>)} 
             </ul>
           </div>
         )}
+        <Routes>
+        <Route path="secretlist" element={<SecretList/>}/>
+        </Routes>
      
 
     </div>

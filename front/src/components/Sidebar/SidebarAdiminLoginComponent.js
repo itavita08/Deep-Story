@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaGem, FaHeart } from "react-icons/fa";
 
+import { Link as RouterLink } from 'react-router-dom';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -11,8 +12,6 @@ import { AiFillTool, AiFillAppstore } from "react-icons/ai";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 
-import LoginComponent from '../Account/LoginComponent';
-import SignComponets from '../Account/SignComponents';
 import PostCreateComponent from '../Board/PostCreateComponent';
 
 import {
@@ -34,6 +33,7 @@ function SideNavigation () {
     const navigate = useNavigate();
     
     const clickPost = async () => {
+      
 
       navigate("/postCreate");
 
@@ -83,19 +83,21 @@ function SideNavigation () {
   
           <SubMenu title="My Page" icon={<AiFillCrown />}>
             
-           <MenuItem icon={<AiOutlineForm />} ><Link to="/mypage">Profil</Link></MenuItem> 
+
+
+           <MenuItem icon={<AiOutlineForm />} ><button onClick={() =>  clickPost() }>Create</button></MenuItem> 
 
            <MenuItem icon={<AiOutlineForm />} ><Link to="/postCreate">Create</Link></MenuItem> 
+      
+            
+            <MenuItem icon={<AiFillPicture />}>Gellery</MenuItem>
+            <MenuItem icon={<FaHeart />}>Interest</MenuItem>
+            <MenuItem icon={<AiFillLock />}>Secret</MenuItem>
 
-            
-            <MenuItem icon={<AiFillPicture />}><Link to="/">Gellery</Link></MenuItem>
-            
-            <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
-            <MenuItem icon={<AiFillLock />}><Link to="/secretMain">Secret</Link></MenuItem>
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
-            <MenuItem icon={<AiFillSignal />}><Link to="/">Dash Board</Link></MenuItem>
+            <MenuItem icon={<AiFillSignal />}>Dash Board</MenuItem>
           </SubMenu>
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>
@@ -109,6 +111,9 @@ function SideNavigation () {
       </ProSidebar>
 
  
+        <Routes>
+      <Route path="/postCreate" exact element={<PostCreateComponent />} />
+      </Routes>
 
       </div>
 

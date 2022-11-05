@@ -13,6 +13,7 @@ export default function UpdateProfilComponent() {
   
   return (
 
+
     <div>
 
     <LoginHeader></LoginHeader>

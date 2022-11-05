@@ -8,9 +8,9 @@ import ReactQuill from 'react-quill';
 import ImageLoad from './ImageloadComponent';
 import { useNavigate } from 'react-router-dom';
 import '../../main.css';
-
 import styled from 'styled-components';
 import { Layout, Menu } from 'antd';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function PostCreateComponent() {
@@ -51,7 +51,6 @@ function PostCreateComponent() {
         content,
         image
     })
-  
     .then(
       response =>{
       console.log(response);
@@ -91,8 +90,12 @@ function PostCreateComponent() {
           }}></InputTextComponent>
           <ImageLoad data={image} onDelete={onDelete}/>
           </div>      
-        <form id='board_form'>
-        <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} />
+        <form id='board_form' style={{float: 'left'}}>
+        <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} className="form-control mt-1" size={100}/>
+        
+        <label>                   </label>
+        <label>                   </label>
+       
         <div>
         < ReactQuill 
             onChange={(event) => {
@@ -103,7 +106,11 @@ function PostCreateComponent() {
             }}
         />
         </div>
-        <button type='button' onClick={() => _submitBoard()}> 포스트 등록 </button>
+        <label>                   </label>
+        <label>                   </label>
+        <div>
+        <button class="btn btn-primary" type='button' onClick={() => _submitBoard()}> 포스트 등록 </button>
+        </div>
         </form>  
       </div>
       

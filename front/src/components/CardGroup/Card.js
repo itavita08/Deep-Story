@@ -8,6 +8,11 @@ function Card({ postId, imageSource, title, text, url }) {
 
   const navigate = useNavigate();
 
+  console.log("포스트아이디");
+  console.log(postId);
+  console.log(imageSource);
+
+
   const onClickImg = () => {
     navigate("/Detail",{
       state: {

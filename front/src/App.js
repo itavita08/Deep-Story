@@ -57,10 +57,9 @@ import { setCookie, getCookie, deleteCookie } from './storage/Cookie';
         {/* <LoginHeader></LoginHeader> */}
 
         <SidebarLogoutComponent></SidebarLogoutComponent>
+
         {/* <SidebarAdminLoginComponent></SidebarAdminLoginComponent> */}
 
-
-        
       
 		</div>
 	);

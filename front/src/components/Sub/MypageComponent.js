@@ -9,7 +9,7 @@ import LoginHeader from '../Header/LoginHeader';
 
 import Card from "../CardGroup/Card";
 import SecretFriendModal from './SecretFriendModal';
-import { JavascriptOutlined } from '@mui/icons-material';
+
 
 
 function MypageComponent(props) {
@@ -50,7 +50,7 @@ function MypageComponent(props) {
               setAccountGender(response.data.accountGender);
             }
           )
-        };
+    };
         
     const getAlarm = async() => {
       await axios.get("http://localhost:8080/secretAlarm")
@@ -106,7 +106,7 @@ function MypageComponent(props) {
       ) : (
         <div>
           친구 신청 : 
-          <input alt='no-alarm' type='image'  style={{width:30, height:30}} src='/static/alarm/orange.png' />
+          <input alt='no-alarm' type='image'  style={{width:30, height:30}} src='/static/alarm/alarm.png' />
         </div>
       )}
         <h1> 프로필 </h1>
@@ -167,6 +167,13 @@ function MypageComponent(props) {
 }
 
 export default React.memo(MypageComponent);
+
+
+
+
+
+
+
 
 
 
