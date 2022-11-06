@@ -12,7 +12,6 @@ const SecretDetailComponent = () => {
   const [contents, setContents] = useState("");
   const [image, setImage] = useState("");
   const [postId, setPostId] = useState(location.state.secretPostId);
-  // const [postId, setPostId] = useState(0);
   const [accountId, setaccountId] = useState("");
   const [likes, addLikes] = useState(0);
   const navigate = useNavigate();
@@ -48,7 +47,7 @@ const SecretDetailComponent = () => {
       .then(
         response => {
           console.log(response.data);
-          response.data.result === "true" ?  navigate("/",{
+          response.data.result === "true" ?  navigate("/secretlist",{
           replace: false}) :  alert("다시 시도해 주세요")
         }
       )  

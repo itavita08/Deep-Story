@@ -40,5 +40,10 @@ public class SecretPostEntity {
 			   fetch = FetchType.LAZY)
 	@JoinColumn(name = "secret_friend_id")
 	private SecretFriendsEntity secretFriendId;
+	
+	@ManyToOne(targetEntity = AccountEntity.class,
+			   fetch = FetchType.LAZY)
+	@JoinColumn(name = "secret_writer_id")
+	private AccountEntity secretWriterId;
 
 }

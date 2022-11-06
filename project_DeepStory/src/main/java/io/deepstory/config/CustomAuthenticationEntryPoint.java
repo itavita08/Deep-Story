@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.deepstory.exception.Message;
+import io.deepstory.exception.ResponseMessage;
 import lombok.Getter;
 
 /* 토큰 관련 예외에 대한 처리 를 위해. 필터 단계에서 발생한 예외를 처리*/
@@ -39,7 +39,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         
     	response.setCharacterEncoding("UTF-8");
         
-    	Message message = new Message(exceptionMessage, HttpStatus.UNAUTHORIZED);
+    	// 401, UNAUTHORIZED
+    	ResponseMessage message = new ResponseMessage("400", HttpStatus.UNAUTHORIZED, exceptionMessage);
         
     	String res = this.convertObjectToJson(message);
         

@@ -7,19 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @ToString
-public class PostListDTO {
+public class SecretFriendAccountDTO {
 	
-	private int postId;
+	private int secretFriendId;
+	
+    private int friendId;
 
-    private String title;
-    
-    private String content;
-    
-    private String image;
+    private String friendEmail;
+
+    private String friendName;
+
 }

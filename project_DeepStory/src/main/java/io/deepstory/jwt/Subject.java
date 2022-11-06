@@ -27,7 +27,7 @@ public class Subject {
 
 	private String accountType;
 
-	private String tokenType; // ATK, RTK // 토큰의 payload(Subject)의 type을 통해 ATK인지 RTK인지 구분하기 위해
+	private String tokenType; 
 
 
 	// atk

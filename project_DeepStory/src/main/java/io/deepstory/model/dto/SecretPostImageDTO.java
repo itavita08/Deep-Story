@@ -16,13 +16,17 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class PostImageDTO {
+public class SecretPostImageDTO {
 	
-	private int postId;
+	private int secretPostId;
+	
+    private String secretTitle;
+    
+    private String secretContents;
+    
+	private int secretFriendId;
+	
+	private int secretWriterId;
 
-    private String title;
-    
-    private String content;
-    
-    private List<Map<String,String>> image;
+    private List<Map<String,String>> secretImage;
 }

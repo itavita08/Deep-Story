@@ -2,9 +2,7 @@ import React, { useEffect, useState} from "react";
 import axios from 'axios';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
-import { Route, Link, Routes, useNavigate } from 'react-router-dom';
-import SecretList from "./SecretListComponent";
-import { AltRoute } from "@mui/icons-material";
+import { useNavigate } from 'react-router-dom';
 
 const SecretMain = () => {
 
@@ -28,9 +26,6 @@ const SecretMain = () => {
     })
     .then(
       response => {
-        alert(response.data);
-        const data = JSON.stringify(response.data);
-        alert(data);
         navigate("/secretlist", {
          state:{
             myAccount:response.data[0].myAccount,
@@ -60,11 +55,6 @@ const SecretMain = () => {
             </ul>
           </div>
         )}
-        <Routes>
-        <Route path="secretlist" element={<SecretList/>}/>
-        </Routes>
-     
-
     </div>
   )
 
