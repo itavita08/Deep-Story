@@ -39,6 +39,7 @@ import GelleryResultComponent from './components/Gallery/GelleryResultComponent'
 import GetGelleryComponent from './components/Gallery/GetGelleryComponent';
 import SecretPostCreateComponent from './components/Secret/SecretPostCreateComponent';
 import SecretDetailComponent from './components/Secret/SecretDetailComponent';
+import SecretPostUpdate from './components/Secret/SecretPostUpdate';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -88,6 +89,7 @@ root.render(
             <Route path='/secrePostCreate' element={<SecretPostCreateComponent/>}/>
             <Route path="/*" element={<NotFound />} /> 
             <Route path='/secretDetail' element={<SecretDetailComponent />}/>
+            <Route path='/secretPostUpdate' element={<SecretPostUpdate/>}/>
             
           </Routes>
         </BrowserRouter>

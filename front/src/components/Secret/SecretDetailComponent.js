@@ -11,7 +11,7 @@ const SecretDetailComponent = () => {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [image, setImage] = useState("");
-  const [postId, setPostId] = useState(location.state.postId);
+  const [postId, setPostId] = useState(location.state.secretPostId);
   // const [postId, setPostId] = useState(0);
   const [accountId, setaccountId] = useState("");
   const [likes, addLikes] = useState(0);
@@ -33,9 +33,9 @@ const SecretDetailComponent = () => {
     }; 
 
   const updatePost = () => {
-    navigate("/update",{
+    navigate("/secretPostUpdate",{
       state: {
-        postId : postId
+        secretPostId : postId
       }
     },{
       replace: false})
@@ -43,7 +43,7 @@ const SecretDetailComponent = () => {
 
   const deletePost = async() => {
     await axios.post("http://localhost:8080/secretPostDelete", {
-      postId:postId
+      secretPostId:postId
       })
       .then(
         response => {

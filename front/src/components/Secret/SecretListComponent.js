@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
-import Card from "../CardGroup/Card";
+import SecretCard from "../CardGroup/SecretCard";
 
 const SecretList = (props) => {
 
@@ -39,7 +39,7 @@ const SecretList = (props) => {
               <div className="container d-flex justify-content-center align-items-center h-100">
               <div className="row">
                 <div className="col-md-4" key={post.secretPostId}>
-                  <Card postId = {post.secretPostId} imageSource="/static/image/noimage.png" title={post.secretPostName} text={post.secretPostContents}/>
+                  <SecretCard secretPostId = {post.secretPostId} imageSource="/static/image/noimage.png" title={post.secretPostName} text={post.secretPostContents}/>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@ const SecretList = (props) => {
             <div className="container d-flex justify-content-center align-items-center h-100">
               <div className="row">
                 <div className="col-md-4" key={post.secretPostId}>
-                  <Card postId = {post.secretPostId} imageSource={"/static/image/"+ post.secretImage +".png"} title={post.secretPostName} text={post.secretPostContents}/>
+                  <SecretCard secretPostId = {post.secretPostId} imageSource={"/static/image/"+ post.secretImage +".png"} title={post.secretPostName} text={post.secretPostContents}/>
                 </div>
               </div>
             </div>
