@@ -4,23 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
 import Card from "../CardGroup/Card";
-import SecretPostCreateComponent from "./SecretPostCreateComponent";
-const SecretList = () => {
+
+const SecretList = (props) => {
 
   const location = useLocation();
-  // const [postList, setPostLsit] = useState(location.state.postList);
-  // const [secretFriendId, setSecretFriendId] = useState(location.state.secretFriendId);
-  // const [friendEmail, setFriendEmail] = useState(location.state.friendEmail);
-  const [postList, setPostLsit] = useState([]);
+  
+  const [postList, setPostLsit] = useState(location.state.postList);
   const [myAccount, setMyAccount] = useState(location.state.myAccount);
   const [friendAccount, setFriendAccount] = useState(location.state.friendAccount);
 
   const navigate = useNavigate();
-
-
-  useEffect(() => {
-    // getFriendPost(secretFriendId);
-  }, [])
 
   return(
     <div>
@@ -41,7 +34,7 @@ const SecretList = () => {
           <div>목록이 존재하지 않습니다.</div>
         ): (
           postList.map((post) => (
-            (post.image === null)
+            (post.secretImage === null)
             ?(
               <div className="container d-flex justify-content-center align-items-center h-100">
               <div className="row">

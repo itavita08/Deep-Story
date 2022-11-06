@@ -4,6 +4,7 @@ import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
 import { Route, Link, Routes, useNavigate } from 'react-router-dom';
 import SecretList from "./SecretListComponent";
+import { AltRoute } from "@mui/icons-material";
 
 const SecretMain = () => {
 
@@ -19,29 +20,6 @@ const SecretMain = () => {
     )
   }
 
-  const getFriendsPost = async (id) => {
-    await axios.post('http://localhost:8080/getSecretPostList', {
-      secretFriendId:id
-    })
-    .then(
-      response => {
-        alert("getFriendPost response.data " + response.data);
-        const data = JSON.stringify(response.data);
-        const obj = JSON.parse(data);
-        if(obj.length === 0){
-          navigate("/secretList", {
-            state: {
-              postList:[]
-        }})
-        }else{
-          navigate("/secretList", {
-            state: {
-              postList:response.data
-        }})
-          }
-        }
-    )
-  };
 
   const getFriendProfil = async(id, email) => {
     await axios.post('http://localhost:8080/getSecretProfil', {
@@ -52,12 +30,12 @@ const SecretMain = () => {
       response => {
         alert(response.data);
         const data = JSON.stringify(response.data);
-        const obj = JSON.parse(data);
-        alert("obj: " + obj.myAccount);
-        navigate("/secretList", {
+        alert(data);
+        navigate("/secretlist", {
          state:{
-            myAccount:obj.myAccount,
-            friendAccount: obj.friendAccount
+            myAccount:response.data[0].myAccount,
+            friendAccount: response.data[0].friendAccount,
+            postList:response.data[1]
          }
         })
       }
@@ -78,7 +56,7 @@ const SecretMain = () => {
         ): (
           <div>
             <ul>
-            {friendsList.map(a => <li style={{width:'200px'}} onClick={(e) => {getFriendProfil(a.secretFriendId, a.friendEmail); getFriendsPost(a.secretFriendId);}} key={a.friendId}><Link to='/secretlist'> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</Link></li>)} 
+            {friendsList.map(a => <li onClick={(e) => {getFriendProfil(a.secretFriendId, a.friendEmail);}} key={a.friendId}> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</li>)} 
             </ul>
           </div>
         )}
