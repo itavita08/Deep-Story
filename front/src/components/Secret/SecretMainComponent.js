@@ -3,10 +3,12 @@ import axios from 'axios';
 import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
 import LoginHeader from '../Header/LoginHeader';
 import { useNavigate } from 'react-router-dom';
+import './secretmain.scss';
 
 const SecretMain = () => {
 
   const [friendsList, setFriendsLsit] = useState([]);
+  const [myName, setMyName] = useState("");
   const navigate = useNavigate();
 
   const getFriendsList = async() => {
@@ -16,6 +18,13 @@ const SecretMain = () => {
       setFriendsLsit(response.data);
     }
     )
+  }
+  const getProfil = async() => {
+    await axios.get('http://localhost:8080/getProfil')
+    .then(response => {
+      console.log(response.data);
+      setMyName(response.data.accountName);
+    })
   }
 
 
@@ -38,23 +47,27 @@ const SecretMain = () => {
   }
 
   useEffect(() => {
-    getFriendsList()
+    getProfil();
+    getFriendsList();
   }, [])
 
   return(
     <div>
       <LoginHeader />
       <SidebarAdminLoginComponent />
+      <div className="onlybody">
+      <h1> {myName}님의 친구 목록입니다. <span class='dejavu'>&#x2680; &#x2681; &#x2682; &#x2683; &#x2684; &#x2685;</span></h1>
 
         {friendsList.length === 0 ? (
           <div>목록이 존재하지 않습니다.</div>
         ): (
           <div>
-            <ul>
-            {friendsList.map(a => <li onClick={(e) => {getFriendProfil(a.secretFriendId, a.friendEmail);}} key={a.friendId}> 친구 이름 : {a.friendName} 다이어리 이름 : {a.boardName}</li>)} 
+            <ul className="mylist">
+            {friendsList.map(a => <li onClick={(e) => {getFriendProfil(a.secretFriendId, a.friendEmail);}} key={a.friendId}> 다이어리 이름 : {a.boardName}&nbsp;&nbsp; 친구 이름 : {a.friendName}  </li>)} 
             </ul>
           </div>
         )}
+        </div>
     </div>
   )
 
