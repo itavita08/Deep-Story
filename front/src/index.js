@@ -33,6 +33,7 @@ import PostAllViewLogout from './components/Board/PostAllViewLogout';
 import InputFriendRequest from './components/Friendrequest/InputFriendRequest';
 import SecretMain from './components/Secret/SecretMainComponent';
 import NotFound from './NotFound';
+import DashBoard from './components/Chart/DashBoard';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -71,6 +72,7 @@ root.render(
             <Route path='/postallviewLogout' element={<PostAllViewLogout/>}/>
             <Route path='/inputfriendrequest' element={<InputFriendRequest />}/>
             <Route path='/secretMain' element={<SecretMain />}/>
+            <Route path='/dashBoard' element={<DashBoard />}/>
             
             <Route path="/*" element={<NotFound />} /> 
             

@@ -87,6 +87,8 @@ export default function AgeChart(){
       },[] );
       
       return (
+        <div style={{position:"absolute", top:"700px", left:"350px"}}>
+          <h5>연령대별 성비</h5>
         <ApexCharts
           options={state.options}
           series={state.series}
@@ -94,5 +96,6 @@ export default function AgeChart(){
           width={800}
           height={200}
           />
+          </div>
       );
 }

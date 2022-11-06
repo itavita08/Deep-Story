@@ -27,7 +27,7 @@ module.exports = (app) => {
     app.use(
         "/api/v2",
         createProxyMiddleware({
-            target:"http://localhost:8080",
+            target:"http://localhost:80",
             changeOrigin : true,
         })
     );

@@ -37,8 +37,7 @@ public class PostService {
 	private ImageRepository imageRepository;
 	@Autowired
 	private LoveRepository loveRepository;
-	
-	
+
 	// account 조회 시, 헤딩 계정 데이터 없을 경우 예외 처리
 	public void notExistAccount(int accountId) throws Exception {
 
@@ -48,7 +47,7 @@ public class PostService {
 			throw new SeverErrorRequestException("존재하지 않은 계정 입니다.");
 		}
 	}
-	
+
 	// post 조회 시, 해당 글 데이터 없을 경우 예외 처리
 	public void notExistPost(int postId) throws Exception {
 
@@ -62,15 +61,15 @@ public class PostService {
 	// 게시물 추가
 	@Transactional
 	public Integer addPost(PostDTO postDTO) throws Exception {
-		
+
 		try {
 
 			if (postDTO.getPostName() == null) {
 				throw new SeverErrorRequestException("제목을 입력하지 않으셨습니다.");
 			}
-			
+
 			notExistAccount(postDTO.getAccountId());
-			
+
 			Optional<AccountEntity> accountId = accountRepository.findById(postDTO.getAccountId());
 
 			PostEntity postEntity = new PostEntity(postDTO.getPostId(), postDTO.getPostName(),
@@ -79,7 +78,7 @@ public class PostService {
 			PostEntity post = postRepository.save(postEntity);
 
 			return post.getPostId();
-			
+
 		} catch (Exception e) {
 
 			throw new SeverErrorRequestException("해당 게시글에 저장을 실패하였습니다.");
@@ -90,7 +89,7 @@ public class PostService {
 	// 게시물 조회
 	@Transactional
 	public PostDTO getPost(int postId) throws Exception {
-		
+
 		notExistPost(postId);
 
 		Optional<PostEntity> postEntity = postRepository.findById(postId);
@@ -105,7 +104,7 @@ public class PostService {
 	// 이미지 추가
 	@Transactional
 	public Integer addImage(ImageDTO newImage) throws Exception {
-		
+
 		notExistAccount(newImage.getAccountId());
 		notExistPost(newImage.getPostId());
 
@@ -137,11 +136,14 @@ public class PostService {
 	@Transactional
 	public ArrayList<PostListDTO> getPostListByUser(int accountId) throws Exception {
 
-		AccountEntity account = accountRepository.findById(accountId).get();
+		List<PostEntity> postList = null;
 
-		List<PostEntity> postList = postRepository.findAllByAccountId(account);
+			AccountEntity account = accountRepository.findById(accountId).get();
 
-		if (postList != null) {
+			postList = postRepository.findAllByAccountId(account);
+			
+
+		if (postList == null) {
 
 			throw new SeverErrorRequestException("게시물이 존재하지 않습니다.");
 		}
@@ -311,8 +313,9 @@ public class PostService {
 			mapDetail.put("title", post.getPostName());
 			mapDetail.put("content", post.getPostContents());
 			mapDetail.put("image", imageName);
+			mapDetail.put("postId", Integer.toString(post.getPostId()));
 
-			map.put(Integer.toString(i), mapDetail);
+			map.put("key" + i, mapDetail);
 		}
 
 		System.out.println(map.toString());
@@ -370,14 +373,26 @@ public class PostService {
 
 		return postListDTOList;
 	}
-	
+
 	// 전체 포스트 수 차트
-    public int getTotalPost() {
-        
-        int totalPost = postRepository.getTotalPost();
-        
-        return totalPost;
-        
-    }
+	public int getTotalPost() {
+
+		int totalPost = postRepository.getTotalPost();
+
+		return totalPost;
+
+	}
+
+	// 상세페이지 유저id, 게시글 작성자id 확인
+	public String checkId(int userId, int postId) {
+		
+		int postUserId = postRepository.findAccountIdByPostId(postId).getAccountId();
+		
+		if(userId == postUserId) {
+			return "true";
+		}
+		
+		return "false";
+	}
 
 }

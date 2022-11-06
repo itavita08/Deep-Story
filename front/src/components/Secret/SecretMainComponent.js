@@ -8,7 +8,7 @@ const SecretMain = () => {
   const [friendsList, setFriendsLsit] = useState([]);
 
   const getFriendsList = async() => {
-    await axios.get('http://localhost:8080/getSecretFriends')
+    await axios.get('http://localhost:80/getSecretFriends')
     .then(response => {
       console.log(response.data);
       setFriendsLsit(response.data);

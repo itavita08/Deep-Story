@@ -40,7 +40,7 @@ function MypageComponent(props) {
     const navigate = useNavigate();
 
     const getProfil = async() => {
-        await axios.get("http://localhost:8080/getProfil")
+        await axios.get("http://localhost:80/getProfil")
           .then(
             response => {
               console.log(response.data);
@@ -53,7 +53,7 @@ function MypageComponent(props) {
         };
         
     const getAlarm = async() => {
-      await axios.get("http://localhost:8080/secretAlarm")
+      await axios.get("http://localhost:80/secretAlarm")
       .then(
         response => {
           const data = JSON.stringify(response.data)
@@ -69,7 +69,7 @@ function MypageComponent(props) {
     }
     
     const getPostList = async() => {
-      await axios.get("http://localhost:8080/getPostListbyUser")
+      await axios.get("http://localhost:80/getPostListbyUser")
       .then(
         response => {
            console.log(response.data);

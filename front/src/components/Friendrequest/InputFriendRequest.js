@@ -8,7 +8,7 @@ function InputFriendRequest ({data}) {
   const sendFriendRequest = (event) => {
     console.log("input value : " + event.target.inputText.value);
     console.log("userEmail : " + userEmail);
-    axios.post("http://localhost:8080/secretReqeust", {
+    axios.post("http://localhost:80/secretReqeust", {
     secretBoard:event.target.inputText.value,
     guestEmail: userEmail
     })

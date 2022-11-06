@@ -115,7 +115,7 @@ export default function Total () {
 //   }
 
   const getTotal = async() => {
-    await axios.get("http://localhost:80/getTotal")
+    await axios.get("http://localhost:80/getTotalPost")
       .then(
         data => {
           console.log(data.data); 
@@ -144,12 +144,12 @@ export default function Total () {
           type='radialBar'
           width={500}
           /> */}
-          <div className="totalUser" style={{textAlign:"center"}}>
+          <div className="totalUser" style={{textAlign:"center", position:"absolute", top:'130px', left:'620px'}}>
           <h2>Total Users</h2>
           <h4>{totalUser}</h4>
           </div>
           <br></br>
-          <div className="totalPost" style={{textAlign:"center"}}>
+          <div className="totalPost" style={{textAlign:"center", position:"absolute", top:'130px', right:'500px'}}>
           <h2>Total Posts</h2>
           <h4>{totalPost}</h4>
           </div>

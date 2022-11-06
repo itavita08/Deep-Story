@@ -143,30 +143,35 @@ public class Controller {
 
 	// 게시물 조회 후 특정 게시물 정보 반환
 	@PostMapping("/postDetail")
-	public String test02(@RequestBody Map<String, Integer> input) throws Exception {
-
-		System.out.println("---------12. 상세 게시물 시작------------");
-		System.out.println("12-1 상세 게시물 react 반환값 확인");
-		System.out.println(input);
+	public String test02(@RequestBody Map<String, Integer> input, HttpServletRequest request) throws Exception {
 
 		PostDTO postDTO = null;
+		String result = "false";
 		String imageName = "noimage";
+		int userId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
 
 		try {
 			if (input != null) {
+				System.out.println("1");
 				postDTO = postService.getPost(input.get("postId"));
+				System.out.println("2");
 				imageName = postService.getImage(input.get("postId"));
+				System.out.println("3");
 			}
 
 		} catch (Exception e) {
 			System.out.println("이미지 없음.");
 		}
 
+		result = postService.checkId(userId,input.get("postId"));
+		System.out.println(result);
+		
 		if (postDTO != null) {
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("title", postDTO.getPostName());
 			map.put("content", postDTO.getPostContents());
 			map.put("image", imageName);
+			map.put("result", result);
 
 			return omapper.writeValueAsString(map);
 		}
@@ -413,7 +418,7 @@ public class Controller {
     
     
     // Total 차트
-    @GetMapping("/getTotal")
+    @GetMapping("/getTotalPost")
     public String getTotal() {
         
         int totalPost = postService.getTotalPost();
@@ -466,5 +471,7 @@ public class Controller {
         
         return json;
     }
+    
+
 
 }

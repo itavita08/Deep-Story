@@ -46,7 +46,7 @@ function PostCreateComponent() {
     } else if(content === "") {
       return alert('내용을 입력해주세요.');
     }  
-    await axios.post('http://localhost:8080/postInsert', {
+    await axios.post('http://localhost:80/postInsert', {
         title,
         content,
         image

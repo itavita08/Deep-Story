@@ -31,7 +31,7 @@ function Update(){
     };
 
     const getPost = async() => {
-        await axios.post("http://localhost:8080/postDetail", {
+        await axios.post("http://localhost:80/postDetail", {
           postId:postId
           })
           .then(
@@ -74,7 +74,7 @@ function Update(){
         } else if(content === "") {
             return alert('내용을 입력해주세요.');
         }  
-        await axios.post('http://localhost:8080/postUpdate', {
+        await axios.post('http://localhost:80/postUpdate', {
             postId,
             title,
             content,

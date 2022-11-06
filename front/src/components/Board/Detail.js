@@ -13,12 +13,13 @@ function Detail(){
   const [postId, setPostId] = useState(location.state.postId);
   const [accountId, setaccountId] = useState("");
   const [likes, addLikes] = useState(0);
+  const [checkId, setCheckId] = useState(false);
   const navigate = useNavigate();
 
  
 
   const getPost = async() => {
-    await axios.post("http://localhost:8080/postDetail", {
+    await axios.post("http://localhost:80/postDetail", {
       postId:postId
       })
       .then(
@@ -27,10 +28,14 @@ function Detail(){
           setTitle(data.data.title)
           setContents(data.data.content)
           setImage(data.data.image)
+          if(data.data.result === "true"){
+            setCheckId(true)
+          }
 
         }
       )  
     }; 
+
   
   useEffect(() => {
     console.log(postId);
@@ -49,7 +54,7 @@ function Detail(){
     
 
   const deletePost = async() => {
-    await axios.post("http://localhost:8080/postDelete", {
+    await axios.post("http://localhost:80/postDelete", {
       postId:postId
       })
       .then(
@@ -61,7 +66,7 @@ function Detail(){
       )  
     }; 
   const LovePost = async() => {
-    await axios.post("http://localhost:8080/postLove", {
+    await axios.post("http://localhost:80/postLove", {
     accountId : accountId,
     postId : postId
     })
@@ -95,8 +100,11 @@ function Detail(){
             }} src={"/static/image/"+image+".png"}/><br/>
       <h3> title : {title}</h3>
       <div dangerouslySetInnerHTML={{ __html: contents }} />
-      
-      <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
+      <div>
+        {checkId === true ? (<div><button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button></div>)
+        : null}
+      {/* <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button> */}
+      </div>
     </div>
     </div>
   ) 

@@ -12,7 +12,7 @@ class AuthenticationService {
     // 1. 로그인
     // email, password 서버로 전송
     executeJwtAuthenticationService(accountEmail, accountPassword) {
-        return axios.post('http://localhost:8080/auth/login', {
+        return axios.post('http://localhost:80/auth/login', {
             accountEmail,
             accountPassword
         })
@@ -47,12 +47,12 @@ class AuthenticationService {
                 console.log(AccessToken);
 
                 // token이 있다면 header에 Bearer + token 담아서 보냄
-                if (AccessToken && config.url !=='http://localhost:8080/reissue') {
+                if (AccessToken && config.url !=='http://localhost:80/reissue') {
 
                     config.headers['Authorization'] = 'bearer ' + AccessToken;
 
 
-                } else if(config.url === 'http://localhost:8080/reissue') {
+                } else if(config.url === 'http://localhost:80/reissue') {
 
                     config.headers['Authorization'] = 'bearer ' + getCookie('RefreshToken');
 
@@ -93,7 +93,7 @@ class AuthenticationService {
                         // });
                         // alert("1")
 
-                        return axios.get('http://localhost:8080/reissue')
+                        return axios.get('http://localhost:80/reissue')
                             .then(response => {
 
                                 if (response.status === 200) {
@@ -157,7 +157,7 @@ class AuthenticationService {
 
         console.log(accountEmail)
 
-        return axios.post('http://localhost:8080/auth/signUp', {
+        return axios.post('http://localhost:80/auth/signUp', {
             accountEmail,
             accountName,
             accountPassword,    

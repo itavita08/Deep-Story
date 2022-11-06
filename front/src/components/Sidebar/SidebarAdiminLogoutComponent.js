@@ -97,7 +97,7 @@ function SideNavigation () {
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
-            <MenuItem icon={<AiFillSignal />}>Dash Board</MenuItem>
+            {/* <MenuItem icon={<AiFillSignal />}><Link to="/dashBoard">Dash Board</Link></MenuItem> */}
           </SubMenu>
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>

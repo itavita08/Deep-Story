@@ -16,7 +16,7 @@ function MypageCard() {
     const navigate = useNavigate();
 
     const getbestPost = async() => {
-        await axios.get("http://localhost:8080/bestPost")
+        await axios.get("http://localhost:80/bestPost")
         .then(
             data => {
                 console.log(data.data);

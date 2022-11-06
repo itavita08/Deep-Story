@@ -30,7 +30,7 @@ export default function GenderPieChart () {
         }],
         options: {
             chart: {
-              height: 350,
+              height: 200,
               type: 'line',
               zoom: {
                 enabled: false
@@ -72,6 +72,7 @@ export default function GenderPieChart () {
       },[setSelectMonth] );
 
     return (
+      <div style={{position:"absolute", left:"350px", top:"270px"}}>
         <div>
         <select id="lang" value={selectMonth.key} onChange={changeMonth}>
           <option value="0" >총합</option>
@@ -82,8 +83,10 @@ export default function GenderPieChart () {
           options={config.options}
           series={config.series}
           type='line'
-          width={500}
+          width={1200}
+          height={300}
           />
-          </div>
+        </div>
+      </div>
       );
   }

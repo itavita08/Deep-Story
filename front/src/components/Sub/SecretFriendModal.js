@@ -11,7 +11,7 @@ const SecretFriendModal = (props) => {
 
   const sendAccept = (e, email) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/secretAccept", {
+    axios.post("http://localhost:80/secretAccept", {
       answer:"yes",
       friendEmail:email
     })

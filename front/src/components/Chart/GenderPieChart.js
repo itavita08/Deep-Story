@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from "react";
 import ApexCharts from "react-apexcharts";
 import axios from 'axios';
+import { styled } from 'styled-components';
 
 export default function GenderPieChart () {
 
@@ -44,11 +45,14 @@ export default function GenderPieChart () {
   },[] );
 
       return (
+        <div style={{position:'absolute', top:"700px", right:"100px"}}>
+          <h5 style={{position:'absolute', left:"75px", top:"-40px"}}>남녀 비율</h5>
         <ApexCharts
           options={config.options}
           series={config.series}
           type='pie'
-          width={500}
-          />
+          width={350}
+          height={300}
+          /></div>
       );
   }
