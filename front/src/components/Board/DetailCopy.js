@@ -8,7 +8,6 @@ import LoginHeader from '../Header/LoginHeader';
 import ModalView from '../Friendrequest/ModalView';
 import './Detail.css';
 import purify from "dompurify";
-import './Detail.css';
 
 function Detail(){
   const location = useLocation();
@@ -72,7 +71,7 @@ function Detail(){
       .then(
         response => {
           console.log(response.data);
-          response.data.result === "true" ?  navigate("/MainPageLogin",{
+          response.data.result === "true" ?  navigate("/",{
           replace: false}) :  alert("다시 시도해 주세요")
         }
       )  
@@ -96,27 +95,20 @@ function Detail(){
       <LoginHeader></LoginHeader>     
       <SidebarAll></SidebarAll>
     <div>
-  <article class="post">
-  <div>
-  <img key={image} style={{
-                height: -100,
-                // width: 500
-            }} src={"/static/image/"+image+".png"}/><br/>
-  </div>
-  <div class="post__container">
-  <button class='post__category' onClick={openModal}>{userEmail}</button>
+      
+      <h1>게시물 상세 페이지</h1>
+      <button className='user' onClick={openModal}>{userEmail}</button>
       <ModalView open={modalOpen} close={closeModal} header="공유 다이어리 친구 신청" data={userEmail}>
       </ModalView>
-    
-    <div class="post__content">
-      <header>
-        <h1 class="post__header"><span>{title}</span></h1>
-      </header>
-    
-      <div class='post__text' dangerouslySetInnerHTML={{ __html: purify.sanitize(contents) }} />
-    </div>
-    <div class="post__link">
-    <div>
+      <h3> title : {title}</h3>
+      <img key={image} style={{
+                height: -100,
+                width: 500
+            }} src={"/static/image/"+image+".png"}/><br/>
+      
+      <div dangerouslySetInnerHTML={{ __html: purify.sanitize(contents) }} />
+      
+      <div>
         <h2>좋아요
           <span onClick= {()=>
           LovePost(likes + 1)
@@ -124,10 +116,7 @@ function Detail(){
         > ❤️ </span> { likes }
           </h2> 
       </div>
-    <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
-    </div>
-  </div>
-</article>
+      <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
     </div>
     </div>
   ) 

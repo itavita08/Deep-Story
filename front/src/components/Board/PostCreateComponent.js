@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './PostCreateComponent.css';
 
 
+
 function PostCreateComponent() {
   const [blogContent, setBlogContent] = useState({
     title: '',

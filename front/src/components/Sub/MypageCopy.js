@@ -9,7 +9,7 @@ import LoginHeader from '../Header/LoginHeader';
 
 import Card from "../CardGroup/Card";
 import SecretFriendModal from './SecretFriendModal';
-import './MypageComponent.css';
+
 
 
 function MypageComponent(props) {
@@ -97,7 +97,7 @@ function MypageComponent(props) {
         <SidebarAll></SidebarAll>
   
         { secretRequestCount !== 0 ?(
-        <div classNam="userInfo">
+        <div>
           <br/>
           <input alt='alarm' type='image'  style={{width:30, height:30}} src='/static/alarm/alarm1.png' 
           onClick={openModal} />
@@ -105,28 +105,32 @@ function MypageComponent(props) {
         </div>
       ) : (
         <div>
+          친구 신청 : 
           <input alt='no-alarm' type='image'  style={{width:30, height:30}} src='/static/alarm/alarm.png' />
         </div>
       )}
-        <h1> Information </h1>
+        <h1> 프로필 </h1>
         <h5> Email : {accountEmail} </h5>
         <h5> Name : {accountName} </h5>
         <h5> Gender : {accountGender} </h5>
         <h5> Birth : {accountDate} </h5>
 
-        <div class="profile_button">
         <button id="updateProfil" onClick={() => navigate("/updateProfil", {
             state: {
               Email : accountEmail,
               Name : accountName,
               Gender : accountGender,
               Birth : accountDate
-            }}) }>회원 정보 수정</button>
-        <button id = "createPost" onClick={() => navigate("/postCreate")}>글 쓰기</button>
-        </div>
+            }}) 
+          }>
+
+      
+
+      <p>회원 정보 수정</p>
+        </button>
         </div>
 
-        
+        <button id = "createPost" onClick={() => navigate("/postCreate")}>글 쓰기</button>
 
 
 
@@ -162,7 +166,7 @@ function MypageComponent(props) {
 
 }
 
-export default React.memo(MypageComponent);
+// export default React.memo(MypageComponent);
 
 
 

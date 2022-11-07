@@ -1,0 +1,32 @@
+body{
+  background-color: #e9e6e4;
+}
+
+.userName button {
+  padding: 0.5em 1em;
+  font-size: 0.8em;
+  color: #a9b1b3;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  border: 1px solid #a9b1b3;
+  transition: all 0.3s ease-in;
+  margin: 10px 5px;
+}
+
+.profile_button{
+  width: 15em;
+  text-align: left;
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.card-group{
+  /* border: 5px solid #ffcc5c; */
+  display:flex; 
+  height: 400px;
+  align-items: center;
+  justify-content: left;
+  margin-left: auto; 
+  flex-direction: column;           
+}   

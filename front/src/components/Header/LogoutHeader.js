@@ -59,15 +59,11 @@ export default function Header() {
       </div>
 
         <div className="login">
-        <button id="b_login" onClick={() => navigate("/login")}>
-          <p>로그인</p>
-        </button>
+        <button id="b_login" onClick={() => navigate("/login")}><p>로그인</p></button>
         </div>
 
         <div className="sign">
-        <button id="b_sign" onClick={() => navigate("/sign")}>
-          <p>회원가입</p>
-        </button>
+        <button id="b_sign" onClick={() => navigate("/sign")}><p>회원가입</p></button>
         </div>
 
 

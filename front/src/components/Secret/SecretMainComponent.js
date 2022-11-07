@@ -19,7 +19,7 @@ const SecretMain = () => {
     }
     )
   }
-  const getProfil = async() => {
+  const getProfile = async() => {
     await axios.get('http://localhost:8080/getProfil')
     .then(response => {
       console.log(response.data);
@@ -47,7 +47,7 @@ const SecretMain = () => {
   }
 
   useEffect(() => {
-    getProfil();
+    getProfile();
     getFriendsList();
   }, [])
 
