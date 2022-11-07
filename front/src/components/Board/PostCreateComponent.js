@@ -11,6 +11,7 @@ import '../../main.css';
 import styled from 'styled-components';
 import { Layout, Menu } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './PostCreateComponent.css';
 
 
 function PostCreateComponent() {
@@ -75,9 +76,14 @@ function PostCreateComponent() {
       <LoginHeader></LoginHeader>     
       <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
       
-
-      <div className='Write'>
-        <div className='image'>
+  
+     
+      <div class="Title">
+        <span>
+          블로그 작성하기
+        </span>
+      </div>
+      <div className='image'>
         <InputTextComponent onCreate={(v)=>{
             if(image.length >= 1){
               alert("이미지는 한장만 가능합니다");
@@ -89,15 +95,13 @@ function PostCreateComponent() {
             }
           }}></InputTextComponent>
           <ImageLoad data={image} onDelete={onDelete}/>
-          </div>      
-        <form id='board_form' style={{float: 'left'}}>
-        <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} className="form-control mt-1" size={100}/>
-        
-        <label>                   </label>
-        <label>                   </label>
-       
-        <div>
-        < ReactQuill 
+      </div>  
+      <form class="Form-Box List-Write-Page">
+      <div class="Title-Write">
+      <input type='text' autoComplete='off' id='title_txt' name='title' placeholder='제목' onChange={getValue} className="form-control mt-1" size={100} autoFocus />
+      </div>
+      <div class="Content">
+      < ReactQuill 
             onChange={(event) => {
               setBlogContent({
                 ...blogContent,
@@ -105,14 +109,11 @@ function PostCreateComponent() {
               });
             }}
         />
-        </div>
-        <label>                   </label>
-        <label>                   </label>
-        <div>
-        <button class="btn btn-primary" type='button' onClick={() => _submitBoard()}> 포스트 등록 </button>
-        </div>
-        </form>  
       </div>
+      <div class="Up-Btn">
+      <button class="btn btn-primary" type='button' onClick={() => _submitBoard()}> 포스트 등록 </button>
+      </div>
+    </form>
       
       </div>
          );

@@ -3,6 +3,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'bootstrap-4-react';
 import { Badge } from 'bootstrap-4-react';
+import './InputTextComponent.css';
+
 function InputTextComponent(props){
     return <form onSubmit={(event)=>{
       event.preventDefault();
@@ -30,7 +32,7 @@ function InputTextComponent(props){
       
       <input type="submit" value="이미지 불러오기" className="btn btn-success"/>
       </div>
-      <div>
+      <div className='badges'>
         <Badge primary>여행</Badge>
         <Badge secondary>일상</Badge>
         <Badge success>좋아요</Badge>

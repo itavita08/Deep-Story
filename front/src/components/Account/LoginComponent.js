@@ -30,7 +30,7 @@ export default function LoginComponent(props) {
             .executeJwtAuthenticationService(state.accountEmail, state.accountPassword)
             .then((response) => {
                 console.log(response.data)
-                AuthenticationService.registerSuccessfulLoginForJwt(state.accountEmail, response.data.atk, response.data.rtk)
+                AuthenticationService.registerSuccessfulLoginForJwt(response.data.atk, response.data.rtk, response.data.type)
 
                 if (!response.data.atk) {
                     console.log('==================', response.data.msg)
@@ -56,8 +56,6 @@ export default function LoginComponent(props) {
 
     return (
         <div className="Auth-form-container">
-
-            {/* <form className="Auth-form"> */}
             
             <div className="Auth-form-content">
                 <h3 className="Auth-form-title">Welcome back</h3>
@@ -98,14 +96,7 @@ export default function LoginComponent(props) {
                 <p className="forgot-password text-right mt-2">
                 Dont have an account?<a href='/sign'onClick={gogogo}>Sign up today</a>
                 </p>
-                
-
-                {/* Email: <input type="text" name="accountEmail"  value={state.accountEmail} onChange={handleChange}></input>
-                Password: <input type="password" name="accountPassword" value={state.accountPassword} onChange={handleChange}></input>
-                
-                <button className="btn btn-success" onClick={loginClicked}>Login</button> */}
             </div>
-            {/* </form> */}
             <img src={image33} width="auto" height="800" />
         </div>
         

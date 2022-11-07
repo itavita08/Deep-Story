@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginComponent from '../Account/LoginComponent';
 import { useNavigate } from 'react-router-dom';
-
+import "./Header.css";
 
 export default function Header() {
 

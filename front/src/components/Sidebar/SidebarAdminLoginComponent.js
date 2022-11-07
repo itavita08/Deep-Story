@@ -28,19 +28,16 @@ import { Link } from "react-router-dom";
 
 function SideNavigation () {
 
-  
-    const [collapsed, setCollapsed] = useState(false);
+   const userType =  sessionStorage.getItem('userType');
+   const [collapsed, setCollapsed] = useState(false);
+   const navigate = useNavigate();
     
-    const navigate = useNavigate();
-    
-    const clickPost = async () => {
+   const clickPost = async () => {
 
       navigate("/postCreate");
 
     };
     
-
-  
     // added styles
     const styles = {
       sideBarHeight: {
@@ -55,10 +52,6 @@ function SideNavigation () {
     const onClickMenuIcon = () => {
       setCollapsed(!collapsed);
     };
-
-
-
-
 
   return (
 
@@ -94,7 +87,7 @@ function SideNavigation () {
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
-            <MenuItem icon={<AiFillSignal />}><Link to="/">Dash Board</Link></MenuItem>
+            <MenuItem icon={<AiFillSignal />}><Link to="/dashBoard">Dash Board</Link></MenuItem>
           </SubMenu>
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>

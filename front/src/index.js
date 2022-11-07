@@ -40,17 +40,13 @@ import GetGelleryComponent from './components/Gallery/GetGelleryComponent';
 import SecretPostCreateComponent from './components/Secret/SecretPostCreateComponent';
 import SecretDetailComponent from './components/Secret/SecretDetailComponent';
 import SecretPostUpdate from './components/Secret/SecretPostUpdate';
-
+import DashBoard from './components/Chart/DashBoard';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // let persistor = persistStore(store);
 
 root.render(
-
-  // <React.StrictMode>
-  //  <App />
-  // </React.StrictMode>
   
   <React.Fragment>
   <CookiesProvider>
@@ -60,8 +56,6 @@ root.render(
 
     <div>
         <BrowserRouter>
-
-
           <Routes>
             <Route path="/" exact element={<App />} />
 
@@ -90,6 +84,7 @@ root.render(
             <Route path="/*" element={<NotFound />} /> 
             <Route path='/secretDetail' element={<SecretDetailComponent />}/>
             <Route path='/secretPostUpdate' element={<SecretPostUpdate/>}/>
+            <Route path='/dashBoard' element={<DashBoard/>}/>
             
           </Routes>
         </BrowserRouter>
