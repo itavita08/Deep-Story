@@ -33,9 +33,15 @@ import PostAllViewLogout from './components/Board/PostAllViewLogout';
 import InputFriendRequest from './components/Friendrequest/InputFriendRequest';
 import SecretMain from './components/Secret/SecretMainComponent';
 import NotFound from './NotFound';
+import SecretList from './components/Secret/SecretListComponent';
+import SearchResultLoginComponent from './components/Sub/SearchResultLoginComponent';
+import SearchResultLogoutComponent from './components/Sub/SearchResultLogoutComponent';
+import GelleryResultComponent from './components/Gallery/GelleryResultComponent';
+import GetGelleryComponent from './components/Gallery/GetGelleryComponent';
+import SecretPostCreateComponent from './components/Secret/SecretPostCreateComponent';
+import SecretDetailComponent from './components/Secret/SecretDetailComponent';
+import SecretPostUpdate from './components/Secret/SecretPostUpdate';
 import DashBoard from './components/Chart/DashBoard';
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // let persistor = persistStore(store);
@@ -64,18 +70,27 @@ root.render(
             <Route path="/login" exact element={<LoginComponent />} />
             <Route path="/logout" exact element={<LogoutComponet />} />
             <Route path="/postCreate" exact element={<PostCreateComponent />} />
-            <Route path="/detail" exact element={<Detail />} />  
             <Route path="/mypage" exact element={<MypageComponent />} />  
             <Route path="/updateProfil" exact element={<UpdateProfilComponent />} />  
-            <Route path="/update" exact element={<Update />}/>
+            <Route path="/searchResultLogin" exact element={<SearchResultLoginComponent />} />  
+            <Route path="/searchResultLogout" exact element={<SearchResultLogoutComponent />} />  
+            <Route path="/getGellery" exact element={<GetGelleryComponent />} />  
+            <Route path="/gelleryResult" exact element={<GelleryResultComponent />} />  
+            <Route path="/updatePost" exact element={<Update />} />
+            <Route path='/postAllLogin' element={<PostAllLogin/>}/>
+            <Route path='/postAllLogout' element={<PostAllLogout/>}/>
             <Route path='/postallviewLogin' element={<PostAllViewLogin/>}/>
             <Route path='/postallviewLogout' element={<PostAllViewLogout/>}/>
             <Route path='/inputfriendrequest' element={<InputFriendRequest />}/>
             <Route path='/secretMain' element={<SecretMain />}/>
-            <Route path='/dashBoard' element={<DashBoard />}/>
-            
+            <Route path="/detail" exact element={<Detail />} />  
+            <Route path="/update" exact element={<Update />}/>
+            <Route path="/secretlist" element={<SecretList/>}/>
+            <Route path='/secrePostCreate' element={<SecretPostCreateComponent/>}/>
             <Route path="/*" element={<NotFound />} /> 
-            
+            <Route path='/secretDetail' element={<SecretDetailComponent />}/>
+            <Route path='/secretPostUpdate' element={<SecretPostUpdate/>}/>
+            <Route path='/dashBoard' element={<DashBoard />}/>
             
           </Routes>
         </BrowserRouter>

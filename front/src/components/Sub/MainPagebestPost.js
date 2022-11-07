@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 function MypageCard() {
 
     const location = useLocation();
-    const [postId, setPostId] = useState();
     const [title, setTitle] = useState(0);
     const [content, setContent] = useState("");
     const [image, setImage] = useState("");
@@ -36,7 +35,7 @@ function MypageCard() {
 
 
     const getbestPost = async () => {
-        await axios.get("http://localhost:80/bestPost")
+        await axios.get("http://localhost:8080/bestPost")
             .then(
                 data => {
                     // console.log(data.data); 
@@ -58,12 +57,13 @@ function MypageCard() {
     };
 
     const detailPage = (p) => {
-        navigate("/detail",{
+        navigate("/detail", {
             state: {
-              postId : p
+                postId : p
             }
-          },{
-            replace: false})
+        },{
+            replace: false
+        })
     }
     
 

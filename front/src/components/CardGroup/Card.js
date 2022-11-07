@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from 'react-router-dom';
 
-import "./card.css";
+import "./card.scss";
 
 function Card({ postId, imageSource, title, text, url }) {
 
@@ -23,28 +23,42 @@ function Card({ postId, imageSource, title, text, url }) {
 
 
   return (
-    <div className="card text-center bg-dark animate__animated animate__fadeInUp">
-      <div className="overflow">
-        <img src={imageSource} alt="a wallpaper" className="card-img-top" onClick={onClickImg}/>
-      </div>
-      <div className="card-body text-light">
-        <h4 className="card-title"onClick={onClickImg} >{title} </h4>
+    // <div className="card text-center bg-dark animate__animated animate__fadeInUp">
+    //   <div className="overflow">
+    //     <img src={imageSource} alt="a wallpaper" className="card-img-top" onClick={onClickImg}/>
+    //   </div>
+    //   <div className="card-body text-light">
+    //     <h4 className="card-title"onClick={onClickImg} >{title} </h4>
 
-        {/* <p className="card-text text-secondary">
-          {text
-            ? text
-            : {text}}
-        </p> */}
-        {/* <a
-          href={url ? url : "#!"}
-          target="_blank"
-          className="btn btn-outline-secondary border-0"
-          rel="noreferrer"
-        >
-          Go to {title}
-        </a> */}
-      </div>
+        
+    //   </div>
+    // </div>
+    <div class="grid-container">
+  <div class="grid-col">
+    <img src={imageSource} alt=""/>
+    <div class="body-content">
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <a href="#" onClick={onClickImg} class="round-btn"><i class="fa fa-long-arrow-right"></i></a>
     </div>
+  </div>
+   {/* <div class="grid-col">
+    <img src={imageSource} alt=""/>
+    <div class="body-content">
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <a href="#" onClick={onClickImg} class="round-btn"><i class="fa fa-long-arrow-right"></i></a>
+    </div>
+  </div> 
+    <div class="grid-col">
+    <img src={imageSource} alt=""/>
+    <div class="body-content">
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <a href="#" onClick={onClickImg} class="round-btn"><i class="fa fa-long-arrow-right"></i></a>
+    </div>
+  </div> */}
+</div>
   );
 }
 

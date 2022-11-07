@@ -77,7 +77,7 @@ function SideNavigation () {
         <Menu iconShape="square">
   
         <SubMenu title="Home" icon={<AiFillHome />}>
-          <MenuItem icon={<AiFillAppstore />}>View All</MenuItem>
+          <MenuItem icon={<AiFillAppstore />}><Link to = "/postAllLogin">View All</Link></MenuItem>
         </SubMenu>
   
   
