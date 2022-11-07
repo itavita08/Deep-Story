@@ -77,7 +77,7 @@ function SideNavigation () {
         <Menu iconShape="square">
   
         <SubMenu title="Home" icon={<AiFillHome />}>
-          <MenuItem icon={<AiFillAppstore />}>View All</MenuItem>
+          <MenuItem icon={<AiFillAppstore />}><Link to = "/postAllLogin">View All</Link></MenuItem>
         </SubMenu>
   
   
@@ -95,7 +95,7 @@ function SideNavigation () {
           </SubMenu>
   
           <SubMenu title="Admin" icon={< AiFillTool/>} >
-            <MenuItem icon={<AiFillSignal />}><Link to="/">Dash Board</Link></MenuItem>
+            <MenuItem icon={<AiFillSignal />}><Link to="/dashBoard">Dash Board</Link></MenuItem>
           </SubMenu>
 
             <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>
