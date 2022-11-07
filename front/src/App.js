@@ -1,15 +1,7 @@
 
 import React, { Component }  from 'react';
 import LogoutHeader from './components/Header/LogoutHeader';
-import LoginHeader from './components/Header/LoginHeader';
-
-
 import SidebarLogoutComponent from './components/Sidebar/SidebarLogoutComponent';
-import SidebarAdminLoginComponent from './components/Sidebar/SidebarAdminLoginComponent';
-
-import {Route, Routes, useNavigate} from "react-router-dom";
-
-import { Link } from 'react-router-dom';
 import { setCookie, getCookie, deleteCookie } from './storage/Cookie';
 
 // import { connect } from 'react-redux';
@@ -54,13 +46,8 @@ import { setCookie, getCookie, deleteCookie } from './storage/Cookie';
 
         <LogoutHeader></LogoutHeader> 
 
-        {/* <LoginHeader></LoginHeader> */}
-
         <SidebarLogoutComponent></SidebarLogoutComponent>
 
-        {/* <SidebarAdminLoginComponent></SidebarAdminLoginComponent> */}
-
-      
 		</div>
 	);
  // }
@@ -68,11 +55,5 @@ import { setCookie, getCookie, deleteCookie } from './storage/Cookie';
 
 export default App;
 
-// export default connect(
-//   null,
-//   (dispatch) => ({
-//       UserActions: bindActionCreators(userActions, dispatch)
-//   })
-// )(App);
 
 

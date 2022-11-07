@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import InputTextComponent from './InputTextComponent';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
+import SidebarAll from '../Sidebar/SidebarAllComponent';
+import LoginHeader from '../Header/LoginHeader';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
@@ -74,7 +74,7 @@ function PostCreateComponent() {
       <div className='Mains'>
         
       <LoginHeader></LoginHeader>     
-      <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+      <SidebarAll></SidebarAll>
       
   
      

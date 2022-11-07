@@ -3,8 +3,8 @@ import Card from "../CardGroup/Card";
 import Paging from "../Paging/Paging";
 import { useLocation } from 'react-router-dom';
 
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
+import SidebarAll from "../Sidebar/SidebarAllComponent";
+import LoginHeader from '../Header/LoginHeader';
 
 function PostAllView(){
   const location = useLocation();
@@ -33,7 +33,7 @@ function PostAllView(){
     <div>
 
         <LoginHeader></LoginHeader>
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+        <SidebarAll></SidebarAll>
 
       {currentPosts && items.length > 0 ? (
         currentPosts.map((item) => (

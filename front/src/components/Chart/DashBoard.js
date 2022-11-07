@@ -3,15 +3,15 @@ import GenderPieChart from './GenderPieChart';
 import Total from './Total';
 import AgeChart from './AgeChart';
 import LoginChart from './LoginChart';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
+import SidebarAll from '../Sidebar/SidebarAllComponent';
+import LoginHeader from '../Header/LoginHeader';
 
 function DashBoard(){
     return(
         <div>
         <div id='bar'>
         <LoginHeader></LoginHeader>
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+        <SidebarAll></SidebarAll>
         </div>
 
         <div id='chart'>

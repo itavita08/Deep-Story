@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputTextComponent from "../Board/InputTextComponent";
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
+import SidebarAll from "../Sidebar/SidebarAllComponent";
 import LoginHeader from '../Header/LoginHeader'
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
@@ -73,7 +73,7 @@ const SecretPostCreateComponent = () => {
       <div className='Mains'>
         
         <LoginHeader></LoginHeader>     
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+        <SidebarAll/>
         
   
         <div className='Write'>

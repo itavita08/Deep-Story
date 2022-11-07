@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import axios from 'axios';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
+import SidebarAll from "../Sidebar/SidebarAllComponent";
 import LoginHeader from '../Header/LoginHeader';
 import { useNavigate } from 'react-router-dom';
 import './secretmain.scss';
@@ -54,7 +54,7 @@ const SecretMain = () => {
   return(
     <div>
       <LoginHeader />
-      <SidebarAdminLoginComponent />
+      <SidebarAll />
       <div className="onlybody">
       <h1> {myName}님의 친구 목록입니다. <span class='dejavu'>&#x2680; &#x2681; &#x2682; &#x2683; &#x2684; &#x2685;</span></h1>
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
+import SidebarAll from '../Sidebar/SidebarAllComponent';
 import LoginHeader from '../Header/LoginHeader';
 
 import Card from "../CardGroup/Card";
@@ -56,7 +56,7 @@ function SearchResultLoginComponent(props) {
         <div className='App'>
 
         <LoginHeader></LoginHeader>
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+        <SidebarAll></SidebarAll>
 
       {  (currentPosts && items.length > 0) 
       ?(

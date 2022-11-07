@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
+import SidebarAll from '../Sidebar/SidebarAllComponent';
 import LoginHeader from '../Header/LoginHeader';
 
 import MypageComponent from '../Sub/MypageComponent';
@@ -45,7 +45,7 @@ const getProfil = async() => {
 
         {/* <div>
         <LoginHeader></LoginHeader>
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+        <SidebarAll></SidebarAll>
   
 
       {  postList.map((post) => (

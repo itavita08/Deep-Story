@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent';
+import SidebarAll from "../Sidebar/SidebarAllComponent";
 import LoginHeader from '../Header/LoginHeader';
 import SecretCard from "../CardGroup/SecretCard";
 
@@ -18,7 +18,7 @@ const SecretList = (props) => {
   return(
     <div>
       <LoginHeader />
-      <SidebarAdminLoginComponent />
+      <SidebarAll/>
 
       <h1> 프로필 </h1>
         <h5> My Email : {myAccount.friendEmail} </h5>

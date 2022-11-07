@@ -3,8 +3,8 @@ import React, { useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
+import SidebarAll from '../Sidebar/SidebarAllComponent';
+import LoginHeader from '../Header/LoginHeader';
 
 const SecretDetailComponent = () => {
   const location = useLocation();
@@ -75,7 +75,7 @@ const SecretDetailComponent = () => {
     <div className='Mains'>
         
       <LoginHeader></LoginHeader>     
-      <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+      <SidebarAll></SidebarAll>
     <div>
       <div>
         <h2>좋아요

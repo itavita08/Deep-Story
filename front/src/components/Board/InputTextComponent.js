@@ -23,9 +23,6 @@ function InputTextComponent(props){
      .then(v => props.onCreate(v))}
     }}>
       
-    <label>
-      이미지 생성
-      </label>
       <div className='form-group mt-3'>
        
       <input type="text" name="inputText" id="inputText"class="btn btn-outline-success" size={30} />
