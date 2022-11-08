@@ -65,10 +65,13 @@ public class JwtProvider {
 
 		String atk = createToken(atkSubject, atkLive);
         String rtk = createToken(rtkSubject, rtkLive);
+        
 
         redisDao.setValues(accountResponse.getAccountEmail(), rtk, Duration.ofMillis(rtkLive));
 
-		return new TokenResponse(atk, rtk);
+        String type = accountResponse.getAccountType();
+        
+		return new TokenResponse(atk, rtk, type);
 	}
 
 	// 토큰 생성 메소드
@@ -124,7 +127,7 @@ public class JwtProvider {
 		
         String atk = createToken(atkSubject, atkLive);
         
-        return new TokenResponse(atk, null);
+        return TokenResponse.tokenResponse(atk, null);
     }
 	
 }

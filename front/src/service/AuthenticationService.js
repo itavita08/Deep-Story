@@ -21,10 +21,10 @@ class AuthenticationService {
 
     // 토큰 저장
     // email 을 authenticatedUser로 localStorage에 저장
-    registerSuccessfulLoginForJwt(accountEmail, atk, rtk) {
+    registerSuccessfulLoginForJwt(atk, rtk, type) {
 
         // 세션 스토리지에 이메일 저장
-        sessionStorage.setItem('authenticatedUser', accountEmail);
+        sessionStorage.setItem('userType', type);
 
         // 쿠키에 Refresh Token 저장
         setCookie("RefreshToken", rtk);
