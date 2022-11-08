@@ -30,7 +30,7 @@ export default function LoginComponent(props) {
             .executeJwtAuthenticationService(state.accountEmail, state.accountPassword)
             .then((response) => {
                 console.log(response.data)
-                AuthenticationService.registerSuccessfulLoginForJwt(state.accountEmail, response.data.atk, response.data.rtk)
+                AuthenticationService.registerSuccessfulLoginForJwt(response.data.atk, response.data.rtk, response.data.type)
 
                 if (!response.data.atk) {
                     console.log('==================', response.data.msg)
