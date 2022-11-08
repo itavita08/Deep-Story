@@ -25,4 +25,7 @@ public interface LoveRepository extends JpaRepository<LoveEntity, Integer> {
     
     @Query("select count(l.loveId) as loveId, l.postId from LoveEntity l group by l.postId order by count(l.loveId) desc")
     List<Object[][]> findCountLove();
+    
+    @Query("select l.postId from LoveEntity l where l.accountId = :accountId")
+    List<PostEntity> findpostIdByAccountId(@Param("accountId") AccountEntity accountEntity);
 }

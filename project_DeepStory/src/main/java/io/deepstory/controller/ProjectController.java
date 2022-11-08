@@ -41,12 +41,14 @@ import io.deepstory.model.dto.SecretPostDTO;
 import io.deepstory.model.dto.SecretPostImageDTO;
 import io.deepstory.model.dto.SecretPostListDTO;
 import io.deepstory.model.dto.SignUpRequestDTO;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class Controller {
+@Api( tags = "Clients")
+public class ProjectController {
 
 	private final JwtProvider jwtProvider;
 	private final TokenDecoding tokenDecoding;
@@ -59,6 +61,7 @@ public class Controller {
 	private SecretService secretService;
 
 	private ObjectMapper omapper = new ObjectMapper();
+	
 
 	// 회원가입
 	@PostMapping("/auth/signUp")
@@ -155,6 +158,7 @@ public class Controller {
 		PostDTO postDTO = null;
 		String result = "";
 		String imageName = "noimage";
+		AccountDTO accountDTO = new AccountDTO();
 		int userId = tokenDecoding.tokenDecode(request.getHeader("Authorization")).getAccountId();
 
 		try {
@@ -162,6 +166,7 @@ public class Controller {
 				postDTO = postService.getPost(input.get("postId"));
 				imageName = postService.getImage(input.get("postId"));
 				result = postService.checkId(userId, input.get("postId"));
+				accountDTO = postService.getAccount(input.get("postId"));
 				System.out.println(result);
 			}
 
@@ -175,7 +180,7 @@ public class Controller {
 			map.put("content", postDTO.getPostContents());
 			map.put("image", imageName);
 			map.put("result", result);
-
+			map.put("email", accountDTO.getAccountEmail());
 			return omapper.writeValueAsString(map);
 		}
 
@@ -292,6 +297,17 @@ public class Controller {
 
 		return postList;
 
+	}
+	
+	//유저의 좋아요 게시물 목록
+	@GetMapping("getInterestPost")
+	public ArrayList<PostListDTO> getInterestPost(HttpServletRequest request) throws Exception {
+
+		Subject subject = tokenDecoding.tokenDecode(request.getHeader("Authorization"));
+	
+		ArrayList<PostListDTO> postList = postService.getInterestPost(subject.getAccountId());
+
+		return postList;
 	}
 
 	// 검색 기능 - 메인페이지

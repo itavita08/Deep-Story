@@ -1,11 +1,14 @@
 package io.deepstory.model;
 
+import java.io.FilterWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.deepstory.exception.SeverErrorRequestException;
+import io.deepstory.model.dto.AccountDTO;
 import io.deepstory.model.dto.ImageDTO;
 import io.deepstory.model.dto.PostDTO;
 import io.deepstory.model.dto.PostImageDTO;
@@ -101,6 +105,15 @@ public class PostService {
 
 		return postDTO;
 	}
+	@Transactional
+	public AccountDTO getAccount(int postId) {
+		Optional<AccountEntity> account = postRepository.findAccountIdByPostId(postId);
+		AccountDTO accountDTO = AccountDTO.toDTO(account.get());
+		if(accountDTO != null) {
+			return accountDTO;
+		}
+		return null;
+	}
 
 	// 이미지 추가
 	@Transactional
@@ -169,15 +182,42 @@ public class PostService {
 
 		return PostList;
 	}
+	
+	//account Id 받아서 ArrayList<PostListDTO> 반환
+	// 좋아요 누른 게시물 목록 
+	@Transactional
+	public ArrayList<PostListDTO> getInterestPost(int accountId) {
+		ArrayList<PostListDTO> postList = new ArrayList<PostListDTO>();
+		try {
+			AccountEntity account = accountRepository.findById(accountId).get();
+			
+			List<PostEntity> postEntityList = loveRepository.findpostIdByAccountId(account);
+			
+			List<ImageEntity> imageEntityList = imageRepository.findAllByAccountId(account);
+			
+			List<ImageEntity> filterImageEntity = imageEntityList.stream().filter((ImageEntity image) -> postEntityList.contains(image.getPostId())).collect(Collectors.toList());
+
+			int i =0;
+			for(PostEntity p : postEntityList) {
+				if(filterImageEntity.get(i) != null) {
+					new PostListDTO();
+					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName()).content(p.getPostContents()).image(filterImageEntity.get(i).getImageName()).build());
+					i++;
+				}else {
+					new PostListDTO();
+					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName()).content(p.getPostContents()).image(null).build());
+					i++;
+				}
+			}			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return postList;
+	}
 
 	// 검색 기능 (제목, 내용)
 	@Transactional
 	public ArrayList<PostListDTO> searchUserPost(String keyword) throws Exception {
-
-//		System.out.println("유저 검색");
-//		Optional<AccountEntity> account = accountRepository.findByAccountEmail(keyword);
-//		int accountId = account.get().getAccountId();
-
 		List<PostEntity> postTitleList = null;
 		List<PostEntity> postContentsList = null;
 
@@ -392,5 +432,6 @@ public class PostService {
 		}
 		return "false";
 	}
+
 
 }

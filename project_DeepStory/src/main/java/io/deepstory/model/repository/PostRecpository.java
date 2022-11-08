@@ -1,6 +1,7 @@
 package io.deepstory.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,13 +25,10 @@ public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
     
     @Query("select p.accountId from PostEntity p where p.postId =:postId ")
     AccountEntity findAccountId(@Param("postId") int postId);
-	
-	
+    
+    @Query("select p.accountId from PostEntity p where p.postId = :postId")
+	Optional<AccountEntity> findAccountIdByPostId(int postId);
 
-	
-	
-	
-	
-	
+		
 
 }

@@ -21,6 +21,8 @@ public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
 
     @Query("select i.imageName from ImageEntity i where i.accountId =:accountId")
     List<String> findImageNameByAccountId(@Param("accountId") AccountEntity accountEntity);
+    
+    List<ImageEntity> findAllByAccountId(AccountEntity accountId);
 
 
 }
