@@ -10,6 +10,7 @@ export const Paging = ({ page, count, setPage }) => {
       prevPageText={'‹'}
       nextPageText={'›'}
       onChange={setPage}
+      
     />
   );
 };

@@ -22,6 +22,7 @@
     "html-react-parser": "^3.0.4",
     "immer": "^9.0.16",
     "install": "^0.13.0",
+    "mdb-react-ui-kit": "^5.0.0",
     "navigate": "^0.3.6",
     "node-html-parser": "^6.1.1",
     "node-sass": "^7.0.3",

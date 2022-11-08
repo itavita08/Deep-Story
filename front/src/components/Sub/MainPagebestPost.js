@@ -16,15 +16,18 @@ function MypageCard() {
     const [list, setList] = useState([{
         "title": "",
         "content": "",
-        "image": ""
+        "image": "",
+        "postId":""
     },{
         "title": "",
         "content": "",
-        "image": ""
+        "image": "",
+        "postId":""
     },{
         "title": "",
         "content": "",
-        "image": ""
+        "image": "",
+        "postId":""
     }]);
     // const [postId, setPostId] = useState("");
     const navigate = useNavigate();
@@ -38,17 +41,30 @@ function MypageCard() {
                     // console.log(data.data); 
                     setList([{...list, "title":data.data.key0.title,
                     "content":data.data.key0.content,
-                    "image":data.data.key0.image},{...list, "title":data.data.key1.title,
+                    "image":data.data.key0.image,
+                    "postId":data.data.key0.postId},{...list, "title":data.data.key1.title,
                     "content":data.data.key1.content,
-                    "image":data.data.key1.image},{...list, "title":data.data.key2.title,
+                    "image":data.data.key1.image,
+                    "postId":data.data.key1.postId},{...list, "title":data.data.key2.title,
                     "content":data.data.key2.content,
-                    "image":data.data.key2.image}])
+                    "image":data.data.key2.image,
+                    "postId":data.data.key2.postId}])
                     
 
 
                 }
             )
     };
+
+    const detailPage = (p) => {
+        navigate("/detail", {
+            state: {
+                postId : p
+            }
+        },{
+            replace: false
+        })
+    }
     
 
     useEffect(() => {
@@ -68,7 +84,9 @@ function MypageCard() {
         <div>
             <h2>상위 게시물</h2>
             
-            <div class="card" style={{float:'left'}}>
+            <div class="card" style={{float:'left'}} onClick={()=>{
+                detailPage(parseInt(list[0].postId))
+            }}>
             <img key="1" class="card-img-top" style={{
                 height: 200,
                 width: 300
@@ -79,7 +97,9 @@ function MypageCard() {
             </div>
             </div>
 
-            <div class="card" style={{float:'left'}}>
+            <div class="card" style={{float:'left'}} onClick={()=>{
+                detailPage(parseInt(list[1].postId))
+            }}>
             <img key="2" class="card-img-top" style={{ 
                 height: 200,
                 width: 300
@@ -90,7 +110,9 @@ function MypageCard() {
             </div>
             </div>
 
-            <div class="card">
+            <div class="card" onClick={()=>{
+                detailPage(parseInt(list[2].postId))
+            }}>
             <img key="3" class="card-img-top" style={{ 
                 height: 200,
                 width: 300

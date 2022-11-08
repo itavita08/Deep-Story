@@ -5,6 +5,9 @@
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    position: absolute;
+    top: 220%;
+    left: 40%;
   }
   ul {
     list-style: none;
