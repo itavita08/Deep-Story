@@ -24,8 +24,7 @@ const SideNavigation = () => {
     const styles = {
       sideBarHeight: {
         height: "100vh",
-        float: "left",
-        margin: "10px"
+        float: "left"
       },
       menuIcon: {
         float: "right",

@@ -1,5 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+
 header{
-	background-color: #e9e6e4;
+	background-image: url('http://localhost:3000/static/media/image44.d28b7ad9ec80fc0afc4a.jpg');
+	height: 300px;
+	display: inline-block;
+	background-size: cover;
 }
 
 header input {
@@ -42,4 +47,14 @@ header button {
 	position: relative;
 	text-shadow: 0 -1px 0 #000;
 	width: 80px;
+}
+
+.header > h1 {
+	position: relative;
+	text-align: center;
+	color: floralwhite;
+	padding-top: 8rem;
+	z-index: 2;
+	font-family: 'Poor Story', cursive;
+	font-size: 80px;
 }

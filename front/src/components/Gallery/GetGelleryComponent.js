@@ -41,39 +41,7 @@ const getProfil = async() => {
 
     return (
 
-        <div className='App'>
-
-        {/* <div>
-        <LoginHeader></LoginHeader>
-        <SidebarAll></SidebarAll>
-  
-
-      {  postList.map((post) => (
-
-        (post.image === null)
-        ?(
-          <div className="container d-flex justify-content-center align-items-center h-100">
-          <div className="row">
-            <div className="col-md-4" key={post.postId}>
-              <Card postId = {post.postId} imageSource="/static/image/noimage.png" title={post.title} text={post.content}/>
-            </div>
-          </div>
-        </div>
-        ):(
-        <div className="container d-flex justify-content-center align-items-center h-100">
-          <div className="row">
-            <div className="col-md-4" key={post.postId}>
-              <Card postId = {post.postId} imageSource={"/static/image/"+ post.image +".png"} title={post.title} text={post.content}/>
-            </div>
-          </div>
-        </div>
-        )
-
-        ))
-      } */}
-     
-
-  
+        <div className='Gallery'>
         </div>
      
     );

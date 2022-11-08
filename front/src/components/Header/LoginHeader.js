@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginComponent from '../Account/LoginComponent';
 import "./Header.css";
 
 export default function Header() {
@@ -55,6 +54,8 @@ const searchClicked = async()  => {
       
         <button id="b_search" onClick={searchClicked}><p>검색</p></button>
       </div>
+
+      <h1> Draw your story</h1>
      
     </header>
   );

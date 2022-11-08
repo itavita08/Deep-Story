@@ -6,10 +6,9 @@ import image44 from '../assets/image44.jpg';
 function videoplayer() {
 
     return (
-
         <>
             <h2>Player Test</h2>
-            <div className='player-wrapper' style={{float:'left'}}>
+            <div className='player-wrapper' style={{float:'left' , background:'none'}}>
                 <ReactPlayer
                     className='react-player'
                     url={'https://www.youtube.com/watch?v=D0oipIheaUM&ab_channel=NNMusic'}    // 플레이어 url
@@ -23,6 +22,7 @@ function videoplayer() {
                     
                     // onEnded={() => handleVideo()}  // 플레이어 끝났을 때 이벤트
                 />
+                
             </div>
             <img src={image44} width="auto" height="330"style={{float:'inline-start'}} />
         </>

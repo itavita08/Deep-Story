@@ -1,19 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaGem, FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { AiFillCrown, AiFillSignal, AiFillHome, AiFillEdit, AiOutlineForm, AiFillLock, AiFillCodeSandboxSquare, AiFillPicture } from "react-icons/ai";
 import { AiFillTool, AiFillAppstore } from "react-icons/ai";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
-import { useNavigate } from 'react-router-dom';
-
-import LoginComponent from '../Account/LoginComponent';
-import SignComponets from '../Account/SignComponents';
-import PostCreateComponent from '../Board/PostCreateComponent';
-
 import {
   Menu,
   MenuItem,
@@ -32,8 +26,7 @@ const SidebarAll = () => {
   const styles = {
     sideBarHeight: {
       height: "100vh",
-      float: "left",
-      margin: "10px"
+      float: "left"
     },
     menuIcon: {
       float: "right",
@@ -61,8 +54,8 @@ const SidebarAll = () => {
         <SubMenu title="My Page" icon={<AiFillCrown />}>
          <MenuItem icon={<AiOutlineForm />} ><Link to="/mypage">Profil</Link></MenuItem>
          <MenuItem icon={<AiOutlineForm />} ><Link to="/postCreate">Create</Link></MenuItem>  
-          <MenuItem icon={<AiFillPicture />}><Link to='gelleryResult'>Gellery</Link></MenuItem>  
-          <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
+          <MenuItem icon={<AiFillPicture />}><Link to='getGellery'>Gellery</Link></MenuItem>  
+          <MenuItem icon={<FaHeart />}><Link to="/interest">Interest</Link></MenuItem>
           <MenuItem icon={<AiFillLock />}><Link to="/secretMain">Secret</Link></MenuItem>
         </SubMenu>
 
@@ -92,8 +85,8 @@ const SidebarAll = () => {
         <SubMenu title="My Page" icon={<AiFillCrown />}>
           <MenuItem icon={<AiOutlineForm />} ><Link to="/mypage">Profil</Link></MenuItem>
           <MenuItem icon={<AiOutlineForm />}><Link to="/postCreate">Create</Link></MenuItem>
-          <MenuItem icon={<AiFillPicture />}><Link to='gelleryResult'>Gellery</Link></MenuItem>
-          <MenuItem icon={<FaHeart />}><Link to="/">Interest</Link></MenuItem>
+          <MenuItem icon={<AiFillPicture />}><Link to='/getGellery'>Gellery</Link></MenuItem>
+          <MenuItem icon={<FaHeart />}><Link to="/interest">Interest</Link></MenuItem>
           <MenuItem icon={<AiFillLock />}><Link to="/secretMain">Secret</Link></MenuItem>
       </SubMenu>
       <div><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></div>  

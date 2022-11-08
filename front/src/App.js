@@ -3,6 +3,7 @@ import React, { Component }  from 'react';
 import LogoutHeader from './components/Header/LogoutHeader';
 import SidebarLogoutComponent from './components/Sidebar/SidebarLogoutComponent';
 import { getCookie } from './storage/Cookie';
+import MainPageLogoutComponent from './components/Sub/MainPageLogoutComponent';
 import './App.css';
 
 
@@ -18,6 +19,8 @@ import './App.css';
         <LogoutHeader></LogoutHeader> 
 
         <SidebarLogoutComponent></SidebarLogoutComponent>
+
+				<MainPageLogoutComponent/>
 
 		</div>
 	);

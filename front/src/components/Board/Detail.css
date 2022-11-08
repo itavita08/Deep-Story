@@ -1,4 +1,4 @@
-body{
+article{
   background-color: #e9e6e4;
 }
 
@@ -32,7 +32,7 @@ article button {
   border: 1px solid #a9b1b3;
   transition: all 0.3s ease-in;
 }
-a:hover, a:active, a:focus {
+.Mains > a:hover, a:active, a:focus {
   color: #fff;
   background-color: #a9b1b3;
 }

@@ -7,7 +7,7 @@ import LoginComponent from '../Account/LoginComponent';
 import { useNavigate } from 'react-router-dom';
 import "./Header.css";
 
-export default function Header() {
+export default function LogoutHeader() {
 
   const [state, setState] = useState({
     keyword: ''
@@ -57,6 +57,7 @@ export default function Header() {
         <input type="text" placeholder="검색" id="searchbar" name="keyword" value={state.keyword} onChange={handleChange}/>
         <button id="b_search" onClick={searchClicked}><p>검색</p></button>
       </div>
+        <h1> Draw your story</h1>
 
         <div className="login">
         <button id="b_login" onClick={() => navigate("/login")}><p>로그인</p></button>
@@ -70,3 +71,4 @@ export default function Header() {
     </header>
   );
 }
+

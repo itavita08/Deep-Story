@@ -41,6 +41,7 @@ import SecretPostCreateComponent from './components/Secret/SecretPostCreateCompo
 import SecretDetailComponent from './components/Secret/SecretDetailComponent';
 import SecretPostUpdate from './components/Secret/SecretPostUpdate';
 import DashBoard from './components/Chart/DashBoard';
+import InterestPostConponent from './components/Board/InterestPostConponent';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -85,7 +86,7 @@ root.render(
             <Route path='/secretDetail' element={<SecretDetailComponent />}/>
             <Route path='/secretPostUpdate' element={<SecretPostUpdate/>}/>
             <Route path='/dashBoard' element={<DashBoard/>}/>
-            
+            <Route path='/interest' element={<InterestPostConponent/>}/>
           </Routes>
         </BrowserRouter>
 

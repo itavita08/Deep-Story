@@ -1,14 +1,10 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import Paging from '../Paging/Paging';
-import axios from 'axios';
-import {Route, Routes, useNavigate} from "react-router-dom";
-import { Link } from 'react-router-dom';
-
 import SidebarAll from '../Sidebar/SidebarAllComponent';
 import LoginHeader from '../Header/LoginHeader';
-
-import Card from "../CardGroup/Card";
+import GalleryCard from './GalleryCard';
 import { useLocation } from 'react-router-dom';
+import './GelleryResultComponent.css';
 
 function GelleryResultComponent(props) {
 
@@ -21,7 +17,7 @@ function GelleryResultComponent(props) {
     const [items, setItems] = React.useState(location.state.result) //리스트에 나타낼 아이템
     const [count, setCount] = React.useState(0); //아이템 총 개수
     const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
-    const [postPerPage] = React.useState(2); //페이지당 아이템 개수
+    const [postPerPage] = React.useState(9); //페이지당 아이템 개수
     
     const [indexOfLastPost, setIndexOfLastPost] = React.useState(0);
     const [indexOfFirstPost, setIndexOfFirstPost] = React.useState(0);
@@ -39,8 +35,6 @@ function GelleryResultComponent(props) {
     console.log(indexOfFirstPost)
     
     setCurrentPosts(items.slice(indexOfFirstPost, indexOfLastPost));
-
-    //console.log(currentPosts);
     
 
     }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
@@ -52,38 +46,35 @@ function GelleryResultComponent(props) {
 
     return (
 
-        <div className='App'>
+        <div >
 
         <LoginHeader></LoginHeader>
         <SidebarAll></SidebarAll>
-
+        <div className="post-list">
       {  (currentPosts && items.length > 0) 
       ?(
        currentPosts.map((post)=> (
         
         (post.image === null)
         ?(
-          <div className="container d-flex justify-content-center align-items-center h-100">
           <div className="row">
-            <div className="col-md-4" key={post.postId}>
-              <Card imageSource="/static/image/noimage.png" />
+            <div className="post-image" key={post.postId}>
+              <GalleryCard imageSource="/static/image/noimage.png" />
             </div>
           </div>
-        </div>
         ):(
-        <div className="container d-flex justify-content-center align-items-center h-100">
           <div className="row">
-            <div className="col-md-4" key={post.postId}>
-              <Card imageSource={"/static/image/"+ post +".png"} />
+            <div className="post-image" key={post.postId}>
+              <GalleryCard imageSource={"/static/image/"+ post +".png"} />
             </div>
           </div>
-        </div>
         )
 
         ))):(
-            console.log("아님!!!")
+          <p>게시물이 존재하지 않습니다.</p>
             )
         }
+        </div>
         <Paging page={currentpage} count={count} setPage={setPage} />
   </div>
     

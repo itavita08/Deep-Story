@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 import React, { useEffect, useState } from 'react';
-// import test from './Test';
-import styled from "styled-components";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "./MainPagecss.css";
-import { Link } from 'react-router-dom';
+import purify from "dompurify";
 
 function MypageCard() {
 
@@ -26,10 +24,8 @@ function MypageCard() {
         "content": "",
         "image": ""
     }]);
-    // const [postId, setPostId] = useState("");
+
     const navigate = useNavigate();
-
-
 
     const getbestPost = async () => {
         await axios.get("http://localhost:8080/bestPost")
@@ -43,9 +39,6 @@ function MypageCard() {
                     "image":data.data.key1.image},{...list, "title":data.data.key2.title,
                     "content":data.data.key2.content,
                     "image":data.data.key2.image}])
-                    
-
-
                 }
             )
     };
@@ -68,36 +61,36 @@ function MypageCard() {
         <div>
             <h2>상위 게시물</h2>
             
-            <div class="card" style={{float:'left'}}>
+            <div class="card" style={{float:'left' , background:'none'}}>
             <img key="1" class="card-img-top" style={{
                 height: 200,
                 width: 300
             }} src={"/static/image/"+list[0].image+".png"}/>
             <div class="card-body">
-            <h5 class="card-title">title:{list[0].title}</h5>
-            <p class="card-text">content:{list[0].content}</p>
+            <h4 class="card-title">{list[0].title}</h4>
+            <div class='card-text' dangerouslySetInnerHTML={{ __html: purify.sanitize(list[0].content) }} />
             </div>
             </div>
 
-            <div class="card" style={{float:'left'}}>
+            <div class="card" style={{float:'left', background:'none'}}>
             <img key="2" class="card-img-top" style={{ 
                 height: 200,
                 width: 300
             }} src={"/static/image/"+list[1].image+".png"}/>
             <div class="card-body">
-            <h5 class="card-title">title:{list[1].title}</h5>
-            <p class="card-text">content:{list[1].content}</p>
+            <h4 class="card-title">{list[1].title}</h4>
+            <div class='card-text' dangerouslySetInnerHTML={{ __html: purify.sanitize(list[1].content) }} />
             </div>
             </div>
 
-            <div class="card">
+            <div class="card" style={{float:'left', background:'none'}}>
             <img key="3" class="card-img-top" style={{ 
                 height: 200,
                 width: 300
             }} src={"/static/image/"+list[2].image+".png"}/>
             <div class="card-body">
-            <h5 class="card-title">title:{list[2].title}</h5> 
-            <p class="card-text">content:{list[2].content}</p>
+            <h4 class="card-title">{list[2].title}</h4> 
+            <div class='card-text' dangerouslySetInnerHTML={{ __html: purify.sanitize(list[2].content) }} />
             </div>
             </div>
             </div>
