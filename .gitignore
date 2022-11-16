@@ -310,3 +310,7 @@ build/
 .vscode/
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,react,java,eclipse
+back-springboot/META-INF/maven/playdata/project_DeepStory2/pom.properties
+back-springboot/WEB-INF/classes/application.properties
+
+
