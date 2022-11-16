@@ -1,0 +1,18 @@
+.Auth-form-title {
+    margin-block-end: 2vh;
+    font-size: 3vh;
+    font-weight: 1000;
+}
+
+.form-group mt-3 {
+    font-size: 9vh;
+    font-weight: 1;
+}
+
+.Auth-form-container {
+    background-image: url("../assets/image44.jpg");
+}
+
+.back {
+    background-image: url("../assets/image55.jpg");
+}
