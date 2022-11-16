@@ -1,6 +1,8 @@
 # 🎨 Deep-Story
-그림일기 블로그 만들기
 
+
+ <span style="color:gray">*__Project Summary__*</span>
+ 
 ✔️ **프로젝트 명** 
 
 딥러닝 GAN 을 이용한 그림 일기 블로그 
@@ -15,6 +17,8 @@ deepstories.online
 
 **✔️ 프로젝트 설명**
 
+
+  ![Untitled](https://user-images.githubusercontent.com/66711073/202166183-1e0b959d-6ece-4e27-95a7-c4158cac4c94.png)
 
 - 딥러닝 인공지능 모델을 이용한 그림 포스팅 서비스
 - 사용자 간의 소통을 돕는 서비스
@@ -82,3 +86,114 @@ deepstories.online
         
         클라우드 서비스에 대해 비용 절감을 도움.
 
+## 03. 프로젝트 설계
+
+✔️ **서비스 아키텍처**
+
+![Untitled (1)](https://user-images.githubusercontent.com/66711073/202168742-86ce9773-6339-4b48-881e-c3a09bdfad19.png)
+
+**✔️ 개발 스택 및 사용 TOOL**
+
+- **OS**
+
+- **Back**
+
+- **Back**
+
+- **Front**
+
+- **Server Cloud**
+
+
+- **인공지능**
+
+- **DB**
+
+
+- **기타**
+
+
+- **프로젝트 관리**
+
+
+
+**✔️ DB ERD**
+
+![Untitled (2)](https://user-images.githubusercontent.com/66711073/202168831-87a85bd1-db9c-482c-b90a-41ef487b9d58.png)
+
+**✔️ 웹 페이지 와이어프레임**  
+
+https://www.figma.com/file/TEpQwcZiBwEdyXZKpzHipy/projec?node-id=11%3A1387
+
+## 04. 프로젝트 수행 내용
+
+✔️ **프로젝트 진행 및 협업 방식**
+
+- **애자일 프로세스 운영 - git zenhub 활용**
+    - **Back Log & 칸반보드 & Burndown report**
+        
+        스토리 포인트, 포지션, 에픽의 상태 등을 기술하여 효율적 업무 처리를 유도
+        
+    - **Daliy Check in out**
+        
+        TODOLIST 를 공유하며, 업무 끝에 일일 회고를 진행하여 서로의 작업 경과를 공유
+        
+    - **스프린트 회고**
+        
+        스프린트 종료일에 회고를 진행하여, 느낌점, 아쉬운 점을 나누고 다음 스프린트를 위해 보완되어야 할 점을 논의
+        
+        [https://github.com/itavita08/DailyCheck](https://github.com/itavita08/DailyCheck)
+        
+- **Git Hub 소스코드 관리**
+    - Git-flow 을 활용한 코드 형상관리
+
+- **Swagger**
+    - API명세서 작성 및 관리
+    
+
+**✔️ 개발 및 기술 구현 결과**
+
+- **Front End**
+    - 서비스 기능에 적합한 `React JavaScript`  구현
+    - Figma 와이어 프레임에 적합한 `Front CSS`  구현
+    
+    - 재사용성을 높이기 위한 `component` 화
+    - 화면 이동에 적합한 `Router`, `navigate` 설계 및 구현
+    
+    - Back Spring boot, Flask 와  `AXIOS HTTP` 통신 및 `JSON` 포맷 데이터 통신
+    - `Log data` 분석 및 `apexchart` 시각화
+    - 예외 발생에 따른 페이지 화면 이동 설계 및 구현
+
+- **Back**
+    - 로직에 적합한 `DB table` 설계
+    - 일반 데이터 관리 DB `Mysql`, 토큰 데이터 관리 DB `Redis` 구축
+    
+    - Spring Boot 단 `MVC` 디자인 패턴 구현
+    - 서비스 기능에 필요한 `REST API` 구현
+    - `SpringSecurity` + `JWT` + `Redis` 사용한 Token 인증 로직으로 회원을 관리
+    - `Log data` 수집 및 분석
+    
+    - Front 과 `JSON` 포맷 데이터 통신
+    
+    - HTTP 상태 코드 `exception` 처리 (400, 401, 404, 405, 500)
+    - 사용자 정의 예외 발생 및 처리
+    
+    - 효율적 API 관리를 위해 `Swagger` 사용
+    - `Junit`, `Postman` 을 통해 `Test` & `debugging`
+    - 배포를 위한 `maven build`
+
+- **Server Cloud**
+    - `React`, `Spring boot`, `Flask` 서버 각각 다른 `EC2 인스턴스` 생성
+    - React, Spring boot, Flask 배포 서버 통신 `CORS` 문제 해결
+    - DB Mysql 을 위한 `AWS RDS` 구축
+    - DB Redis 을 위한 `AWS  elasticache` 구축
+    - 이미지 데이터 관리를 위한 `AWS S3` 구축
+    - Deep Learning Flask 서버 제어를 위한 `SDK for java` `Start Instance`, `Stop Instance` 구현
+
+**✔️ 회고**
+
+| 김영준 | 큰 틀을 잡아 놓고 각자 기능 별로 분담을 하고 Agile 형식으로 진행하니 좋았다. 모든 팀원들이 잘 따라 와주고 알아서 너무나 잘해서 팀 프로젝트 하는 것에는 별 문제가 없지만 이제까지 살아오면서 제일 길었던 3주였던 것 같다. 일주일만 시간이 더 있었으면 좋겠다. |
+| --- | --- |
+| 은혜선 | 모르는 것이나 에러를 찾아보고 공부를 하면서 코드를 짜니 시간이 많이 들고 하나의 기능을 구현하는데도 생각보다 오래 걸린 적이 많았다. 체력적으로 힘든 것을 많이 느끼지만 팀원들이 열심히 하는 모습에 나도 해야겠다는 생각이 들었던 것 같다. |
+| 이명호 | 공부를 담 쌓고 지낸 것이 후회되었다. React, Node.js 생각보다 재밌다. 모르는 것에 대해 팀원들과 소통을 통해 해결한 일이 많아 혼자 하는 것보다 협업의 중요성을 확실히 깨우친 듯 하다. 고생한 팀원과 노트북 토닥토닥 해주기! |
+| 촤소영 | 지금까지 함께하며 도와주신 팀원들 다 너무너무 감사하다. 좋은 팀원을 만나서 다행이라고 느꼈다. 시간이 조금 더 있다면 완성도 있는 작품이 나올 수 있었을텐데.. 아쉽긴 하다. 프로젝트를 하면서 느낀 점도 많고 실력이 쌓이는 것이 느껴지면서 진로도 어느 정도 정할 수 있었다. |
