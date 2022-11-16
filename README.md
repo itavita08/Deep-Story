@@ -83,7 +83,7 @@ deepstories.online
         
     
 - **Deep Learning model Flask AWS 서버 ON/OFF 기능**
-    - 딥러닝 Flask EC2 인스턴스 를 시작 중지를 제어할 수 있는 서비
+    - 딥러닝 Flask EC2 인스턴스 를 시작 중지를 제어할 수 있는 서비스
         
         클라우드 서비스에 대해 비용 절감을 도움.
 
