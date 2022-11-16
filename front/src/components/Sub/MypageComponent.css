@@ -1,0 +1,40 @@
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
+
+  
+/* .userName button {
+  padding: 0.5em 1em;
+  font-size: 0.8em;
+  color: #a9b1b3;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  border: 1px solid #a9b1b3;
+  transition: all 0.3s ease-in;
+  margin: 10px 5px;
+}
+
+.profile_button{
+  width: 15em;
+  text-align: left;
+  display: flex;
+
+}
+
+.card-group{
+
+  display:flex; 
+  height: 400px;
+  align-items: center;
+  justify-content: left;
+  margin-left: auto; 
+  flex-direction: column;           
+}    */
