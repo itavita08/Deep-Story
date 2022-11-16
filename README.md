@@ -28,9 +28,7 @@ deepstories.online
 
 **✔️ 팀 ‘ 알사모 ’**
 
-![Untitled (3)](https://user-images.githubusercontent.com/66711073/202217475-48dd6cd5-6a69-488c-b0fb-9279a162bf78.png)
-d58.png)
-
+![Untitled](https://user-images.githubusercontent.com/66711073/202219049-e8dfed4f-19d7-412b-b0d7-b3687dc82a2a.png)
 
 | 이름 | 주 포지션 | 세부 담당  | GITHUB 주소 |
 | --- | --- | --- | --- |
