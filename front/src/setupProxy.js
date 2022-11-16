@@ -1,35 +1,25 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// module.exports=function(app) {
-//     app.use(
-//         "/api",
-//         createProxyMiddleware({
-//             target:"http://localhost:8080",
-//             changeOrigin : true,
-//         })
-//     );
-
-// };
-
-
 module.exports = (app) => {
-    app.use(
-        "/api/v1",
-        createProxyMiddleware({
-            target:"http://localhost:5000",
-            changeOrigin : true,
-            pathRewrite: {
-                '^/api/v2':''
-            }
-        })
-    );
+  app.use(
+    "/api/flask",
+    createProxyMiddleware({
+      target: "http://43.201.124.37:5000",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/api/flask": "",
+      },
+    })
+  );
 
-    app.use(
-        "/api/v2",
-        createProxyMiddleware({
-            target:"http://localhost:8080",
-            changeOrigin : true,
-        })
-    );
-
-  };
+  app.use(
+    "/api/v1",
+    createProxyMiddleware({
+      target: "http://52.78.47.188:8080",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/api/v1": "",
+      },
+    })
+  );
+};

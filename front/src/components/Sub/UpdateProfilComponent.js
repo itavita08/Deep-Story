@@ -1,7 +1,6 @@
-import { useLocation } from 'react-router-dom';
-
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
+import { useLocation } from "react-router-dom";
+import SidebarAll from "../Sidebar/SidebarAllComponent";
+import LoginHeader from "../Header/LoginHeader";
 
 export default function UpdateProfilComponent() {
   const location = useLocation();
@@ -10,14 +9,11 @@ export default function UpdateProfilComponent() {
   const accountName = location.state.Name;
   const accountGender = location.state.Gender;
   const accountDate = location.state.Birth;
-  
+
   return (
-
-
     <div>
-
-    <LoginHeader></LoginHeader>
-    <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+      <LoginHeader></LoginHeader>
+      <SidebarAll />
 
       <p>Email : {accountEmail}</p>
       <p>Name : {accountName}</p>

@@ -1,16 +1,17 @@
-import React from 'react';
-import AuthenticationService from '../../service/AuthenticationService';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthenticationService from "../../service/AuthenticationService";
 
 function LogoutComponent() {
-    AuthenticationService.logout();
-    return (
-        <>
-            <h1>You are logged out</h1>
-            <div className="container">
-                Thank You for Using Our Application.
-                </div>
-        </>
-    )
+  const navigate = useNavigate();
 
+  AuthenticationService.logout();
+
+  alert("로그아웃 되었습니다.");
+
+  useEffect(() => {
+    navigate("/");
+  }, []);
 }
-export default LogoutComponent
+
+export default LogoutComponent;

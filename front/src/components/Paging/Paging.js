@@ -1,5 +1,5 @@
-import Pagination from 'react-js-pagination';
-import './Paging.css';
+import Pagination from "react-js-pagination";
+import "./Paging.css";
 export const Paging = ({ page, count, setPage }) => {
   return (
     <Pagination
@@ -7,8 +7,8 @@ export const Paging = ({ page, count, setPage }) => {
       itemsCountPerPage={1}
       totalItemsCount={count}
       pageRangeDisplayed={5}
-      prevPageText={'‹'}
-      nextPageText={'›'}
+      prevPageText={"‹"}
+      nextPageText={"›"}
       onChange={setPage}
     />
   );

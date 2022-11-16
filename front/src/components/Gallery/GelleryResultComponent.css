@@ -1,0 +1,21 @@
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 293px));
+  justify-content: center;
+  grid-gap: 28px;
+  padding-top: 5px;
+}
+
+.post-image {
+  margin: 0;
+}
+.post-image img {
+  width: 100%;
+  vertical-align: top;
+}
+
+@media screen and (max-width: 768px) {
+  .post-list {
+    grid-gap: 3px;
+  }
+}

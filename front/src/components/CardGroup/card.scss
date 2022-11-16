@@ -17,15 +17,6 @@ h1 {
   position: absolute;
 }
 
-h1:after {
-  position: absolute;
-  content: '';
-  top: -10px;
-  left: 0;
-  width: 80px;
-  height: 4px;
-  background: $midnight;
-}
 .item-a {
   grid-row: 1 / 3;
   grid-column: 1;
@@ -35,7 +26,6 @@ h1:after {
   
   width: 90%;
   float: inline-start;
-  // margin: 0 auto;
 }
 
 .grid-col {
@@ -44,7 +34,6 @@ h1:after {
   box-sizing: border-box;
   padding-right: 20px;
   margin-bottom: 20px;
-  
 }
 
 .grid-col img {
@@ -54,6 +43,7 @@ h1:after {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+
 .col-md-4 {
   display: flex;
 }
@@ -69,7 +59,6 @@ h1:after {
   color: #fff;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  
 }
 
 .body-content:before {
@@ -122,4 +111,31 @@ h1:after {
   -webkit-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2), 0 0 0 20px rgba(255, 255, 255, 0.12);
     -moz-box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2), 0 0 0 20px rgba(255, 255, 255, 0.12);
     box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2), 0 0 0 20px rgba(255, 255, 255, 0.12);
+}
+
+.card:hover {
+  box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.273) !important;
+  transition: all 0.7s linear;
+}
+
+.card-body {
+  padding: 2rem 0 !important;
+}
+
+.card-text {
+  padding: 0.3rem 1rem;
+  font-size: 1rem;
+}
+
+.overflow {
+  overflow: hidden;
+}
+
+.card-img-top {
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+}
+
+.card-img-top:hover {
+  transform: scale(1.8);
 }

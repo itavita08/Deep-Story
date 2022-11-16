@@ -1,134 +1,158 @@
-import React, { useEffect, useState} from 'react';
-import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
-import './Detail.css';
-import SidebarAdminLoginComponent from '../Sidebar/SidebarAdminLoginComponent'
-import LoginHeader from '../Header/LoginHeader'
-import ModalView from '../Friendrequest/ModalView'
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import SidebarAll from "../Sidebar/SidebarAllComponent";
+import LoginHeader from "../Header/LoginHeader";
+import ModalView from "../Friendrequest/ModalView";
+import "./Detail.css";
+import purify from "dompurify";
 
-function Detail(){
+function Detail() {
   const location = useLocation();
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
   const [image, setImage] = useState("");
   const [postId, setPostId] = useState(location.state.postId);
   const [accountId, setaccountId] = useState("");
-  const [likes, addLikes] = useState("");
-  //사용자 정보 
+  const [likes, addLikes] = useState(0);
+  const [checkId, setCheckId] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  // 모달창 노출 여부 state
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  // 모달창 노출
   const openModal = () => {
     setModalOpen(true);
   };
-  //모달창 닫기 
+
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  const getPost = async() => {
-    // e.preventDefault();
-    await axios.post("http://localhost:8080/postDetail", {
-      postId:postId
+  const getPost = async () => {
+    await axios
+      .post("/api/v1/board/read", {
+        postId: postId,
       })
-      .then(
-        data => {
-          console.log(data.data); 
-          setTitle(data.data.title)
-          setContents(data.data.content)
-          setImage(data.data.image)
-          setUserEmail(data.data.email)
-        }
-      )  
-    };
+      .then((data) => {
+        setTitle(data.data.title);
+        setContents(data.data.content);
+        setImage(data.data.image);
+        setUserEmail(data.data.email);
 
-    useEffect(() => {
-      console.log(postId);
-      getPost(); 
-    },[] );
-  
-  
-    const updatePost = () => {
-      navigate("/updatePost",{
+        if (data.data.result === "true") {
+          setCheckId(true);
+        }
+      });
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  const updatePost = () => {
+    navigate(
+      "/white",
+      {
         state: {
-          postId : postId
-        }
-      },{
-        replace: false})
-      }; 
-      
-  
-    const deletePost = async() => {
-      await axios.post("http://localhost:8080/postDelete", {
-        postId:postId
-        })
-        .then(
-          response => {
-            console.log(response.data);
-            response.data.result === "true" ?  navigate("/mypage",{
-            replace: false}) :  alert("다시 시도해 주세요")
-          }
-        )  
-      }; 
-
-  const LovePost = async() => {
-    await axios.post("http://localhost:8080/postLove", {
-    accountId : accountId,
-    postId : postId
-    })
-    .then(
-      data => {
-        console.log(data.data); 
-        addLikes(data.data.result)
-        
+          postId: postId,
+        },
+      },
+      {
+        replace: false,
       }
-    )  
-  }; 
+    );
+  };
 
-  return (    
-    <div>
+  const deletePost = async () => {
+    await axios
+      .post("/api/v1/board/delete", {
+        postId: postId,
+      })
+      .then((response) => {
+        response.data.result === "true"
+          ? navigate("/main", {
+              replace: false,
+            })
+          : alert("다시 시도해 주세요");
+      });
+  };
 
-        <LoginHeader></LoginHeader>
-        <SidebarAdminLoginComponent></SidebarAdminLoginComponent>
+  const LovePost = async () => {
+    await axios
+      .post("/api/v1/board/like", {
+        accountId: accountId,
+        postId: postId,
+      })
+      .then((data) => {
+        addLikes(data.data.result);
+      });
+  };
 
-      
-      <div className='detail board'>
-      <div className='title'>
-      <span> {title}</span>
-      </div>
-      
-      <button onClick={openModal}>{userEmail}</button>
-      <ModalView open={modalOpen} close={closeModal} header="공유 다이어리 친구 신청" data={userEmail}>
-      {/* // Modal.js <main> {props.children} </main>에 내용이 입력된다. 리액트 함수형 모달
-        팝업창입니다. 쉽게 만들 수 있어요. 같이 만들어봐요! */}
-      </ModalView>
-      </div>
-      
-      <div className='board_image'>
-      <img  key={image} style={{
-                height: -100,
-                width: 500
-            }} src={"/static/image/"+image+".png"}/><br/>
-      </div>
-      <div className='contents_area' dangerouslySetInnerHTML={{ __html: contents }} />
-      
+  return (
+    <div className="Mains">
+      <LoginHeader></LoginHeader>
+      <SidebarAll></SidebarAll>
       <div>
-        <h2>좋아요
-          <span onClick= {()=>
-          LovePost(likes + 1)
-        }
-        > ❤️ </span> { likes }
-          </h2> 
-        </div>
-      <button type='button' onClick={() => updatePost()}> 포스트 수정 </button> <button type='button' onClick={() => deletePost()}> 포스트 삭제 </button>
-      
+        <article class="post">
+          <div>
+            <img
+              key={image}
+              style={{ height: -100 }}
+              src={
+                `https://deep-story-bucket-01.s3.ap-northeast-2.amazonaws.com/` +
+                image +
+                `.png`
+              }
+            />
+            <br />
+          </div>
+          <div class="post__container">
+            <button class="post__category" onClick={openModal}>
+              {userEmail}
+            </button>
+            <ModalView
+              open={modalOpen}
+              close={closeModal}
+              header="공유 다이어리 친구 신청"
+              data={userEmail}
+            />
+            <h1 class="post__header">
+              <span>{title}</span>
+            </h1>
+            <div class="post__content">
+              <div
+                class="post__text"
+                dangerouslySetInnerHTML={{ __html: purify.sanitize(contents) }}
+              />
+            </div>
+            <div class="post__link">
+              <div>
+                <h2>
+                  좋아요
+                  <span onClick={() => LovePost(likes + 1)}> ❤️ </span> {likes}{" "}
+                </h2>
+              </div>
+              <div>
+                {checkId === true ? (
+                  <div>
+                    <button type="button" onClick={() => updatePost()}>
+                      {" "}
+                      포스트 수정{" "}
+                    </button>{" "}
+                    <button type="button" onClick={() => deletePost()}>
+                      {" "}
+                      포스트 삭제{" "}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
-
-  )
-
+  );
 }
 
 export default Detail;

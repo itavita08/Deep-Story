@@ -1,14 +1,10 @@
-import React from 'react';
-import DeleteImage from './DeletelmageComponent';
+import React from "react";
+import DeleteImage from "./DeletelmageComponent";
 
-const ImageLoad = ({data, onDelete}) =>{
-    return(
-      // <Carousel className='carousel' IndicatorIcon={<HorizontalRule/>} autoPlay='false'>{
-        data.map((it, idx) => {
-          return <DeleteImage key={idx} {...it} onDelete={onDelete}/>;
-        })
-        // </Carousel>
-    )
-  }
+const ImageLoad = ({ data, onDelete }) => {
+  return data.map((it, idx) => {
+    return <DeleteImage key={idx} {...it} onDelete={onDelete} />;
+  });
+};
 
-  export default ImageLoad;
+export default ImageLoad;
