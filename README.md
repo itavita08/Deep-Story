@@ -34,7 +34,7 @@ deepstories.online
 | --- | --- | --- | --- |
 | 김영준 | Leader |  | https://github.com/itavita08 |
 | 은혜선 | Front Back | React와 Flask 연동 작업, 게시물 만들기 Front - Back, 게시물 상세 페이지 Front - Back, 비밀 게시물 신청, 수락, 비밀 게시물 관련 페이지 생성 및 React - Spring Boot와 연동 | https://github.com/EunHyeSeon |
-| 이명호 |  |  | https://github.com/MyM999 |
+| 이명호 | Front Back | Spring boot - react 연동 작업, 회원가입/로그인 JWT관련 Token 인증, react-component 라우터 설정, Swagger 연동 및 API 명세서 작성, 메인페이지 Front, 회원가입/로그인 CSS, Front-에러페이징 처리  | https://github.com/MyM999 |
 | 최소영 | Back AWS DevOps | Back REST-API 생성, Spring boot-React AXIOS 및 JSON 데이터 통신, Back 단 HTTP 상태코드 및 사용자 정의 예외 처리, 회원가입/로그인 관련 Token 인증 back, front 작업, AWS EC2 서버 환경 구축 및 관리, AWS RDS ,Elasticache 로 Mysql, Redis DB 관리, AWS SDK for java 작업, 빌드 및 배포, React SideBar, Header 생성, React router 작업 | https://github.com/cso6005 |
 
 
