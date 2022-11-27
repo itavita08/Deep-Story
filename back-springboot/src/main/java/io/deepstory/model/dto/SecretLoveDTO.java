@@ -16,7 +16,6 @@ import lombok.ToString;
 @Builder
 @ToString
 public class SecretLoveDTO {
-	
 	private BigInteger loveId;
 	
 	private int accountId;

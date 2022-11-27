@@ -30,7 +30,8 @@ import lombok.Setter;
 @Table(name = "secret_friends")
 public class SecretFriendsEntity {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "secret_friend_id")
 	private int secretFriendId;
 	
@@ -48,5 +49,6 @@ public class SecretFriendsEntity {
 			   fetch = FetchType.LAZY)
 	@JoinColumn(name = "guest_id")
 	private AccountEntity guestId;
+	
 	
 }

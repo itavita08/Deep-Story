@@ -29,4 +29,5 @@ public class ElkUserLogEntity {
     @Column(name = "elk_login_time")
     private String elkLoginTime;
 
+
 }

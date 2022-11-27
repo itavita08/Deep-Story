@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+/* redis 설정 정보를 넣고 스프링 컨테이너에 넣기위한 설정 */
+
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
@@ -21,9 +23,7 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-    	
         return new LettuceConnectionFactory(host, port);
-        
     }
 
     @Bean
@@ -36,6 +36,5 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         
         return redisTemplate;
-        
     }
 }

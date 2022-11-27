@@ -29,17 +29,16 @@ public class Subject {
 
 	private String tokenType; 
 
+
+	// atk
 	public static Subject atk(int accountId, String accountEmail, String accountName, String accountPassword
 			, String accountDate, String accountGender, String accountType) {
-
 		return new Subject(accountId, accountEmail, accountName, accountPassword, accountDate, accountGender, accountType, "ATK");
-		
 	}
 
+	// rtk
 	public static Subject rtk(int accountId, String accountEmail, String accountName, String accountPassword
 			, String accountDate, String accountGender, String accountType) {
-		
 		return new Subject(accountId, accountEmail, accountName, accountPassword, accountDate, accountGender, accountType, "RTK");
-		
 	}
 }

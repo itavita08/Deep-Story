@@ -28,23 +28,39 @@ public class EC2Start {
 
 		try {
 
-			final AWSCredentials AWS_CREDENTIALS;
-
-			AWS_CREDENTIALS = new BasicAWSCredentials(key, secretKey);
-
-			AmazonEC2 ec2Client = AmazonEC2ClientBuilder.standard()
-					.withCredentials(new AWSStaticCredentialsProvider(AWS_CREDENTIALS))
-					.withRegion(Regions.AP_NORTHEAST_2).build();
-
-			String instanecID = instanceID;
-			StartInstancesRequest startInstancesRequest = new StartInstancesRequest().withInstanceIds(instanecID);
-
-			ec2Client.startInstances(startInstancesRequest).getStartingInstances().get(0).getPreviousState().getName();
+			 final AWSCredentials AWS_CREDENTIALS;
+			   
+		        AWS_CREDENTIALS = new BasicAWSCredentials(
+		                key,
+		                secretKey
+		        );
+		  
+		        AmazonEC2 ec2Client = AmazonEC2ClientBuilder.standard()
+		                .withCredentials(new AWSStaticCredentialsProvider(AWS_CREDENTIALS))
+		                .withRegion(Regions.AP_NORTHEAST_2)
+		                .build();
+		       
+		        String instanecID = instanceID;
+		        StartInstancesRequest startInstancesRequest = new StartInstancesRequest()
+		                .withInstanceIds(instanecID);
+		        
+		        ec2Client.startInstances(startInstancesRequest)
+		                .getStartingInstances()
+		                .get(0)
+		                .getPreviousState()
+		                .getName();
+		        
+		        System.out.println("Start the Instnace with ID: "+instanecID);
+		   
 
 		} catch (Exception e) {
 
+			System.out.println(e.getMessage());
+
 			throw new BadRequestException("Start Instance 실패   -  " + e.getMessage());
+
 		}
+
 	}
 
 }

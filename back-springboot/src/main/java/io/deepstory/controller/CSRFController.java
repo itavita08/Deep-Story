@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class CSRFController {
-	
     @RequestMapping(value = "/csrf", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ResponseEntity<CsrfToken> getToken(final HttpServletRequest request) {
-    	
         return ResponseEntity.ok().body(new HttpSessionCsrfTokenRepository().generateToken(request));
     }
     	

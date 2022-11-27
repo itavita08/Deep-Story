@@ -86,6 +86,9 @@ deepstories.online
     - 딥러닝 Flask EC2 인스턴스 를 시작 중지를 제어할 수 있는 서비스
         
         클라우드 서비스에 대해 비용 절감을 도움.
+        
+
+
 
 ## 03. 프로젝트 설계
 
@@ -146,7 +149,7 @@ deepstories.online
 ![Untitled (2)](https://user-images.githubusercontent.com/66711073/202168831-87a85bd1-db9c-482c-b90a-41ef487b9d58.png)
 
 **✔️ 웹 페이지 와이어프레임**  
-
+![image](https://user-images.githubusercontent.com/100753335/203449443-eb93c26c-3f0c-42df-be2f-96a0699bf83e.png)
 https://www.figma.com/file/TEpQwcZiBwEdyXZKpzHipy/projec?node-id=11%3A1387
 
 ## 04. 프로젝트 수행 내용
@@ -213,6 +216,27 @@ https://www.figma.com/file/TEpQwcZiBwEdyXZKpzHipy/projec?node-id=11%3A1387
     - DB Redis 을 위한 `AWS  elasticache` 구축
     - 이미지 데이터 관리를 위한 `AWS S3` 구축
     - Deep Learning Flask 서버 제어를 위한 `SDK for java` `Start Instance`, `Stop Instance` 구현
+
+**✔️ 기능구현 영상**
+
+- **로그인**
+<img src="https://user-images.githubusercontent.com/100753335/203456127-afce40c4-9d85-4935-ae35-201895bd5b92.gif" width="500" height="250"/>
+
+
+
+- **게시물 생성**
+<img src="https://user-images.githubusercontent.com/100753335/203456039-0722fb97-5c97-4749-ae3e-4be08fd3b432.gif" width="500" height="250"/>
+
+
+
+- **관리자 **
+<img src="https://user-images.githubusercontent.com/100753335/203456160-fdf4fc99-7241-4907-ac67-00cf465063f5.gif" width="500" height="250"/>
+
+
+- **관리자 aws instance 제어**
+<img src="https://user-images.githubusercontent.com/100753335/203456223-7d4e1555-e5d1-4b23-a963-fa3de3809148.gif" width="500" height="250"/>
+
+
 
 **✔️ 회고**
 | 이름 | 회고 |

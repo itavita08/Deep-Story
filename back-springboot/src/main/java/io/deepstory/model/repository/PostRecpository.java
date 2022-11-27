@@ -24,5 +24,12 @@ public interface PostRecpository extends JpaRepository<PostEntity, Integer>{
 	
     @Query("select p.accountId from PostEntity p where p.postId =:postId")
     AccountEntity findAccountIdByPostId(@Param("postId") int postId);
+    
+    
+	
+	
+	
+	
+	
 
 }

@@ -13,7 +13,7 @@ public class TokenDecoding {
 	public Subject tokenDecode(String authorization) {
 
 			String atk = authorization.substring(7);
-
+			
 			try {
 
 				Subject subject = jwtProvider.getSubject(atk);
@@ -23,10 +23,10 @@ public class TokenDecoding {
 			} catch (Exception e) {
 
 				e.printStackTrace();
-				
 			}
-			
+
 		return null;
+
 	}
 
 }

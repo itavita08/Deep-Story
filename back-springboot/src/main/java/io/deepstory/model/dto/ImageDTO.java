@@ -22,5 +22,4 @@ public class ImageDTO {
 	private int accountId;
 	
 	private int postId;
-	
 }

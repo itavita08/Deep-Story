@@ -28,5 +28,4 @@ public interface LoveRepository extends JpaRepository<LoveEntity, Integer> {
     
     @Query("select l.postId from LoveEntity l where l.accountId = :accountId")
     List<PostEntity> findpostIdByAccountId(@Param("accountId") AccountEntity accountEntity);
-    
 }

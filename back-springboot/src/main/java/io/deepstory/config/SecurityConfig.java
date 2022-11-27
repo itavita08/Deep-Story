@@ -20,35 +20,43 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+	
+	 private final JwtProvider jwtProvider;
+	    private final AccountDetailsService accountDetailsService;
+	    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+	    
 
-	private final JwtProvider jwtProvider;
-	private final AccountDetailsService accountDetailsService;
-	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-
+	// PasswordEncoder를 Bean으로 등록 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
+
+	// 스프링시큐리티의 설정 HttpSecurity
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeRequests()
-				.antMatchers("/csrf", "/swagger-resources/**", "/webjars/**", "/h2-console/**", "/board/read",
-						"/favicon.ico", "/board/all", "/board/best", "/board/search", "/board/searchUserPost",
-						"/board/best", "/swagger-ui", "/swagger-ui.html", "/swagger-ui/index.html", "/v2/api-docs",
-						"/auth/**")
-				.permitAll().anyRequest().authenticated().and()
-				.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, accountDetailsService),
-						UsernamePasswordAuthenticationFilter.class);
-
-		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+		http.cors().and().csrf().disable()
+			.exceptionHandling()
+			.authenticationEntryPoint(customAuthenticationEntryPoint) 
+			.and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()            
+			.authorizeRequests()
+			.antMatchers("/csrf","/swagger-resources/**","/webjars/**","/h2-console/**", "/board/read", "/favicon.ico", "/board/all","/board/best", "/board/search", "/board/searchUserPost", "/board/best", "/swagger-ui","/swagger-ui.html","/swagger-ui/index.html","/v2/api-docs", "/auth/**").permitAll() 
+			.anyRequest().authenticated()
+			.and()
+	        .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, accountDetailsService),
+	                UsernamePasswordAuthenticationFilter.class); 
+		
+	    http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
 
 		return http.build();
-
 	}
+	
+	
 
+
+	
 }

@@ -10,6 +10,6 @@ import lombok.Getter;
 public class Message {
 	
 	private HttpStatus status;
-	private String message;
 	
+	private String message;
 }

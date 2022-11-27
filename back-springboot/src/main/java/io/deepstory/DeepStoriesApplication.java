@@ -13,5 +13,5 @@ public class DeepStoriesApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DeepStoriesApplication.class, args);
 	}
-	
+
 }

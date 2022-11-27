@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.deepstory.jwt.AccountDetails;
 import io.deepstory.jwt.JwtProvider;
 import io.deepstory.jwt.TokenResponse;
@@ -31,17 +33,18 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;	 
 
-	@io.swagger.annotations.ApiOperation(value="회원가입", notes="생년월일, 이메일, 성별, 이름, 비밀번호 기입 후 회원가입")
+	// 회원가입
+	@io.swagger.annotations.ApiOperation(value="회원가입",notes="생년월일, 이메일, 성별, 이름, 비밀번호 기입 후 회원가입")
 	@PostMapping("/signUp")
-	public AccountDTO signUp(@RequestBody SignUpRequestDTO signUpRequest) throws Exception {
+	public AccountDTO signUp(@RequestBody SignUpRequestDTO signUpRequest) {
 		
 		return accountService.signUp(signUpRequest);
-		
 	}
 
-	@io.swagger.annotations.ApiOperation(value="로그인", notes="아이디와 비밀번호로 로그인")
+	// 로그인
+	@io.swagger.annotations.ApiOperation(value="로그인",notes="아이디와 비밀번호로 로그인")
 	@PostMapping("/login")
-	public TokenResponse login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
+	public TokenResponse login(@RequestBody LoginRequestDTO loginRequest)throws JsonProcessingException {
 
 		AccountDTO accountResponse = accountService.login(loginRequest);
 
@@ -51,15 +54,16 @@ public class AccountController {
 
 	}
 
-	@io.swagger.annotations.ApiOperation(value="토큰 재발행", notes="atk 만료되었다고 응답하면, rtk로 요청하여 atk 재발급")
+	// 재발급 요청 
+	@io.swagger.annotations.ApiOperation(value="토큰 재발행",notes="atk 만료되었다고 응답하면, rtk로 요청하여 atk 재발급")
 	@GetMapping("/reissue")
 	public TokenResponse reissue(@AuthenticationPrincipal AccountDetails accountDetails)
-			throws Exception {
+			throws JsonProcessingException {
 
 		AccountDTO accountResponse = AccountDTO.toDTO(accountDetails.getAccount());
 
 		return jwtProvider.reissueAtk(accountResponse);
-		
 	}
 
+    
 }

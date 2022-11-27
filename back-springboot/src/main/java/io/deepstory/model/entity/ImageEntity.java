@@ -26,7 +26,8 @@ import lombok.Setter;
 @Table(name = "image")
 public class ImageEntity {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "image_id")
 	private int imageId;
 	

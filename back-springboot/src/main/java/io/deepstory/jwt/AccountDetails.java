@@ -14,9 +14,7 @@ public class AccountDetails extends User {
     private final AccountEntity account;
 
     public AccountDetails(AccountEntity account) {
-    	
         super(account.getAccountEmail(), account.getAccountPassword(), List.of(new SimpleGrantedAuthority("USER")));
         this.account = account;
-        
     }
 }

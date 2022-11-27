@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.deepstory.exception.BadRequestException;
 import io.deepstory.exception.ServerErrorRequestException;
 import io.deepstory.model.dto.AccountDTO;
 import io.deepstory.model.dto.ImageDTO;
@@ -39,39 +38,40 @@ public class PostService {
 	private ImageRepository imageRepository;
 	@Autowired
 	private LoveRepository loveRepository;
-
+	
+	
+	// account 조회 시, 헤딩 계정 데이터 없을 경우 예외 처리
 	public void notExistAccount(int accountId) throws Exception {
 
 		boolean isExist = accountRepository.existsById(accountId);
 
 		if (!isExist) {
-
 			throw new ServerErrorRequestException("존재하지 않은 계정 입니다.");
 		}
 	}
-
+	
+	// post 조회 시, 해당 글 데이터 없을 경우 예외 처리
 	public void notExistPost(int postId) throws Exception {
 
 		boolean isExist = postRepository.existsById(postId);
 
 		if (!isExist) {
-
 			throw new ServerErrorRequestException("게시글이 존재 하지 않습니다.");
 		}
 	}
 
+	// 게시물 추가
 	@Transactional
 	public Integer addPost(PostDTO postDTO) throws Exception {
-
+		
 		try {
 
 			if (postDTO.getPostName() == null) {
-
 				throw new ServerErrorRequestException("제목을 입력하지 않으셨습니다.");
 			}
-
+			
 			notExistAccount(postDTO.getAccountId());
-
+			
 			Optional<AccountEntity> accountId = accountRepository.findById(postDTO.getAccountId());
 
 			PostEntity postEntity = new PostEntity(postDTO.getPostId(), postDTO.getPostName(),
@@ -80,7 +80,7 @@ public class PostService {
 			PostEntity post = postRepository.save(postEntity);
 
 			return post.getPostId();
-
+			
 		} catch (Exception e) {
 
 			throw new ServerErrorRequestException("해당 게시글에 저장을 실패하였습니다.");
@@ -88,9 +88,10 @@ public class PostService {
 
 	}
 
+	// 게시물 조회
 	@Transactional
 	public PostDTO getPost(int postId) throws Exception {
-
+		
 		notExistPost(postId);
 
 		Optional<PostEntity> postEntity = postRepository.findById(postId);
@@ -100,12 +101,12 @@ public class PostService {
 				.accountId(postEntity.get().getAccountId().getAccountId()).build();
 
 		return postDTO;
-
 	}
 
+	// 이미지 추가
 	@Transactional
 	public Integer addImage(ImageDTO newImage) throws Exception {
-
+		
 		notExistAccount(newImage.getAccountId());
 		notExistPost(newImage.getPostId());
 
@@ -118,13 +119,12 @@ public class PostService {
 		ImageEntity image = imageRepository.save(imageEntity);
 
 		if (image != null) {
-
 			return image.getPostId().getPostId();
-
 		}
 		return null;
 	}
 
+	// 이미지 조회
 	@Transactional
 	public String getImage(int postId) throws Exception {
 
@@ -134,6 +134,7 @@ public class PostService {
 		return imageName;
 	}
 
+	// 해당 유저의 게시물 조회 메소드
 	@Transactional
 	public ArrayList<PostListDTO> getPostListByUser(int accountId) throws Exception {
 
@@ -154,7 +155,6 @@ public class PostService {
 		for (int i = 0; i < postList.size(); i++) {
 
 			if (imageList.get(i) != null) {
-
 				if (imageList.get(i).getPostId().getPostId() == i + 1) {
 
 					PostList.add(new PostListDTO(postList.get(i).getPostId(), postList.get(i).getPostName(),
@@ -169,25 +169,22 @@ public class PostService {
 
 		return PostList;
 	}
-
+	
+	//user 정보 반환
 	@Transactional
-	public AccountDTO getAccount(int postId) throws Exception {
-
+	public AccountDTO getAccount(int postId) {
+		
 		AccountEntity account = postRepository.findAccountIdByPostId(postId);
 		AccountDTO accountDTO = AccountDTO.toDTO(account);
-		
-		if (accountDTO != null) {
-			
+		if(accountDTO != null) {
 			return accountDTO;
 		}
 		return null;
 	}
-
+	
+	// 검색 기능 (제목, 내용)
 	@Transactional
 	public ArrayList<PostListDTO> searchUserPost(String keyword) throws Exception {
-
-		List<PostEntity> postTitleList = null;
-		List<PostEntity> postContentsList = null;
 
 		List<Integer> postTitleId = null;
 		List<Integer> postContentsId = null;
@@ -197,21 +194,18 @@ public class PostService {
 
 		try {
 
-			postTitleList = postRepository.findByPostNameIgnoreCaseContaining(keyword);
+			List<PostEntity> postTitleList = postRepository.findByPostNameIgnoreCaseContaining(keyword);
 			postTitleId = postTitleList.stream().map(p -> p.getPostId()).collect(Collectors.toList());
 
 		} catch (Exception eTitle) {
-			
 			throw new ServerErrorRequestException("해당 키워드에 관한 제목 검색 결과 없습니다.");
 		}
 
 		try {
-			
-			postContentsList = postRepository.findByPostContentsIgnoreCaseContaining(keyword);
+			List<PostEntity> postContentsList = postRepository.findByPostContentsIgnoreCaseContaining(keyword);
 			postContentsId = postContentsList.stream().map(p -> p.getPostId()).collect(Collectors.toList());
 
 		} catch (Exception eContents) {
-			
 			throw new ServerErrorRequestException("해당 키워드에 관한 내용 검색 결과 없습니다.");
 		}
 
@@ -247,6 +241,7 @@ public class PostService {
 		return searchPost;
 	}
 
+	// 글 수정 기능
 	@Transactional
 	public Integer updatePost(PostImageDTO postImageDTO) throws Exception {
 
@@ -262,18 +257,18 @@ public class PostService {
 		ImageEntity image = imageRepository.save(imageEntity);
 
 		return post.getPostId();
-		
 	}
 
+	// 글 삭제 기능
 	@Transactional
 	public boolean deletePost(int postId) throws Exception {
 
 		postRepository.deleteById(postId);
 
 		return true;
-		
 	}
 
+	// 좋아요 누르기 기능
 	@Transactional
 	public boolean addLove(int accountId, int postId) throws Exception {
 
@@ -285,38 +280,29 @@ public class PostService {
 		List<LoveEntity> allLove = loveRepository.findAllByPostId(postEntity);
 
 		if (!allLove.isEmpty()) {
-			
 			for (LoveEntity love : allLove) {
-				
 				if (love.getAccountId().getAccountId() != accountId) {
-					
 					result = true;
-					
 				} else {
-					
 					return result;
 				}
 			}
 		} else {
-			
 			LoveEntity loveEntity = LoveEntity.builder().accountId(accountEntity).postId(postEntity).build();
 			loveRepository.save(loveEntity);
-			
 			result = true;
-			
 			return result;
 		}
 
 		if (result = true) {
-			
 			LoveEntity loveEntity = LoveEntity.builder().accountId(accountEntity).postId(postEntity).build();
-			
 			loveRepository.save(loveEntity);
 		}
 
 		return result;
 	}
 
+	// 좋아요 상위 게시물
 	@Transactional
 	public HashMap<String, Map<String, String>> showBestPost() throws Exception {
 		List<Object[][]> bestPosts = loveRepository.findCountLove();
@@ -324,24 +310,23 @@ public class PostService {
 		HashMap<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
 
 		for (int i = 0; i < 3; i++) {
-			
 			PostDTO post = getPost(((PostEntity) (bestPosts.get(i))[1][0]).getPostId());
 			String imageName = getImage(((PostEntity) (bestPosts.get(i))[1][0]).getPostId());
 
 			HashMap<String, String> mapDetail = new HashMap<String, String>();
-			
 			mapDetail.put("title", post.getPostName());
 			mapDetail.put("content", post.getPostContents());
 			mapDetail.put("image", imageName);
 			mapDetail.put("postId", Integer.toString(post.getPostId()));
-
+			
 			map.put("key" + i, mapDetail);
 		}
 
 		return map;
-		
+
 	}
 
+	// 갤러리 기능. 유저의 모든 이미지 조회
 	@Transactional
 	public List<String> getAllImage(int accountId) throws Exception {
 
@@ -349,109 +334,95 @@ public class PostService {
 
 		List<String> imageNameList = imageRepository.findImageNameByAccountId(accountEntity);
 
+		System.out.println(imageNameList);
+
 		return imageNameList;
 
 	}
 
+	// 홈페이지에 이미지 있는 모든 게시물 조회
 	@Transactional
 	public ArrayList<PostListDTO> getPostAll() throws Exception {
 
 		List<PostEntity> postEntityList = postRepository.findAll();
+
 		List<ImageEntity> imageEntityList = imageRepository.findAll();
+
 		ArrayList<PostListDTO> postListDTOList = new ArrayList<PostListDTO>();
-		
 		int index = 0;
-		
 		for (ImageEntity i : imageEntityList) {
 
 			int postId = i.getPostId().getPostId();
 
 			if (postListDTOList.size() == 0) {
-				
 				postListDTOList.add(PostListDTO.builder().postId(postId).title(postEntityList.get(index).getPostName())
 						.content(postEntityList.get(index).getPostContents()).image(i.getImageName()).build());
-				
-				index++;
-				
+				index = index + 1;
 			} else if (postListDTOList.get(postListDTOList.size() - 1).getPostId() == postId) {
-				
 				String preImage = postListDTOList.get(index).getImage();
 				postListDTOList.get(index).setImage(preImage + ", " + i.getImageName());
-				
-				index++;
-				
+				index = index + 1;
 			} else {
-				
 				postListDTOList.add(PostListDTO.builder().postId(postId).title(postEntityList.get(index).getPostName())
 						.content(postEntityList.get(index).getPostContents()).image(i.getImageName()).build());
-				
-				index++;
+				index = index + 1;
 			}
+
 		}
 
 		return postListDTOList;
 	}
-
-	public int getTotalPost() throws Exception {
-
-		int totalPost = postRepository.getTotalPost();
-
-		return totalPost;
-
-	}
-
-	public String checkId(int userId, int postId) throws Exception {
-
+	
+	// 전체 포스트 수 차트
+    public int getTotalPost() {
+        
+        int totalPost = postRepository.getTotalPost();
+        
+        return totalPost;
+        
+    }
+    
+    //
+    public String checkId(int userId, int postId) {
+		
 		int postUserId = postRepository.findAccountIdByPostId(postId).getAccountId();
-
-		if (userId == postUserId) {
-			
+		
+		if(userId == postUserId) {
 			return "true";
 		}
+		
 		return "false";
 	}
-
-	@Transactional
-	public ArrayList<PostListDTO> getInterestPost(int accountId) throws Exception {
-		
-		ArrayList<PostListDTO> postList = new ArrayList<PostListDTO>();
-		
-		try {
-			
-			AccountEntity account = accountRepository.findById(accountId).get();
-
-			List<PostEntity> postEntityList = loveRepository.findpostIdByAccountId(account);
-			List<ImageEntity> imageEntityList = imageRepository.findAll();
-
-			List<ImageEntity> filterImageEntity = imageEntityList.stream()
-					.filter((ImageEntity image) -> postEntityList.contains(image.getPostId()))
-					.collect(Collectors.toList());
-			
-			int index = 0;
-			
-			for (PostEntity p : postEntityList) {
-				
-				if (filterImageEntity.get(index) != null) {
-					
-					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName())
-							.content(p.getPostContents()).image(filterImageEntity.get(index).getImageName()).build());
-					index++;
-					
-				} else {
-					
-					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName())
-							.content(p.getPostContents()).image(null).build());
-					index++;
-				}
-			}
-			
-		} catch (Exception e) {
-			
-			throw new BadRequestException("좋아요한 게시글이 없습니다.");
-		}
-		
-		return postList;
-		
-	}
-	
+    
+  
+  	// 좋아요 누른 게시물 목록 
+  	@Transactional
+  	public ArrayList<PostListDTO> getInterestPost(int accountId) {
+  		ArrayList<PostListDTO> postList = new ArrayList<PostListDTO>();
+  		try {
+  			AccountEntity account = accountRepository.findById(accountId).get();
+  			
+  			List<PostEntity> postEntityList = loveRepository.findpostIdByAccountId(account);
+  			
+  			List<ImageEntity> imageEntityList = imageRepository.findAll();
+  			
+  			List<ImageEntity> filterImageEntity = imageEntityList.stream().filter((ImageEntity image) -> postEntityList.contains(image.getPostId())).collect(Collectors.toList());
+  			
+  			int i =0;
+  			for(PostEntity p : postEntityList) {
+  				if(filterImageEntity.get(i) != null) {
+  					new PostListDTO();
+  					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName()).content(p.getPostContents()).image(filterImageEntity.get(i).getImageName()).build());
+  					i++;
+  				}else {
+  					new PostListDTO();
+  					postList.add(PostListDTO.builder().postId(p.getPostId()).title(p.getPostName()).content(p.getPostContents()).image(null).build());
+  					i++;
+  				}
+  			}			
+  		} catch (Exception e) {
+  			System.out.println(e);
+  		}
+  		return postList;
+  	}
 }

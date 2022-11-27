@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.JwtException;
 
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtProvider jwtProvider;
@@ -25,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		this.jwtProvider = jwtProvider;
 		this.accountDetailsService = accountDetailsService;
 	}
+
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -54,12 +56,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(token);
 				
 			} catch (JwtException e) {
-				
 				request.setAttribute("exception", e.getMessage());
 			}
 		}
-		
 		filterChain.doFilter(request, response);
 	}
-	
 }

@@ -11,15 +11,14 @@ import lombok.Setter;
 @Builder
 public class TokenResponse {
 
-	private final String atk;
+    private final String atk;
 
-	private final String rtk;
-
-	private String type;
-
-	public static TokenResponse tokenResponse(String atk, String rtk) {
-		
-		return TokenResponse.builder().atk(atk).rtk(rtk).build();
-
-	}
+    private final String rtk;
+    
+    private String type;
+    
+    public static TokenResponse tokenResponse(String atk, String rtk) {
+    	return TokenResponse.builder().atk(atk).rtk(rtk).build();
+    
+}
 }

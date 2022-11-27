@@ -25,5 +25,4 @@ public class PostImageDTO {
     private String content;
     
     private List<Map<String,String>> image;
-    
 }

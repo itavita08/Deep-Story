@@ -30,21 +30,30 @@ public class EC2Stop {
 
 			final AWSCredentials AWS_CREDENTIALS;
 
-			AWS_CREDENTIALS = new BasicAWSCredentials(key, secretKey);
+			// Your accesskey and secretkey
+			AWS_CREDENTIALS = new BasicAWSCredentials(key,
+					secretKey);
 
+			// Set up the amazon ec2 client
 			AmazonEC2 ec2Client = AmazonEC2ClientBuilder.standard()
 					.withCredentials(new AWSStaticCredentialsProvider(AWS_CREDENTIALS))
 					.withRegion(Regions.AP_NORTHEAST_2).build();
 
+			// Stop EC2 Instance
 			String instanecID = instanceID;
 			StopInstancesRequest stopInstancesRequest = new StopInstancesRequest().withInstanceIds(instanecID);
 
 			ec2Client.stopInstances(stopInstancesRequest).getStoppingInstances().get(0).getPreviousState().getName();
+			System.out.println("Stopped the Instnace with ID: " + instanecID);
 
 		} catch (Exception e) {
 
+			System.out.println(e.getMessage());
+
 			throw new BadRequestException("Stop Instance 실패   -  " + e.getMessage());
+
 		}
+
 	}
 
 }

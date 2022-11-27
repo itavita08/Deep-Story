@@ -17,41 +17,52 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-	
-	@Bean
-	public Docket api() {
-		
-		return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false).select()
-				.apis(RequestHandlerSelectors.basePackage("io.deepstory.controller")).paths(PathSelectors.ant("/**"))
-				.build().apiInfo(metaData()).securityContexts(Arrays.asList(securityContext()))
-				.securitySchemes(Arrays.asList(apiKey()));
-	}
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("io.deepstory.controller"))
+                .paths(PathSelectors.ant("/**"))
+                .build()
+                .apiInfo(metaData())
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()));
+        		
 
-	private ApiInfo metaData() {
-		
-		return new ApiInfoBuilder().title("deep_story REST API").description("deep_story Api 명세서").version("0.4.0")
-				.build();
-	}
+    }
 
-	private ApiKey apiKey() {
-		
-		return new ApiKey("JWT", "Authorization", "header");
-	}
+    private ApiInfo metaData() {
+        return new ApiInfoBuilder()
+                .title("deep_story REST API")
+                .description("deep_story Api 명세서")
+                .version("0.4.0")
+//                .termsOfServiceUrl("Terms of service")
+                .build();
+    }
 
-	private SecurityContext securityContext() {
-		
-		return springfox.documentation.spi.service.contexts.SecurityContext.builder().securityReferences(defaultAuth())
-				.forPaths(PathSelectors.any()).build();
-	}
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");
+    }
 
-	List<SecurityReference> defaultAuth() {
-		
-		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-		authorizationScopes[0] = authorizationScope;
-		
-		return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
-		
-	}
-
+    private SecurityContext securityContext() {
+        return springfox
+                .documentation
+                .spi.service
+                .contexts
+                .SecurityContext
+                .builder()
+                .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
+    }
+    
+   
+    
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+    }
+    
+ 
 }

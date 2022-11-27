@@ -38,18 +38,18 @@ public class AccountService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	// 회원가입
 	@Transactional
-	public AccountDTO signUp(SignUpRequestDTO signUpRequest) throws Exception {
+	public AccountDTO signUp(SignUpRequestDTO signUpRequest) {
 
 		String email = signUpRequest.getAccountEmail();
 		String accountDate = signUpRequest.getAccountDate();
 
 		boolean isExist = accountRepository.existsByAccountEmail(email);
 
-		if (isExist) {
-			
+		if (isExist)
+
 			throw new ServerErrorRequestException("이미 존재하는 이메일입니다. 다시 시도해주세요.");
-		}
 
 		int at = email.indexOf("@");
 		int dot = email.indexOf(".");
@@ -57,15 +57,18 @@ public class AccountService {
 		if (at == -1 || dot == -1 || at > dot) {
 
 			throw new ServerErrorRequestException("이메일 양식에 맞지 않습니다. 다시 시도해주세요.");
+
 		}
 
 		try {
-
+			
 			Pattern pattern = Pattern.compile("(19|20)\\d{2}\\-((11|12)|(0?(\\d)))\\-(30|31|((0|1|2)?\\d))");
 
 			Matcher matcher = pattern.matcher(accountDate);
 
 			if (matcher.find() == false) {
+
+				System.out.println("에러 발생");
 
 				throw new ServerErrorRequestException("날짜 기입 양식에 맞지 않습니다. 다시 시도해주세요.");
 			}
@@ -73,6 +76,7 @@ public class AccountService {
 		} catch (Exception e) {
 
 			throw new ServerErrorRequestException("날짜 기입 양식에 맞지 않습니다. 다시 시도해주세요.");
+
 		}
 
 		String encodedPassword = passwordEncoder.encode(signUpRequest.getAccountPassword());
@@ -85,91 +89,92 @@ public class AccountService {
 		account = accountRepository.save(account);
 
 		return AccountDTO.toDTO(account);
-
 	}
 
+	// 로그인
 	@Transactional
-	public AccountDTO login(LoginRequestDTO loginRequest) throws Exception {
+	public AccountDTO login(LoginRequestDTO loginRequest) {
 
 		AccountEntity account = accountRepository.findByAccountEmail(loginRequest.getAccountEmail())
 				.orElseThrow(() -> new ServerErrorRequestException("아이디를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."));
 
 		boolean matches = passwordEncoder.matches(loginRequest.getAccountPassword(), account.getAccountPassword());
 
-		if (!matches) {
-
+		if (!matches)
 			throw new ServerErrorRequestException("비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.");
-		}
 
 		return AccountDTO.toDTO(account);
 	}
 
-	public List<Integer> getGender() throws Exception {
 
-		List<Integer> countGender = accountRepository.getCountGender();
+    public List<Integer> getGender() {
+        
+        List<Integer> countGender = accountRepository.getCountGender();
+        System.out.println(countGender);
+        
+        return countGender;
+    }
 
-		return countGender;
+    public int getTotalUser() {
+        
+        int totalUser = accountRepository.getTotalUser();
+        
+        return totalUser;
+    }
+    
 
-	}
+    public Map<String,List<Integer>> getAge() {
+        
+        List<String> dateF = accountRepository.getYearF();
+        List<String> dateM = accountRepository.getYearM();
+        
+        LocalDate now = LocalDate.now();
+        
+        int y = now.getYear();
+        
+        List<Integer> yearF = dateF.stream().map(c -> y - Integer.parseInt(c)).collect(Collectors.toList());
+        List<Integer> yearM = dateM.stream().map(c -> y - Integer.parseInt(c)).collect(Collectors.toList());
+        
+        Map<String,List<Integer>> map = new HashMap<String, List<Integer>>();
+        map.put("남자", yearM);
+        map.put("여자", yearF);
+        
+        System.out.println(map.get("남자"));
+        System.out.println(map.get("여자"));
+        
+        return map;
+        
+    }
+    
+    @Transactional
+    public void userJoinTime() {
+        
+        long now = (new Date()).getTime();
+        Date now1 = new Date(now);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String nowDate = dateFormat.format(now1);
+        
+        ElkUserLogEntity userLog = ElkUserLogEntity.builder().elkLoginTime(nowDate).build();
+        
+        elkUserLogRepository.save(userLog);
+        
+    }
 
-	public int getTotalUser() throws Exception {
-
-		int totalUser = accountRepository.getTotalUser();
-
-		return totalUser;
-
-	}
-
-	public Map<String, List<Integer>> getAge() throws Exception {
-
-		List<String> dateF = accountRepository.getYearF();
-		List<String> dateM = accountRepository.getYearM();
-
-		LocalDate now = LocalDate.now();
-
-		int y = now.getYear();
-
-		List<Integer> yearF = dateF.stream().map(c -> y - Integer.parseInt(c)).collect(Collectors.toList());
-		List<Integer> yearM = dateM.stream().map(c -> y - Integer.parseInt(c)).collect(Collectors.toList());
-
-		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-
-		map.put("남자", yearM);
-		map.put("여자", yearF);
-
-		return map;
-
-	}
-
-	@Transactional
-	public void userJoinTime() throws Exception {
-
-		long now = (new Date()).getTime();
-		Date now1 = new Date(now);
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String nowDate = dateFormat.format(now1);
-
-		ElkUserLogEntity userLog = ElkUserLogEntity.builder().elkLoginTime(nowDate).build();
-
-		elkUserLogRepository.save(userLog);
-
-	}
-
-	public List<List<Integer>> getTime() throws Exception {
-		
-		List<Integer> logTime = elkUserLogRepository.getTime();
-		List<Integer> logTime1 = elkUserLogRepository.getTime1();
-		List<Integer> logTime2 = elkUserLogRepository.getTime2();
-
-		List<List<Integer>> list = new ArrayList<List<Integer>>();
-		
-		list.add(logTime);
-		list.add(logTime1);
-		list.add(logTime2);
-
-		return list;
-		
-	}
+    public List<List<Integer>> getTime() {
+        List<Integer> logTime = elkUserLogRepository.getTime();
+        List<Integer> logTime1 = elkUserLogRepository.getTime1();
+        List<Integer> logTime2 = elkUserLogRepository.getTime2();
+        
+        
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        list.add(logTime);
+        list.add(logTime1);
+        list.add(logTime2);
+        
+        System.out.println(logTime);
+        
+        return list;
+    }
 
 }

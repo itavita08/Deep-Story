@@ -6,7 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,24 +29,31 @@ public class AccountEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
+    
     private int accountId;
 
     @Column(name = "account_email")
+    
     private String accountEmail;
 
     @Column(name = "account_name")
+    
     private String accountName;
 
     @Column(name = "account_password")
+    
     private String accountPassword;
 
     @Column(name = "account_gender")
+    
     private String accountGender;
     
     @Column(name = "account_date")
+    
     private String accountDate;
     
     @Column(name = "account_type")
+    
     private String accountType;
 
 }

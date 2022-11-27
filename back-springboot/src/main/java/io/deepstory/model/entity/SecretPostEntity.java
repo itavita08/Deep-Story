@@ -25,7 +25,8 @@ import lombok.Setter;
 @Table(name = "secret_post")
 public class SecretPostEntity {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "secret_post_id")
 	private int secretPostId;
 	

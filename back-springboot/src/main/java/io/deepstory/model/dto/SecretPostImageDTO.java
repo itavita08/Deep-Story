@@ -29,5 +29,4 @@ public class SecretPostImageDTO {
 	private int secretWriterId;
 
     private List<Map<String,String>> secretImage;
-    
 }

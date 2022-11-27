@@ -22,5 +22,4 @@ public class PostListDTO {
     private String content;
     
     private String image;
-    
 }
