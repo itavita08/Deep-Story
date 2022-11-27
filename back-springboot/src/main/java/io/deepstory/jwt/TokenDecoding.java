@@ -14,8 +14,6 @@ public class TokenDecoding {
 
 			String atk = authorization.substring(7);
 			
-			System.out.println(atk);
-
 			try {
 
 				Subject subject = jwtProvider.getSubject(atk);

@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ResponseMessage> NotFoundException(NoHandlerFoundException e) {
 
-//    	ResponseMessage message = new ResponseMessage("404", HttpStatus.NOT_FOUND, e.getMessage());
     	ResponseMessage message = new ResponseMessage("404", HttpStatus.NOT_FOUND, "API 요청 URL이 잘못되었습니다.");
 
             	
@@ -34,7 +33,6 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         
 		ResponseMessage message = new ResponseMessage("405", HttpStatus.METHOD_NOT_ALLOWED, "HTTP 매핑 메서드가 잘못되었습니다. get, post 요청을 확인해주세요. ");
-//		ResponseMessage message = new ResponseMessage("405", HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());
 
 		return new ResponseEntity<>(message, HttpStatus.METHOD_NOT_ALLOWED);
 

@@ -114,9 +114,6 @@ public class JwtProvider {
         
     	String rtkInRedis = redisDao.getValues(accountResponse.getAccountEmail());
         
-    	System.out.println("rtkInRedis 확인 ------------------");
-    	System.out.println(rtkInRedis);
-    	
     	// 서버 측  redis DB 에 저장해둔 rtk - rtk 가 만료 된다면?
         if (Objects.isNull(rtkInRedis)) throw new ForbiddenException("인증 정보가 만료되었습니다.");
         

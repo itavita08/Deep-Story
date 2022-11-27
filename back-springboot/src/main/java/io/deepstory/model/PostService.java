@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import io.deepstory.exception.ServerErrorRequestException;
 import io.deepstory.model.dto.AccountDTO;
@@ -170,6 +169,8 @@ public class PostService {
 
 		return PostList;
 	}
+	
+	//user 정보 반환
 	@Transactional
 	public AccountDTO getAccount(int postId) {
 		
@@ -180,12 +181,10 @@ public class PostService {
 		}
 		return null;
 	}
+	
 	// 검색 기능 (제목, 내용)
 	@Transactional
 	public ArrayList<PostListDTO> searchUserPost(String keyword) throws Exception {
-
-		List<PostEntity> postTitleList = null;
-		List<PostEntity> postContentsList = null;
 
 		List<Integer> postTitleId = null;
 		List<Integer> postContentsId = null;
@@ -195,7 +194,7 @@ public class PostService {
 
 		try {
 
-			postTitleList = postRepository.findByPostNameIgnoreCaseContaining(keyword);
+			List<PostEntity> postTitleList = postRepository.findByPostNameIgnoreCaseContaining(keyword);
 			postTitleId = postTitleList.stream().map(p -> p.getPostId()).collect(Collectors.toList());
 
 		} catch (Exception eTitle) {
@@ -203,7 +202,7 @@ public class PostService {
 		}
 
 		try {
-			postContentsList = postRepository.findByPostContentsIgnoreCaseContaining(keyword);
+			List<PostEntity> postContentsList = postRepository.findByPostContentsIgnoreCaseContaining(keyword);
 			postContentsId = postContentsList.stream().map(p -> p.getPostId()).collect(Collectors.toList());
 
 		} catch (Exception eContents) {
@@ -323,8 +322,6 @@ public class PostService {
 			map.put("key" + i, mapDetail);
 		}
 
-		System.out.println(map.toString());
-
 		return map;
 
 	}
@@ -384,6 +381,8 @@ public class PostService {
         return totalPost;
         
     }
+    
+    //
     public String checkId(int userId, int postId) {
 		
 		int postUserId = postRepository.findAccountIdByPostId(postId).getAccountId();
@@ -394,7 +393,8 @@ public class PostService {
 		
 		return "false";
 	}
-  //account Id 받아서 ArrayList<PostListDTO> 반환
+    
+  
   	// 좋아요 누른 게시물 목록 
   	@Transactional
   	public ArrayList<PostListDTO> getInterestPost(int accountId) {
