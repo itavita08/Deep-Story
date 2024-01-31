@@ -229,7 +229,7 @@ https://www.figma.com/file/TEpQwcZiBwEdyXZKpzHipy/projec?node-id=11%3A1387
 
 
 
-- **관리자 **
+- **관리자**
 <img src="https://user-images.githubusercontent.com/100753335/203456160-fdf4fc99-7241-4907-ac67-00cf465063f5.gif" width="500" height="250"/>
 
 
